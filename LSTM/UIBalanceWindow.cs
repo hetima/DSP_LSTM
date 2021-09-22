@@ -653,7 +653,7 @@ namespace LSTMMod
                     itemButton = btn.GetComponent<UIButton>();
                     itemButton.tips.tipTitle = "Select Item".Translate();
                     itemButton.tips.tipText = "Select item to display".Translate();
-                    itemButton.tips.corner = 6;
+                    itemButton.tips.corner = 3;
                     itemButton.tips.offset = new Vector2(16, 16);
                     itemCircle = go.transform.Find("circle-fg")?.GetComponent<Image>();
                     itemCircle.color = Util.DSPBlue;
