@@ -447,7 +447,7 @@ namespace LSTMMod
             }
 
             //在庫
-            if (count>=10000)
+            if (count>=20000)
             {
                 countValueText.text = (count/1000).ToString() + "k";
             }
