@@ -29,6 +29,25 @@ namespace LSTMMod
             isLocal = _isLocal;
         }
     }
+    public enum EStoreType
+    {
+        Normal,
+        Gas,
+        GasStubSupply,
+        GasStubStorage,
+    }
+    public struct BalanceListData
+    {
+        public StationComponent cmp;
+        public int index;
+        public int planetId;
+        public int itemId;
+        public int maxCount;
+        public int distance;
+        public bool isLocal;
+        public bool useStationName;
+        public EStoreType storeType;
+    }
 
     public class UIBalanceWindow : ManualBehaviour, IPointerEnterHandler, IPointerExitHandler, IEventSystemHandler, MyWindow
     {
@@ -135,13 +154,13 @@ namespace LSTMMod
                 return;
             }
 
-            if (_demandLists.Count>0)
+            if (_demandList.Count>0)
             {
-                AddToListView(demandListView, 5, _demandLists);
+                AddToListView(demandListView, 5, _demandList);
             }
-            if (_supplyLists.Count > 0)
+            if (_supplyList.Count > 0)
             {
-                AddToListView(supplyListView, 5, _supplyLists);
+                AddToListView(supplyListView, 5, _supplyList);
             }
 
             bool valid = true;
@@ -199,31 +218,32 @@ namespace LSTMMod
         {
             _eventLock = true;
             tmpPlanetId = 0;
-            _demandLists.Clear();
-            _supplyLists.Clear();
-            _storageLists.Clear();
+            _demandList.Clear();
+            _supplyList.Clear();
+            _storageList.Clear();
+            _gasList.Clear();
             supplyListView.Clear();
             demandListView.Clear();
 
             SetUpItemList();
             SetUpItemUI();
 
-            _demandLists.Sort((a, b) => a.distance - b.distance);
-            _supplyLists.Sort((a, b) => a.distance - b.distance);
-            _storageLists.Sort((a, b) => a.distance - b.distance);
+            _demandList.Sort((a, b) => a.distance - b.distance);
+            _supplyList.Sort((a, b) => a.distance - b.distance);
+            _storageList.Sort((a, b) => a.distance - b.distance);
             //貯蔵はsupply側にしておく
-            _supplyLists.AddRange(_storageLists);
-            _storageLists.Clear();
+            _supplyList.AddRange(_storageList);
+            _storageList.Clear();
 
             _eventLock = false;
             //見える範囲だけ即更新
-            if (_demandLists.Count > 0)
+            if (_demandList.Count > 0)
             {
-                AddToListView(demandListView, 5, _demandLists);
+                AddToListView(demandListView, 5, _demandList);
             }
-            if (_supplyLists.Count > 0)
+            if (_supplyList.Count > 0)
             {
-                AddToListView(supplyListView, 5, _supplyLists);
+                AddToListView(supplyListView, 5, _supplyList);
             }
             RefreshListView(demandListView);
             RefreshListView(supplyListView);
@@ -305,6 +325,8 @@ namespace LSTMMod
                 //planetId あり itemId ありの場合 planetId は無視
 
                 //itemId あり
+                HashSet<int> gasSupplyPlanets = new HashSet<int>();
+                HashSet<int> gasStoragePlanets = new HashSet<int>();
                 GalacticTransport galacticTransport = UIRoot.instance.uiGame.gameData.galacticTransport;
                 StationComponent[] stationPool = galacticTransport.stationPool;
                 int cursor = galacticTransport.stationCursor;
@@ -327,11 +349,35 @@ namespace LSTMMod
 
                                 //factory = GameMain.galaxy.PlanetById(cmp.planetId).factory;
                                 maxCount = cmp.isCollector || !cmp.isStellar ? 5000 : 10000;
-                                AddStore(cmp, j, cmp.planetId, maxCount);
+                                if (cmp.isCollector)
+                                {
+                                    if (cmp.storage[j].remoteLogic == ELogisticStorage.Supply)
+                                    {
+                                        gasSupplyPlanets.Add(cmp.planetId);
+                                    }
+                                    else
+                                    {
+                                        gasStoragePlanets.Add(cmp.planetId);
+                                    }
+                                    AddStore(cmp, j, cmp.planetId, itemId, maxCount, EStoreType.Gas);
+                                }
+                                else
+                                {
+                                    AddStore(cmp, j, cmp.planetId, itemId, maxCount);
+                                }
                                 break;
                             }
                         }
                     }
+                }
+
+                foreach (var gasPlanetId in gasSupplyPlanets)
+                {
+                    AddStore(null, 0, gasPlanetId, itemId, 5000, EStoreType.GasStubSupply);
+                }
+                foreach (var gasPlanetId in gasStoragePlanets)
+                {
+                    AddStore(null, 0, gasPlanetId, itemId, 5000, EStoreType.GasStubStorage);
                 }
             }
 
@@ -385,63 +431,78 @@ namespace LSTMMod
                             //    maxCount = itemProto2.prefabDesc.stationMaxItemCount;
                             //}
                             maxCount = cmp.isCollector || !cmp.isStellar ? 5000 : 10000;
-                            AddStore(cmp, j, factory.planetId, maxCount);
+                            AddStore(cmp, j, factory.planetId, cmp.storage[j].itemId, maxCount);
                         }
                     }
                 }
             }
         }
 
-        internal struct BalanceListData
-        {
-            public StationComponent cmp;
-            public int index;
-            public int planetId;
-            public int itemId;
-            public int maxCount;
-            public bool isLocal;
-            public bool useStationName;
-            public int distance;
-        }
-        List<BalanceListData> _demandLists = new List<BalanceListData>(200);
-        List<BalanceListData> _supplyLists = new List<BalanceListData>(200);
-        List<BalanceListData> _storageLists = new List<BalanceListData>(200);
+
+
+        internal List<BalanceListData> _demandList = new List<BalanceListData>(200);
+        internal List<BalanceListData> _supplyList = new List<BalanceListData>(200);
+        internal List<BalanceListData> _storageList = new List<BalanceListData>(200);
+        public List<BalanceListData> _gasList = new List<BalanceListData>(800);
 
         //追加の前に溜め込む
-        public void AddStore(StationComponent cmp, int index, int planetId, int maxCount = 10000)
+        //ガス惑星まとめるようにしたらコードがカオス
+        internal void AddStore(StationComponent cmp, int index, int planetId, int itemId, int maxCount = 10000, EStoreType storeType = EStoreType.Normal)
         {
-            StationStore store = cmp.storage[index];
             List<BalanceListData> list;
-            ELogisticStorage ltype = balanceData.isLocal ? store.localLogic : store.remoteLogic;
-
-            switch (ltype)
+            
+            int distance;
+            if (storeType== EStoreType.Gas)
             {
-                case ELogisticStorage.None:
-                    list = _storageLists;
-                    break;
-                case ELogisticStorage.Supply:
-                    list = _supplyLists;
-                    break;
-                case ELogisticStorage.Demand:
-                    list = _demandLists;
-                    break;
-                default:
-                    list = _storageLists;
-                    break;
+                list = _gasList;
+                distance = 0;
             }
+            else
+            {
+                if (storeType == EStoreType.GasStubSupply)
+                {
+                    list = _supplyList;
+                }
+                else if (storeType == EStoreType.GasStubStorage)
+                {
+                    list = _storageList;
+                }
+                else
+                {
+                    StationStore store = cmp.storage[index];
+                    ELogisticStorage ltype = balanceData.isLocal ? store.localLogic : store.remoteLogic;
 
-            float distancef = LSTMStarDistance.StarDistanceFromHere(planetId / 100);
-            int distance = (int)(distancef * 100);
+                    switch (ltype)
+                    {
+                        case ELogisticStorage.None:
+                            list = _storageList;
+                            break;
+                        case ELogisticStorage.Supply:
+                            list = _supplyList;
+                            break;
+                        case ELogisticStorage.Demand:
+                            list = _demandList;
+                            break;
+                        default:
+                            list = _storageList;
+                            break;
+                    }
+                }
+
+                float distancef = LSTMStarDistance.StarDistanceFromHere(planetId / 100);
+                distance = (int)(distancef * 100);
+            }
             BalanceListData d = new BalanceListData()
             {
                 cmp = cmp,
                 index = index,
                 planetId = planetId,
-                itemId = store.itemId,
+                itemId = itemId,
                 maxCount = maxCount,
                 isLocal = balanceData.isLocal,
                 useStationName = useStationName,
                 distance = distance,
+                storeType = storeType,
             };
             list.Add(d);
         }
@@ -471,55 +532,14 @@ namespace LSTMMod
                 e.planetId = d.planetId;
                 e.isLocal = balanceData.isLocal;
                 e.stationMaxItemCount = d.maxCount;
+                e.storeType = d.storeType;
                 e.SetUpValues(useStationName);
+
             }
             return count;
         }
 
-        //逐一追加してた古いやつ 不使用
-        private UIBalanceListEntry AddStoreOld(StationComponent cmp, int index, int planetId, int maxCount=10000)
-        {
-            StationStore store = cmp.storage[index];
-            bool isDemand;
-            bool isSupply;
-            UIListView targetListView = supplyListView;
-            if (balanceData.isLocal)
-            {
-                isDemand = store.localLogic == ELogisticStorage.Demand;
-                isSupply = store.localLogic == ELogisticStorage.Supply;
-            }
-            else
-            {
-                isDemand = store.remoteLogic == ELogisticStorage.Demand;
-                isSupply = store.remoteLogic == ELogisticStorage.Supply;
-            }
 
-            if (isDemand)
-            {
-                targetListView = demandListView;
-                //貯蔵はsupply側にしておく
-            }
-            UIBalanceListEntry e;
-            if (isSupply)
-            {
-                e = targetListView.InsertItem<UIBalanceListEntry>(0);
-            }
-            else
-            {
-                e = targetListView.AddItem<UIBalanceListEntry>();
-            }
-
-            e.window = this;
-            e.station = cmp;
-            e.index = index;
-            e.itemId = store.itemId;
-            e.planetId = planetId;
-            e.isLocal = balanceData.isLocal;
-            e.stationMaxItemCount = maxCount;
-            e.SetUpValues(useStationName);
-            e.RefreshValues();
-            return e;
-        }
 
         internal bool RefreshListView(UIListView listView)
         {

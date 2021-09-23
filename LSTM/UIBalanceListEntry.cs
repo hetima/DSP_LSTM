@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using System;
 using System.Text;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -21,6 +22,7 @@ namespace LSTMMod
         public int stationMaxItemCount = 10000;
 
         public bool isLocal;
+        public EStoreType storeType;
 
         [SerializeField]
         public Image leftBarLocal;
@@ -159,7 +161,7 @@ namespace LSTMMod
                 btn.gameObject.SetActive(false);
                 prefab.locateBtn = btn;
             }
-
+            
             //filter button
             Sprite sprite = Util.LoadSpriteResource("ui/textures/sprites/icons/filter-icon");
             btn = Util.MakeIconButtonB(sprite, 22);
@@ -266,15 +268,11 @@ namespace LSTMMod
 
         public void SetUpValues(bool useStationName)
         {
-            ItemProto itemProto = LDB.items.Select(station.storage[index].itemId);
-            if (itemProto == null)
+            ItemProto itemProto = LDB.items.Select(itemId);
+            if (itemProto != null)
             {
-                return;
+                itemImage.sprite = itemProto.iconSprite;
             }
-
-            //this.itemButton.tips.itemId = stationStore.itemId;
-            itemImage.sprite = itemProto.iconSprite;
-            //this.itemImage.sprite = Sprite.Create(texGas, new Rect(0, 0, texGas.width, texGas.height), new Vector2(0.5f, 0.5f));
             
             if (stationMaxItemCount == 0)
             {
@@ -285,10 +283,9 @@ namespace LSTMMod
                 RectTransform rect = (RectTransform)maxSlider.gameObject.transform;
                 rect.sizeDelta = new Vector2(rect.sizeDelta.x / (10000f / (float)stationMaxItemCount), rect.sizeDelta.y);
             }
-            if (useStationName)
+            if (useStationName && station != null)
             {
                 nameText.text = station.name;
-
             }
             else
             {
@@ -310,61 +307,166 @@ namespace LSTMMod
                 }
 
             }
+
+            if (storeType == EStoreType.GasStubStorage || storeType == EStoreType.GasStubSupply)
+            {
+                ((RectTransform)locateBtn.transform).anchoredPosition = new Vector2(200f, -6f);
+            }
         }
         public bool RefreshValues()
         {
-            StationStore stationStore = this.station.storage[this.index];
-            if (stationStore.itemId != itemId)
+            int count = 0;
+            int totalOrdered = 0;
+            int max = 0;
+            float barMax = 0f;
+            int divisor = 1; //画像描画用
+            if (storeType == EStoreType.Normal)
+            {
+                barMax = (float)stationMaxItemCount;
+                StationStore stationStore = station.storage[index];
+                if (stationStore.itemId != itemId)
+                {
+                    return false;
+                }
+                //輸送船
+                int ship;
+                int totalShip;
+                if (isLocal)
+                {
+                    ship = station.idleDroneCount;
+                    totalShip = ship + station.workDroneCount;
+                }
+                else
+                {
+                    ship = station.idleShipCount;
+                    totalShip = ship + station.workShipCount;
+                }
+                string shipCount;
+                if (station.isCollector)
+                {
+                    shipCount = "[GS]";
+                }
+                else
+                {
+                    shipCount = ship.ToString() + "/" + totalShip.ToString();
+                }
+                shipCountText.text = shipCount;
+
+                count = stationStore.count;
+                totalOrdered = stationStore.totalOrdered;
+                max = stationStore.max;
+
+                this.leftBarLocal.color = this.GetLogisticColor(stationStore.localLogic);
+                this.leftBarRemote.color = this.GetLogisticColor(stationStore.remoteLogic);
+                if (station.isCollector)
+                {
+                    leftBarLocal.gameObject.SetActive(false);
+                    //this.leftBarLocal.color =
+                }
+                else if (!station.isStellar)
+                {
+                    leftBarRemote.gameObject.SetActive(false);
+                }
+            }
+            else if (storeType == EStoreType.GasStubStorage || storeType == EStoreType.GasStubSupply)
+            {
+                int stationCount = 0;
+                int SufficientStationCount = 0;
+                int totalCapability = 0;
+                ELogisticStorage logic;
+                if (storeType == EStoreType.GasStubSupply)
+                {
+                    logic = ELogisticStorage.Supply;
+                }
+                else
+                {
+                    logic = ELogisticStorage.None;
+                }
+
+                leftBarRemote.color = this.GetLogisticColor(logic);
+                leftBarLocal.gameObject.SetActive(false);
+                leftBarRemote.gameObject.SetActive(true);
+                List<BalanceListData> gasList = window._gasList;
+                foreach (var item in gasList)
+                {
+                    if (item.planetId != planetId || item.itemId != itemId)
+                    {
+                        continue;
+                    }
+                    
+                    StationStore stationStore = item.cmp.storage[item.index];
+                    if (stationStore.remoteLogic != logic)
+                    {
+                        continue;
+                    }
+                    if (stationStore.count > 1000)
+                    {
+                        SufficientStationCount++;
+                        totalCapability += stationStore.count / 1000;
+                    }
+                    count += stationStore.count;
+                    totalOrdered += stationStore.totalOrdered;
+                    max += stationStore.max;
+                    barMax += stationMaxItemCount;
+                    stationCount++;
+                }
+
+                shipCountText.text = "[GS] " /*+ totalCapability.ToString() + "/"*/ + SufficientStationCount.ToString() + "/" + stationCount.ToString();
+
+                divisor = stationCount;
+            }
+            else
             {
                 return false;
             }
 
-            //輸送船
-            int ship;
-            int totalShip;
-            if (isLocal)
+            if (divisor == 0)
             {
-                ship = station.idleDroneCount;
-                totalShip = ship + station.workDroneCount;
+                return false;
             }
-            else
-            {
-                ship = station.idleShipCount;
-                totalShip = ship + station.workShipCount;
-            }
-            string shipCount;
-            if (station.isCollector)
-            {
-                shipCount = "[GS]";
-            }
-            else
-            {
-                shipCount = ship.ToString() + "/" + totalShip.ToString();
-            }
-            this.shipCountText.text = shipCount;
 
             //在庫
-            this.countValueText.text = stationStore.count.ToString();
-            if (stationStore.totalOrdered > 0)
+            if (count>=10000)
             {
-                this.orderValueText.text = "+" + stationStore.totalOrdered.ToString();
-                this.orderValueText.color = this.orderInTextColor;
-            }
-            else if (stationStore.totalOrdered < 0)
-            {
-                this.orderValueText.text = "-" + (-stationStore.totalOrdered).ToString();
-                this.orderValueText.color = this.orderOutTextColor;
+                countValueText.text = (count/1000).ToString() + "k";
             }
             else
             {
-                this.orderValueText.text = "0";
-                this.orderValueText.color = this.orderNoneTextColor;
+                countValueText.text = count.ToString();
             }
-            this.maxValueText.text = stationStore.max.ToString();
-            float barMaxWidth = 200f / (10000f / (float)stationMaxItemCount);
-            int num = stationMaxItemCount / 100;
-            float num2 = (float)stationStore.count / (float)stationMaxItemCount;
-            float num3 = (float)stationStore.totalOrdered / (float)stationMaxItemCount;
+
+            if (totalOrdered > 0)
+            {
+                orderValueText.text = "+" + totalOrdered.ToString();
+                orderValueText.color = orderInTextColor;
+            }
+            else if (totalOrdered < 0)
+            {
+                orderValueText.text = "-" + (-totalOrdered).ToString();
+                orderValueText.color = orderOutTextColor;
+            }
+            else
+            {
+                orderValueText.text = "0";
+                orderValueText.color = orderNoneTextColor;
+            }
+
+            if (max >= 10000)
+            {
+                maxValueText.text = (max / 1000).ToString() + "k";
+            }
+            else
+            {
+                maxValueText.text = max.ToString();
+            }
+
+            count /= divisor;
+            max /= divisor;
+            totalOrdered /= divisor;
+            barMax /= (float)divisor;
+            float barMaxWidth = 200f / (10000f / barMax);
+            float num2 = (float)count / barMax;
+            float num3 = (float)totalOrdered / barMax;
             int num4 = (int)(barMaxWidth * num2 + 0.49f);
             int num5 = (int)(barMaxWidth * (Mathf.Abs(num3) + num2) + 0.49f) - num4;
             if (num4 > (int)barMaxWidth)
@@ -382,33 +484,21 @@ namespace LSTMMod
             {
                 num5 = num4;
             }
-            this.countBar.rectTransform.sizeDelta = new Vector2((float)num4, 0f);
-            this.orderBar.rectTransform.sizeDelta = new Vector2((float)num5, 0f);
+            countBar.rectTransform.sizeDelta = new Vector2((float)num4, 0f);
+            orderBar.rectTransform.sizeDelta = new Vector2((float)num5, 0f);
             if (num3 > 0f)
             {
-                this.orderBar.rectTransform.anchoredPosition = new Vector2((float)num4, 0f);
-                this.orderBar.color = this.orderInColor;
+                orderBar.rectTransform.anchoredPosition = new Vector2((float)num4, 0f);
+                orderBar.color = orderInColor;
             }
             else
             {
-                this.orderBar.rectTransform.anchoredPosition = new Vector2((float)(num4 - num5), 0f);
-                this.orderBar.color = this.orderOutColor;
+                orderBar.rectTransform.anchoredPosition = new Vector2((float)(num4 - num5), 0f);
+                orderBar.color = orderOutColor;
             }
-            this.maxSlider.minValue = 0f;
-            this.maxSlider.maxValue = (float)num;
-            this.maxSlider.value = (float)(stationStore.max / 100);
-
-            this.leftBarLocal.color = this.GetLogisticColor(stationStore.localLogic);
-            this.leftBarRemote.color = this.GetLogisticColor(stationStore.remoteLogic);
-            if (station.isCollector)
-            {
-                this.leftBarLocal.gameObject.SetActive(false);
-                //this.leftBarLocal.color =
-            }
-            else if (!station.isStellar)
-            {
-                this.leftBarRemote.gameObject.SetActive(false);
-            }
+            maxSlider.minValue = 0f;
+            maxSlider.maxValue = barMax / 100f;
+            maxSlider.value = (float)(max / 100);
 
             return true;
         }

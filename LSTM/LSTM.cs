@@ -81,7 +81,7 @@ namespace LSTMMod
         {
             navi.Disable();
 
-            if (station == null || planetId <= 0)
+            if (planetId <= 0)
             {
                 return;
             }
@@ -89,10 +89,10 @@ namespace LSTMMod
             int local = GameMain.localPlanet != null ? GameMain.localPlanet.id : 0;
 
 
-            //if (local == planetId)
-            //{
+            if (station != null)
+            {
                 navi.SetStationNavi(station, planetId);
-            //}
+            }
 
             if (local != planetId || UIRoot.instance.uiGame.starmap.active)
             {
