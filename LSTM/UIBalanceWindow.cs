@@ -579,6 +579,7 @@ namespace LSTMMod
 
 
         public static Sprite defaultItemSprite = null;
+        public static Sprite gasGiantSprite = null;
 
         internal void CreateListViews()
         {
@@ -646,7 +647,10 @@ namespace LSTMMod
             if (defaultItemSprite == null)
             {
                 defaultItemSprite = Util.LoadSpriteResource("Icons/Tech/1414");
-
+            }
+            if (gasGiantSprite == null)
+            {
+                gasGiantSprite = Util.LoadSpriteResource("Icons/Tech/1606");
             }
 
             GameObject go;

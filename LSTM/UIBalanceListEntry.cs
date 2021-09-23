@@ -268,13 +268,23 @@ namespace LSTMMod
 
         public void SetUpValues(bool useStationName)
         {
-            ItemProto itemProto = LDB.items.Select(itemId);
-            if (itemProto != null)
+
+            if (storeType == EStoreType.GasStubStorage || storeType == EStoreType.GasStubSupply)
             {
-                itemImage.sprite = itemProto.iconSprite;
+                itemImage.sprite = UIBalanceWindow.gasGiantSprite;
+                itemImage.color = new Color(0.5f, 0.5f, 0.5f, 0.6f);
+                ((RectTransform)locateBtn.transform).anchoredPosition = new Vector2(200f, -6f);
             }
-            
-            if (stationMaxItemCount == 0)
+            else
+            {
+                ItemProto itemProto = LDB.items.Select(itemId);
+                if (itemProto != null)
+                {
+                    itemImage.sprite = itemProto.iconSprite;
+                }
+            }
+
+                if (stationMaxItemCount == 0)
             {
                 stationMaxItemCount = 10000;
             }
@@ -308,10 +318,6 @@ namespace LSTMMod
 
             }
 
-            if (storeType == EStoreType.GasStubStorage || storeType == EStoreType.GasStubSupply)
-            {
-                ((RectTransform)locateBtn.transform).anchoredPosition = new Vector2(200f, -6f);
-            }
         }
         public bool RefreshValues()
         {
