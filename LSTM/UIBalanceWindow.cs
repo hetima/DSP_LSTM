@@ -173,6 +173,11 @@ namespace LSTMMod
             {
                 valid = RefreshListView(supplyListView);
             }
+            else
+            {
+                RefreshListView(demandListView, true);
+                RefreshListView(supplyListView, true);
+            }
             if (!valid)
             {
                 SetUpData();
@@ -541,21 +546,35 @@ namespace LSTMMod
 
 
 
-        internal bool RefreshListView(UIListView listView)
+        internal bool RefreshListView(UIListView listView, bool onlyNewlyEmerged = false)
         {
             if (_eventLock)
             {
                 return true;
             }
+
+            RectTransform contentRect = (RectTransform)listView.m_ContentPanel.transform;
+            float top = -contentRect.anchoredPosition.y;
+            float height = ((RectTransform)contentRect.parent).rect.height;
+            float bottom = top - height - 120f; //項目の高さ適当な決め打ち
+
             for (int i = 0; i < listView.ItemCount; i++)
             {
-                UIBalanceListEntry e = listView.GetItem<UIBalanceListEntry>(i);
+                UIData data = listView.GetItemNode(i);
+                UIBalanceListEntry e = (UIBalanceListEntry)data.com_data;
                 if (e != null && e.itemId > 0 )
                 {
-                    if (!e.RefreshValues())
+                    float itemPos = ((RectTransform)data.transform).localPosition.y;
+                    bool shown = itemPos <= top && itemPos > bottom;
+                    if (onlyNewlyEmerged && !shown)
+                    {
+                        continue;
+                    }
+                    if (!e.RefreshValues(shown, onlyNewlyEmerged))
                     {
                         return false;
                     }
+
                 }
             }
             return true;

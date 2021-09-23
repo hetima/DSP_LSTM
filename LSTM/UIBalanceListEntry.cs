@@ -319,8 +319,23 @@ namespace LSTMMod
             }
 
         }
-        public bool RefreshValues()
+
+
+        public bool RefreshValues(bool shown, bool onlyNewlyEmerged = false)
         {
+            if (shown != gameObject.activeSelf)
+            {
+                gameObject.SetActive(shown);
+            }
+            else if(onlyNewlyEmerged)
+            {
+                return true;
+            }
+            if (!shown)
+            {
+                return true;
+            }
+
             int count = 0;
             int totalOrdered = 0;
             int max = 0;
