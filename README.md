@@ -10,14 +10,30 @@ Lists the supply and demand balance of the Logistics Station by item and by plan
 - Display the target planet in the starmap
 - Display navigation of the target station location.
 
-How to open a window (small buttons will be added in various places)
-- from station window
-- from production list on the statistics panel
-- from planet detail panel on the starmap
+How to open a window
+- from button added on station window
+- from button added on production list on the statistics panel
+- from button added on planet detail panel on the starmap
+- from keyboard shortcut
+
+When opening with the keyboard shortcut, if the item information is found under the mouse pointer, it is used as a item filter (e.g. Inventory, Storage, Replicator, Statistics Panel and much places where item icon is displayed).
+
 
 Compatibility with other mods has not yet been checked.
 
 ![screen shot](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen.jpg)
+
+## Configuration
+
+LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`).
+
+|Key|Type|Default|Description|
+|---|---|---|---|
+|mainWindowHotkey|shortcut|LCtrl+T|Hotkey to open/close LSTM window|
+|showButtonInStationWindow|bool|true|Add open LSTM button to Station Window|
+|showButtonInStatisticsWindow|bool|true|Add open LSTM button to Statistics Window|
+
+## 説明
 
 輸送ステーションの状況をアイテムごとや惑星ごとに一覧表示して需給バランスを確認できます。
 
@@ -31,8 +47,17 @@ Compatibility with other mods has not yet been checked.
 - ステーションウィンドウに追加されるボタンから
 - 星図の惑星情報パネルに追加されるボタンから
 - 統計パネルに追加されるボタンから
+- キーボードショートカット
+
+キーボードショートカットで開くときに、マウスポインタ上にアイテム情報を見つけたらそのアイテムでフィルタ表示します（インベントリ、ストレージ、合成機、統計パネル、その他のアイコンが表示されている場所）
 
 ## Release Notes
+
+### v0.2.0
+
+- Added keyboard shortcut for open/close window
+- Each Orbital Collector in same gas giants was combined into a row.
+- Improve performance
 
 ### v0.1.0
 
