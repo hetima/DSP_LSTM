@@ -241,6 +241,10 @@ namespace LSTMMod
 
         private void Update()
         {
+            if (!GameMain.isRunning || GameMain.isPaused || GameMain.instance.isMenuDemo )
+            {
+                return;
+            }
             if (mainWindowHotkey.Value.IsDown())
             {
                 ToggleBalanceWindow();
