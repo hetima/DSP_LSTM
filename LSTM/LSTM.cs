@@ -35,6 +35,8 @@ namespace LSTMMod
         public static LSTMNavi navi = null;
         public static UIBalanceWindow _win;
         public static ConfigEntry<KeyboardShortcut> mainWindowHotkey;
+        public static ConfigEntry<bool> showButtonInStationWindow;
+        public static ConfigEntry<bool> showButtonInStatisticsWindow;
 
 
         new internal static ManualLogSource Logger;
@@ -52,6 +54,10 @@ namespace LSTMMod
 
             mainWindowHotkey = Config.Bind("Keyboard Shortcuts", "mainWindowHotkey", KeyboardShortcut.Deserialize("T + LeftControl"),
                 "Hotkey to open/close LSTM window");
+            showButtonInStationWindow = Config.Bind("Interface", "showButtonInStationWindow", true,
+                "Add open LSTM button to Station Window");
+            showButtonInStatisticsWindow = Config.Bind("Interface", "showButtonInStatisticsWindow", true,
+                "Add open LSTM button to Statistics Window");
             new Harmony(__GUID__).PatchAll(typeof(Patch));
             new Harmony(__GUID__).PatchAll(typeof(LSTMStarDistance.Patch));
             new Harmony(__GUID__).PatchAll(typeof(MyWindowCtl.Patch));
@@ -400,7 +406,10 @@ namespace LSTMMod
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            showBalanceButton.gameObject.SetActive(true);
+            if (LSTM.showButtonInStatisticsWindow.Value)
+            {
+                showBalanceButton.gameObject.SetActive(true);
+            }
         }
         public void OnPointerExit(PointerEventData _eventData)
         {
@@ -449,7 +458,7 @@ namespace LSTMMod
 
         public void RefreshValues()
         {
-            if (uiStorage.station == null || uiStorage.index >= uiStorage.station.storage.Length || uiStorage.station.storage[uiStorage.index].itemId <= 0 || uiStorage.popupBoxRect.gameObject.activeSelf)
+            if (!LSTM.showButtonInStationWindow.Value || uiStorage.station == null || uiStorage.index >= uiStorage.station.storage.Length || uiStorage.station.storage[uiStorage.index].itemId <= 0 || uiStorage.popupBoxRect.gameObject.activeSelf)
             {
                 localBtn.gameObject.SetActive(false);
                 remoteBtn.gameObject.SetActive(false);
