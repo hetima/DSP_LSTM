@@ -86,11 +86,20 @@ namespace LSTMMod
             MyWindowCtl.OpenWindow(this);
         }
 
+        public void OpenWithoutSetting()
+        {
+            SetUpData();
+
+            UIRoot.instance.uiGame.ShutPlayerInventory();
+            MyWindowCtl.OpenWindow(this);
+        }
+
         protected override void _OnCreate()
         {
             _eventLock = true;
             windowTrans = MyWindowCtl.GetRectTransform(this);
             windowTrans.sizeDelta = new Vector2(700, 640);
+            balanceData = new BalanceData(0, 0, false);
             CreateListViews();
             CreateUI();
         }

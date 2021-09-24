@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
+using BepInEx.Configuration;
 using HarmonyLib;
 //using System;
 //using System.Text;
@@ -16,7 +17,9 @@ namespace LSTMMod
     {
         public const string __NAME__ = "LSTM";
         public const string __GUID__ = "com.hetima.dsp." + __NAME__;
+
         public static LSTM instance = null;
+
         public static Sprite astroIndicator {
             get {
                 if (_astroIndicator == null)
@@ -29,11 +32,12 @@ namespace LSTMMod
         }
         internal static Sprite _astroIndicator;
         
-
         public static LSTMNavi navi = null;
+        public static UIBalanceWindow _win;
+        public static ConfigEntry<KeyboardShortcut> mainWindowHotkey;
+
 
         new internal static ManualLogSource Logger;
-
         //StationComponent の planetId は GalacticTransport によって書き込まれるので
         //星間輸送しているものしか設定されない
 
@@ -46,6 +50,8 @@ namespace LSTMMod
 
             MyWindowCtl.useMyWindowInterface = true;
 
+            mainWindowHotkey = Config.Bind("Keyboard Shortcuts", "mainWindowHotkey", KeyboardShortcut.Deserialize("T + LeftControl"),
+                "Hotkey to open/close LSTM window");
             new Harmony(__GUID__).PatchAll(typeof(Patch));
             new Harmony(__GUID__).PatchAll(typeof(LSTMStarDistance.Patch));
             new Harmony(__GUID__).PatchAll(typeof(MyWindowCtl.Patch));
@@ -57,7 +63,6 @@ namespace LSTMMod
         }
 
 
-        public static UIBalanceWindow _win;
 
         public static void OpenBalanceWindow(StationComponent targetStation, int index, bool isLocal, PlanetFactory targetFactory = null)
         {
@@ -143,6 +148,99 @@ namespace LSTMMod
             StationComponent stationComponent = stationWindow.transport.stationPool[stationWindow.stationId];
             LocateStation(stationComponent, stationWindow.transport.planet.id);
         }
+
+        public static void ToggleBalanceWindow()
+        {
+            int itemId = ItemIdHintUnderMouse();
+            if (itemId > 0)
+            {
+                _win.SetUpAndOpen(itemId, 0, false);
+                return;
+            }
+
+            if (_win.active)
+            {
+                _win._Close();
+            }
+            else
+            {
+                _win.OpenWithoutSetting();
+            }
+        }
+
+        //UIItemTip依存にすると楽だがチップが出るまでのタイムラグがあるので操作感が悪い
+        public static int ItemIdHintUnderMouse()
+        {
+            List<RaycastResult> targets = new List<RaycastResult>();
+            PointerEventData pointer = new PointerEventData(EventSystem.current);
+            pointer.position = Input.mousePosition;
+            EventSystem.current.RaycastAll(pointer, targets);
+            foreach (RaycastResult target in targets)
+            {
+                UIButton btn = target.gameObject.GetComponentInParent<UIButton>();
+                if (btn?.tips != null && btn.tips.itemId > 0)
+                {
+                    return btn.tips.itemId;
+                }
+
+                UIBalanceWindow balWin = target.gameObject.GetComponentInParent<UIBalanceWindow>();
+                if (balWin != null)
+                {
+                    return 0;
+                }
+
+                UIReplicatorWindow repWin = target.gameObject.GetComponentInParent<UIReplicatorWindow>();
+                if (repWin != null)
+                {
+                    int mouseRecipeIndex = AccessTools.FieldRefAccess<UIReplicatorWindow, int>(repWin, "mouseRecipeIndex");
+                    RecipeProto[] recipeProtoArray = AccessTools.FieldRefAccess<UIReplicatorWindow, RecipeProto[]>(repWin, "recipeProtoArray");
+                    if (mouseRecipeIndex < 0)
+                    {
+                        return 0;
+                    }
+                    RecipeProto recipeProto = recipeProtoArray[mouseRecipeIndex];
+                    if (recipeProto != null)
+                    {
+                        return recipeProto.Results[0];
+                    }
+                    return 0;
+                }
+
+                UIStorageGrid grid = target.gameObject.GetComponentInParent<UIStorageGrid>();
+                if (grid != null)
+                {
+                    StorageComponent storage = AccessTools.FieldRefAccess<UIStorageGrid, StorageComponent>(grid, "storage");
+                    int mouseOnX = AccessTools.FieldRefAccess<UIStorageGrid, int>(grid, "mouseOnX");
+                    int mouseOnY = AccessTools.FieldRefAccess<UIStorageGrid, int>(grid, "mouseOnY");
+                    if (mouseOnX >= 0 && mouseOnY >= 0 && storage != null)
+                    {
+                        int num6 = mouseOnX + mouseOnY * grid.colCount;
+                        return storage.grids[num6].itemId;
+                    }
+                    return 0;
+                }
+
+                UIProductEntry productEntry = target.gameObject.GetComponentInParent<UIProductEntry>();
+                if (productEntry != null)
+                {
+                    if (productEntry.productionStatWindow.isProductionTab)
+                    {
+                        return productEntry.entryData.itemId;
+                    }
+                    return 0;
+                }
+            }
+            return 0;
+        }
+
+        private void Update()
+        {
+            if (mainWindowHotkey.Value.IsDown())
+            {
+                ToggleBalanceWindow();
+            }
+        }
+
 
         static class Patch
         {
@@ -277,6 +375,7 @@ namespace LSTMMod
         }
 
     }
+
     public class ProductEntryParasite : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField]
