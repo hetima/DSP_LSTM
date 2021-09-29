@@ -107,29 +107,35 @@ namespace LSTMMod
 
             if (local != planetId || UIRoot.instance.uiGame.starmap.active)
             {
-                UIRoot.instance.uiGame.ShutPlayerInventory();
-                UIRoot.instance.uiGame.ShutAllFunctionWindow();
-                //UIRoot.instance.uiGame.ShutAllFullScreens();
-
-                UIRoot.instance.uiGame.OpenStarmap();
-                int starIdx = planetId / 100 - 1;
-                int planetIdx = planetId % 100 - 1;
-                UIStarmap map = UIRoot.instance.uiGame.starmap;
-
-                PlanetData planet = GameMain.galaxy.PlanetById(planetId);
-                if (planet != null)
+                if (GameMain.history.universeObserveLevel >= 4)
                 {
-                    map.focusPlanet = null;
-                    map.focusStar = map.starUIs[starIdx];
-                    map.OnCursorFunction2Click(0);
-                    if (map.focusStar == null)
+                    UIRoot.instance.uiGame.ShutPlayerInventory();
+                    UIRoot.instance.uiGame.ShutAllFunctionWindow();
+                    //UIRoot.instance.uiGame.ShutAllFullScreens();
+                    UIRoot.instance.uiGame.OpenStarmap();
+                    int starIdx = planetId / 100 - 1;
+                    int planetIdx = planetId % 100 - 1;
+                    UIStarmap map = UIRoot.instance.uiGame.starmap;
+
+                    PlanetData planet = GameMain.galaxy.PlanetById(planetId);
+                    if (planet != null)
                     {
-                        map.focusPlanet = map.planetUIs[planetIdx];
+                        map.focusPlanet = null;
+                        map.focusStar = map.starUIs[starIdx];
                         map.OnCursorFunction2Click(0);
-                        //map.SetViewStar(star.star, true);
-                        map.focusPlanet = map.planetUIs[planetIdx];
-                        map.focusStar = null;
+                        if (map.focusStar == null)
+                        {
+                            map.focusPlanet = map.planetUIs[planetIdx];
+                            map.OnCursorFunction2Click(0);
+                            //map.SetViewStar(star.star, true);
+                            map.focusPlanet = null;
+                            map.focusStar = null;
+                        }
                     }
+                }
+                else
+                {
+                    UIMessageBox b = UIMessageBox.Show("Upgrades Required".Translate(), "To use this feature, Universe Exploration 4 is required.".Translate(), "OK", 0);
                 }
             }
             _win.keepOpen = false;
