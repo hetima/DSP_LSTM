@@ -128,7 +128,7 @@ namespace LSTMMod
                             map.focusPlanet = map.planetUIs[planetIdx];
                             map.OnCursorFunction2Click(0);
                             //map.SetViewStar(star.star, true);
-                            map.focusPlanet = null;
+                            map.focusPlanet = map.planetUIs[planetIdx]; //Function Panelを表示させるため
                             map.focusStar = null;
                         }
                     }
