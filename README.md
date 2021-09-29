@@ -7,7 +7,7 @@ Lists the supply and demand balance of the Logistics Station by item and by plan
 - Show overall status for each item
 - Show the status of all stations on specific planet
 
-- Display the target planet in the starmap
+- Display the target planet in the starmap (Universe Exploration lv4 is required)
 - Display navigation of the target station location.
 
 How to open a window
@@ -40,7 +40,7 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 - アイテムごとに全体の状況を表示
 - 惑星内の全ステーションの状況を表示
 
-- 対象の惑星を星間ビューで表示
+- 対象の惑星を星間ビューで表示(宇宙探査レベル4が必要)
 - 対象のステーションの場所をナビ表示
 
 ウィンドウの開き方
@@ -53,10 +53,13 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 
 ## Release Notes
 
+### v0.2.1
+- To display planet in the starmap, "Space Exploration" Lv4 is required
+
 ### v0.2.0
 
 - Added keyboard shortcut for open/close window
-- Each Orbital Collector in same gas giants was combined into a row.
+- Each Orbital Collector in same gas giants was combined into a row
 - Improve performance
 
 ### v0.1.0
