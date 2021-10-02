@@ -295,7 +295,8 @@ namespace LSTMMod
             }
             if (useStationName && station != null)
             {
-                nameText.text = station.name;
+                string text = string.IsNullOrEmpty(station.name) ? (station.isStellar ? ("星际站点号".Translate() + station.gid.ToString()) : ("本地站点号".Translate() + station.id.ToString())) : station.name;
+                nameText.text = text;
             }
             else
             {
