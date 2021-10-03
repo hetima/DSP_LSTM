@@ -55,9 +55,9 @@ namespace LSTMMod
             mainWindowHotkey = Config.Bind("Keyboard Shortcuts", "mainWindowHotkey", KeyboardShortcut.Deserialize("T + LeftControl"),
                 "Hotkey to open/close LSTM window");
             showButtonInStationWindow = Config.Bind("Interface", "showButtonInStationWindow", true,
-                "Add open LSTM button to Station Window");
-            showButtonInStatisticsWindow = Config.Bind("Interface", "showButtonInStatisticsWindow", true,
-                "Add open LSTM button to Statistics Window");
+                "Add open LSTM button to Station Window (needs restart)");
+            showButtonInStatisticsWindow = Config.Bind("Interface", "showButtonInStatisticsWindow", false,
+                "Add open LSTM button to Statistics Window (needs restart)");
             new Harmony(__GUID__).PatchAll(typeof(Patch));
             new Harmony(__GUID__).PatchAll(typeof(LSTMStarDistance.Patch));
             new Harmony(__GUID__).PatchAll(typeof(MyWindowCtl.Patch));
@@ -284,15 +284,18 @@ namespace LSTMMod
                     btn.gameObject.SetActive(true);
                 }
 
-                //before _OnCreate
-                //storageUIPrefabに付けたほうが効率良いけどUIBalanceListEntryでも使う
-                //UIStationStorageParasite.MakeUIStationStorageParasite(stationWindow.storageUIPrefab);
-
-                //after _OnCreate
-                UIStationStorage[] storageUIs = AccessTools.FieldRefAccess<UIStationWindow, UIStationStorage[]>(stationWindow, "storageUIs");
-                for (int i = 0; i < storageUIs.Length; i++)
+                if (LSTM.showButtonInStationWindow.Value)
                 {
-                    UIStationStorageParasite.MakeUIStationStorageParasite(storageUIs[i]);
+                    //before _OnCreate
+                    //storageUIPrefabに付けたほうが効率良いけどUIBalanceListEntryでも使う
+                    //UIStationStorageParasite.MakeUIStationStorageParasite(stationWindow.storageUIPrefab);
+
+                    //after _OnCreate
+                    UIStationStorage[] storageUIs = AccessTools.FieldRefAccess<UIStationWindow, UIStationStorage[]>(stationWindow, "storageUIs");
+                    for (int i = 0; i < storageUIs.Length; i++)
+                    {
+                        UIStationStorageParasite.MakeUIStationStorageParasite(storageUIs[i]);
+                    }
                 }
             }
 
@@ -319,7 +322,10 @@ namespace LSTMMod
             [HarmonyPrefix, HarmonyPatch(typeof(UIGame), "_OnCreate")]
             public static void UIGame__OnCreate_Prefix()
             {
-                ProductEntryParasite.AddButtonToStatisticsWindow();
+                if (LSTM.showButtonInStatisticsWindow.Value)
+                {
+                    ProductEntryParasite.AddButtonToStatisticsWindow();
+                }
             }
 
             [HarmonyPostfix, HarmonyPatch(typeof(UIGame), "_OnCreate")]
@@ -356,8 +362,10 @@ namespace LSTMMod
             [HarmonyPostfix, HarmonyPatch(typeof(UIStationStorage), "RefreshValues")]
             public static void UIStationStorage_RefreshValues_Postfix(UIStationStorage __instance)
             {
-                __instance.GetComponent<UIStationStorageParasite>()?.RefreshValues();
-
+                if (LSTM.showButtonInStationWindow.Value)
+                {
+                    __instance.GetComponent<UIStationStorageParasite>()?.RefreshValues();
+                }
             }
 
             //ここへ来るまでの判定
