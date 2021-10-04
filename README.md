@@ -11,10 +11,10 @@ Lists the supply and demand balance of the Logistics Station by item and by plan
 - Display navigation of the target station location.
 
 How to open a window
+- from keyboard shortcut (default is LCtrl+T)
 - from button added on station window
 - from button added on production list on the statistics panel
-- from button added on planet detail panel on the starmap
-- from keyboard shortcut
+- from button added on planet detail panel on the starmap (default is off)
 
 When opening with the keyboard shortcut, if the item information is found under the mouse pointer, it is used as a item filter (e.g. Inventory, Storage, Replicator, Statistics Panel and much places where item icon is displayed).
 
@@ -31,7 +31,7 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 |---|---|---|---|
 |mainWindowHotkey|shortcut|LCtrl+T|Hotkey to open/close LSTM window|
 |showButtonInStationWindow|bool|true|Add open LSTM button to Station Window|
-|showButtonInStatisticsWindow|bool|true|Add open LSTM button to Statistics Window|
+|showButtonInStatisticsWindow|bool|false|Add open LSTM button to Statistics Window|
 
 ## 説明
 
@@ -44,16 +44,22 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 - 対象のステーションの場所をナビ表示
 
 ウィンドウの開き方
+- キーボードショートカット(デフォルトは LCtrl+T)
 - ステーションウィンドウに追加されるボタンから
 - 星図の惑星情報パネルに追加されるボタンから
-- 統計パネルに追加されるボタンから
-- キーボードショートカット
+- 統計パネルに追加されるボタンから(デフォルトはオフ)
 
 キーボードショートカットで開くときに、マウスポインタ上にアイテム情報を見つけたらそのアイテムでフィルタ表示します（インベントリ、ストレージ、合成機、統計パネル、その他のアイコンが表示されている場所）
 
 ## Release Notes
 
+### v0.2.2
+
+- Fix local station name was not displayed
+- Changed the internal design of the button display (a bit more stable when off but needs restart)
+
 ### v0.2.1
+
 - To display planet in the starmap, "Space Exploration" Lv4 is required
 
 ### v0.2.0
