@@ -893,7 +893,7 @@ namespace LSTMMod
 
         public void TryClose()
         {
-            if (keepOpen)
+            if (keepOpen || !LSTM.actAsStandardPanel.Value)
             {
                 return;
             }

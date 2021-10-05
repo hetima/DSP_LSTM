@@ -37,6 +37,7 @@ namespace LSTMMod
         public static ConfigEntry<KeyboardShortcut> mainWindowHotkey;
         public static ConfigEntry<bool> showButtonInStationWindow;
         public static ConfigEntry<bool> showButtonInStatisticsWindow;
+        public static ConfigEntry<bool> actAsStandardPanel;
 
 
         new internal static ManualLogSource Logger;
@@ -58,6 +59,8 @@ namespace LSTMMod
                 "Add open LSTM button to Station Window (needs restart)");
             showButtonInStatisticsWindow = Config.Bind("Interface", "showButtonInStatisticsWindow", false,
                 "Add open LSTM button to Statistics Window (needs restart)");
+            actAsStandardPanel = Config.Bind("Interface", "actAsStandardPanel", true,
+                "true: close with other panels by esc key. false: one more esc needed");
             new Harmony(__GUID__).PatchAll(typeof(Patch));
             new Harmony(__GUID__).PatchAll(typeof(LSTMStarDistance.Patch));
             new Harmony(__GUID__).PatchAll(typeof(MyWindowCtl.Patch));
