@@ -53,6 +53,9 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 
 ## Release Notes
 
+### v0.2.3
+- Rebuild for 0.8.22.9331
+
 ### v0.2.2
 
 - Fix local station name was not displayed
