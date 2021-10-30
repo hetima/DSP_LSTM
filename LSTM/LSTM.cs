@@ -35,6 +35,8 @@ namespace LSTMMod
         public static LSTMNavi navi = null;
         public static UIBalanceWindow _win;
         public static ConfigEntry<KeyboardShortcut> mainWindowHotkey;
+
+        public static ConfigEntry<bool> dropSorterKeyEracesNavi;
         public static ConfigEntry<bool> showButtonInStationWindow;
         public static ConfigEntry<bool> showButtonInStatisticsWindow;
         public static ConfigEntry<bool> actAsStandardPanel;
@@ -61,6 +63,9 @@ namespace LSTMMod
                 "Add open LSTM button to Statistics Window (needs restart)");
             actAsStandardPanel = Config.Bind("Interface", "actAsStandardPanel", true,
                 "true: close with other panels by esc key. false: one more esc needed");
+            dropSorterKeyEracesNavi = Config.Bind("Keyboard Shortcuts", "dropSorterKeyEracesNavi", false,
+                "clear navi line when \"Remove Copied Sorter Previews\" shortcut is pressed");
+
             new Harmony(__GUID__).PatchAll(typeof(Patch));
             new Harmony(__GUID__).PatchAll(typeof(LSTMStarDistance.Patch));
             new Harmony(__GUID__).PatchAll(typeof(MyWindowCtl.Patch));

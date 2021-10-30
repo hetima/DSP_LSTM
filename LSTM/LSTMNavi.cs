@@ -115,6 +115,10 @@ namespace LSTMMod
             }
             else
             {
+                if (LSTM.dropSorterKeyEracesNavi.Value && VFInput._cancelTemplateInserter.onDown)
+                {
+                    Disable();
+                }
                 //naviTip.desired = (naviLine.lineGizmo != null);
                 naviPop.SetActive(naviLine.lineGizmo != null);
             }
