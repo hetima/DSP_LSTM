@@ -17,6 +17,8 @@ namespace LSTMMod
         //見た目や挙動の設定はコード内
         public Vector3 endPoint; //entity.pos
         public int planetId;
+        //これは設定しないでも動く
+        public int entityId;
 
         //目標に近づいたら自動で消える
         public bool autoDisappear = false;
@@ -110,6 +112,7 @@ namespace LSTMMod
             if (reset)
             {
                 planetId = 0;
+                entityId = 0;
             }
         }
 

@@ -355,11 +355,30 @@ namespace LSTMMod
             //{
             //}
 
-
-            [HarmonyPostfix, HarmonyPatch(typeof(PlanetTransport), "RemoveStationComponent")]
-            public static void PlanetTransport_RemoveStationComponent_Postfix()
+            [HarmonyPrefix, HarmonyPatch(typeof(UIGame), "OnPlayerInspecteeChange")]
+            public static void UIGame_OnPlayerInspecteeChange_Prefix(UIGame __instance, EObjectType objType, int objId)
             {
-                _win._Close();
+                int planetId = GameMain.mainPlayer.planetId;
+                if (planetId > 0 && objType == EObjectType.Entity && objId > 0)
+                {
+                    if (navi.naviLine.entityId == objId && navi.naviLine.planetId == planetId && UIGame.viewMode < EViewMode.Globe)
+                    {
+                        navi.Disable();
+                    }
+                }
+            }
+
+            [HarmonyPrefix, HarmonyPatch(typeof(PlanetFactory), "RemoveEntityWithComponents")]
+            public static void PlanetFactory_RemoveEntityWithComponents_Prefix(PlanetFactory __instance, int id)
+            {
+                if (navi.naviLine.entityId == id && navi.naviLine.planetId == __instance.planetId)
+                {
+                    navi.Disable();
+                }
+                if (__instance.entityPool[id].stationId != 0) //before RemoveStationComponent
+                {
+                    _win._Close();
+                }
             }
 
             [HarmonyPostfix, HarmonyPatch(typeof(UIStationStorage), "RefreshValues")]

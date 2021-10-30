@@ -131,12 +131,13 @@ namespace LSTMMod
             }
             Vector3 pos = pool[station.entityId].pos;
             naviLine.planetId = planetId;
+            naviLine.entityId = station.entityId;
             naviLine.endPoint = pos + (pos.normalized * 8);
         }
 
         public void Disable()
         {
-            naviLine.Disable();
+            naviLine.Disable(true);
         }
     }
 }
