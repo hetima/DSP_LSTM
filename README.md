@@ -13,8 +13,8 @@ Lists the supply and demand balance of the Logistics Station by item and by plan
 How to open a window
 - from keyboard shortcut (default is LCtrl+T)
 - from button added on station window
-- from button added on production list on the statistics panel
-- from button added on planet detail panel on the starmap (default is off)
+- from button added on planet detail panel on the starmap
+- from button added on production list on the statistics panel (default is off)
 
 When opening with the keyboard shortcut, if the item information is found under the mouse pointer, it is used as a item filter (e.g. Inventory, Storage, Replicator, Statistics Panel and much places where item icon is displayed).
 
@@ -32,6 +32,8 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 |mainWindowHotkey|shortcut|LCtrl+T|Hotkey to open/close LSTM window|
 |showButtonInStationWindow|bool|true|Add open LSTM button to Station Window|
 |showButtonInStatisticsWindow|bool|false|Add open LSTM button to Statistics Window|
+|actAsStandardPanel|bool|true|true: close with other panels by esc key. false: one more esc needed|
+
 
 ## 説明
 
