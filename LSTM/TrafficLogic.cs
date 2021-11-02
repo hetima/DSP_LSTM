@@ -30,11 +30,12 @@ namespace LSTMMod
         {
             SupplyDemandPair supplyDemandPair = sc.remotePairs[sc.remotePairProcess];
             StationComponent[] gStationPool = UIRoot.instance.uiGame.gameData.galacticTransport.stationPool;
+            double result = sc.tripRangeShips;
+            StationComponent demandCmp = gStationPool[supplyDemandPair.demandId];
+            StationComponent supplyCmp = gStationPool[supplyDemandPair.supplyId];
 
             if (LSTM.enableTLRemoteCluster.Value)
             {
-                StationComponent demandCmp = gStationPool[supplyDemandPair.demandId];
-                StationComponent supplyCmp = gStationPool[supplyDemandPair.supplyId];
                 int itemId = supplyCmp.storage[supplyDemandPair.supplyIndex].itemId;
                 //空間歪曲器は除外
                 if (itemId != 1210)
@@ -46,7 +47,42 @@ namespace LSTMMod
                 }
             }
 
-            return sc.tripRangeShips;
+            if (LSTM.enableTLConsiderOppositeRange.Value)
+            {
+                result = demandCmp.tripRangeShips >= supplyCmp.tripRangeShips ? supplyCmp.tripRangeShips : demandCmp.tripRangeShips;
+            }
+
+            return result;
+        }
+
+        // tripRangeDrones 20° == 0.94, 180° == -1 小さい方が距離が遠い
+        // 1 + 1E-06(1.000001)より大きな数を返せば対象外になり輸送を開始しない
+        public static double TripRangeDronesInTickLocal(StationComponent sc, StationComponent[] stationPool)
+        {
+            SupplyDemandPair supplyDemandPair = sc.localPairs[sc.localPairProcess];
+            double result = sc.tripRangeDrones;
+            StationComponent demandCmp = stationPool[supplyDemandPair.demandId];
+            StationComponent supplyCmp = stationPool[supplyDemandPair.supplyId];
+
+            if (LSTM.enableTLLocalCluster.Value)
+            {
+                int itemId = supplyCmp.storage[supplyDemandPair.supplyIndex].itemId;
+                //空間歪曲器は除外
+                if (itemId != 1210)
+                {
+                    if (!TLCluster.IsSameLocalCluster(supplyCmp, demandCmp))
+                    {
+                        return 2.0;
+                    }
+                }
+            }
+
+            if (LSTM.enableTLConsiderOppositeRange.Value)
+            {
+                result = demandCmp.tripRangeDrones <= supplyCmp.tripRangeDrones ? supplyCmp.tripRangeDrones : demandCmp.tripRangeDrones;
+            }
+
+            return result;
         }
 
         public static class Patch
@@ -92,11 +128,47 @@ namespace LSTMMod
                 }
                 if (patchCount != 2)
                 {
-                    LSTM.Logger.LogInfo("StationComponent_InternalTickRemote_Transpiler (tripRangeShips) seems fail");
+                    LSTM.Logger.LogInfo("StationComponent_InternalTickRemote_Transpiler (tripRangeShips) seems wrong");
                 }
 
                 return ins.AsEnumerable();
             }
+
+            [HarmonyTranspiler, HarmonyPatch(typeof(StationComponent), "InternalTickLocal")]
+            public static IEnumerable<CodeInstruction> StationComponent_InternalTickLocal_Transpiler(IEnumerable<CodeInstruction> instructions)
+            {
+                List<CodeInstruction> ins = instructions.ToList();
+                MethodInfo m_TripRange = typeof(TrafficLogic).GetMethod(nameof(TripRangeDronesInTickLocal));
+                FieldInfo f_TripRange = AccessTools.Field(typeof(StationComponent), nameof(StationComponent.tripRangeDrones));
+                //StationComponent の planetId は GalacticTransport によって書き込まれるので
+                //星間輸送しているものしか設定されない
+                //惑星のstationPoolが必要なので引数から貰う
+
+                // if (num18 >= this.tripRangeDrones - 1E-06)
+                int patchCount = 0;
+                for (int i = 0; i < ins.Count; i++)
+                {
+                    if (i > 0 && ins[i].opcode == OpCodes.Ldfld && ins[i].operand is FieldInfo o && o == f_TripRange)
+                    {
+                        if (ins[i-1].opcode == OpCodes.Ldarg_0)
+                        {
+                            ins[i].opcode = OpCodes.Call;
+                            ins[i].operand = m_TripRange;
+                            patchCount++;
+                            CodeInstruction c = new CodeInstruction(OpCodes.Ldarg_S, 7);
+                            yield return c;
+                            yield return ins[i];
+                            continue;
+                        }
+                    }
+                    yield return ins[i];
+                }
+                if (patchCount != 3)
+                {
+                    LSTM.Logger.LogInfo("StationComponent_InternalTickLocal_Transpiler (tripRangeDrones) seems wrong");
+                }
+            }
+            
         }
     }
 }

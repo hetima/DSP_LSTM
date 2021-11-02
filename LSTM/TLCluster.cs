@@ -10,6 +10,10 @@ namespace LSTMMod
         {
             return IsSameCluster(s1, s2, "C");
         }
+        public static bool IsSameLocalCluster(StationComponent s1, StationComponent s2)
+        {
+            return IsSameCluster(s1, s2, "c");
+        }
 
         // all はすべての cluster と輸送可能 // [C:all,cluster] の扱い→そういう設定にすることなさそう
         public static bool IsSameCluster(StationComponent s1, StationComponent s2, string cmd)

@@ -42,10 +42,11 @@ namespace LSTMMod
         public static ConfigEntry<bool> actAsStandardPanel;
 
         public static ConfigEntry<bool> enableTLRemoteCluster;
+        public static ConfigEntry<bool> enableTLLocalCluster;
+        public static ConfigEntry<bool> enableTLConsiderOppositeRange;
 
         new internal static ManualLogSource Logger;
-        //StationComponent の planetId は GalacticTransport によって書き込まれるので
-        //星間輸送しているものしか設定されない
+
 
         void Awake()
         {
@@ -67,8 +68,12 @@ namespace LSTMMod
             dropSorterKeyEracesNavi = Config.Bind("Keyboard Shortcuts", "dropSorterKeyEracesNavi", false,
                 "clear navi line when \"Remove Copied Sorter Previews\" shortcut is pressed");
 
-            enableTLRemoteCluster = Config.Bind("Traffic Logic", "trafficLogicRemoteCluster", false,
+            enableTLRemoteCluster = Config.Bind("Traffic Logic", "TLRemoteCluster", false,
                 "enable Traffic Logic:Remote Cluster");
+            enableTLLocalCluster = Config.Bind("Traffic Logic", "TLLocalCluster", false,
+               "enable Traffic Logic:Local Cluster");
+            enableTLConsiderOppositeRange = Config.Bind("Traffic Logic", "TLConsiderOppositeRange", false,
+                "enable Traffic Logic:Consider Opposite Range");
 
             new Harmony(__GUID__).PatchAll(typeof(Patch));
             new Harmony(__GUID__).PatchAll(typeof(LSTMStarDistance.Patch));
