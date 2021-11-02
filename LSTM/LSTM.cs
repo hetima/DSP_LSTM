@@ -41,6 +41,7 @@ namespace LSTMMod
         public static ConfigEntry<bool> showButtonInStatisticsWindow;
         public static ConfigEntry<bool> actAsStandardPanel;
 
+        public static ConfigEntry<bool> enableTLRemoteCluster;
 
         new internal static ManualLogSource Logger;
         //StationComponent の planetId は GalacticTransport によって書き込まれるので
@@ -66,9 +67,14 @@ namespace LSTMMod
             dropSorterKeyEracesNavi = Config.Bind("Keyboard Shortcuts", "dropSorterKeyEracesNavi", false,
                 "clear navi line when \"Remove Copied Sorter Previews\" shortcut is pressed");
 
+            enableTLRemoteCluster = Config.Bind("Traffic Logic", "trafficLogicRemoteCluster", false,
+                "enable Traffic Logic:Remote Cluster");
+
             new Harmony(__GUID__).PatchAll(typeof(Patch));
             new Harmony(__GUID__).PatchAll(typeof(LSTMStarDistance.Patch));
             new Harmony(__GUID__).PatchAll(typeof(MyWindowCtl.Patch));
+            new Harmony(__GUID__).PatchAll(typeof(TrafficLogic.Patch));
+
         }
 
         public void Log(string str)

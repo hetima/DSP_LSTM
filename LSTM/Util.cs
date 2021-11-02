@@ -11,6 +11,32 @@ namespace LSTMMod
 {
     public static class Util
     {
+        public static string GetCommandValue(string str, string cmd, bool ignoreCase = false)
+        {
+            if (string.IsNullOrEmpty(str) || string.IsNullOrEmpty(cmd))
+            {
+                return "";
+            }
+            StringComparison op = StringComparison.Ordinal;
+            if (ignoreCase)
+            {
+                op = StringComparison.OrdinalIgnoreCase;
+            }
+            string pre = "[" + cmd + ":";
+            int start = str.IndexOf(pre, op);
+            if (start >= 0)
+            {
+                start += pre.Length;
+                int len = str.IndexOf("]", start);
+                if (len > 0)
+                {
+                    return str.Substring(start, len - start).Trim();
+                }
+            }
+
+            return "";
+        }
+
         public static Color DSPBlue => new Color(0.3821f, 0.8455f, 1f, 0.7059f);
         public static Color DSPOrange => new Color(0.9906f, 0.5897f, 0.3691f, 0.7059f);
 
