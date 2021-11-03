@@ -15,16 +15,23 @@ namespace LSTMMod
             return IsSameCluster(s1, s2, "c");
         }
 
-        // any はすべての cluster と輸送可能 // [C:any,cluster] の扱い→そういう設定にすることなさそう
+        // any はすべての cluster と輸送可能
         public static bool IsSameCluster(StationComponent s1, StationComponent s2, string cmd)
         {
-            string c1 = Util.GetCommandValue(s1.name, cmd);
-            string c2 = Util.GetCommandValue(s2.name, cmd);
-            if (string.IsNullOrEmpty(c1) && string.IsNullOrEmpty(c2))
+            //GetCommandValue は null チェック不要
+            string c1 = Util.GetCommandValue(s1.name, cmd).ToLower();
+            string c2 = Util.GetCommandValue(s2.name, cmd).ToLower();
+
+            if (c1 == "any" || c2 == "any")
             {
                 return true;
             }
 
+            return c1 == c2;
+
+            /*
+            //,区切りで複数のクラスター
+            //いろいろめんどいので不採用
             char[] sep ={','};
             string[] c1s = c1.Split(sep, StringSplitOptions.RemoveEmptyEntries);
             string[] c2s = c2.Split(sep, StringSplitOptions.RemoveEmptyEntries);
@@ -68,6 +75,7 @@ namespace LSTMMod
                 // [C: ,  ,] みたいな場合falseになる？→書き方が悪いことにしておく
             }
             return false;
+            */
         }
 
 
