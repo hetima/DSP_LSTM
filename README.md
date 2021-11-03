@@ -41,11 +41,11 @@ As an exception, the __Space Warper__ will be transported ignoring the cluster s
 
 For now, the only way to set it up is to edit the name directly (You can edit the name in the station window by clicking on it. This is a default game feature). Please wait for additional features such as a settings UI.
 
-
 ### Local Cluster `TLLocalCluster`
 This is the same function as Remote Cluster. Applies to local transport. The configuration is almost the same as Remote Cluster, with `[c:name]` in the station name, where __c: is lower case__.
 
-
+Remote Cluster and Local Cluster can be configured simultaneously.  
+Example: [C:r01][c:l01]station#1
 
 
 ## Configuration
@@ -109,6 +109,8 @@ TrafficLogic settings
 ### Local Cluster `TLLocalCluster`
 Remote Cluster と同じ機能です。ローカル輸送に適用されます。設定方法は Remote Cluster とほぼ同じで、ステーション名に `[c:name]` と記述します。 __c:は小文字__ です。
 
+Remote Cluster と Local Cluster は同時に設定できます。  
+例：[C:r01][c:l01]station#1
 
 
 ## Release Notes
