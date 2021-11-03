@@ -15,7 +15,7 @@ namespace LSTMMod
             return IsSameCluster(s1, s2, "c");
         }
 
-        // all はすべての cluster と輸送可能 // [C:all,cluster] の扱い→そういう設定にすることなさそう
+        // any はすべての cluster と輸送可能 // [C:any,cluster] の扱い→そういう設定にすることなさそう
         public static bool IsSameCluster(StationComponent s1, StationComponent s2, string cmd)
         {
             string c1 = Util.GetCommandValue(s1.name, cmd);
@@ -33,7 +33,7 @@ namespace LSTMMod
 
             if (c1s.Length == 1 && c2s.Length == 1)
             {
-                return c1s[0] == c2s[0] || c1s[0] == "all" || c2s[0] == "all";
+                return c1s[0] == c2s[0] || c1s[0] == "any" || c2s[0] == "any";
             }
             else if(c1s.Length == 0 && c2s.Length == 0)
             {
@@ -41,15 +41,15 @@ namespace LSTMMod
             }
             else if (c1s.Length == 1 && c2s.Length == 0)
             {
-                return c1s[0] == "all" || string.IsNullOrEmpty(c1s[0]);
+                return c1s[0] == "any" || string.IsNullOrEmpty(c1s[0]);
             }
             else if (c2s.Length == 0 && c2s.Length == 1)
             {
-                return c2s[0] == "all" || string.IsNullOrEmpty(c2s[0]);
+                return c2s[0] == "any" || string.IsNullOrEmpty(c2s[0]);
             }
 
             string c2join = "," + string.Join(",", c2s) + ",";
-            if (c2join.Contains(",all,"))
+            if (c2join.Contains(",any,"))
             {
                 return true;
             }
@@ -61,7 +61,7 @@ namespace LSTMMod
                 {
                     continue;
                 }
-                if (c1sv == "all" || c2join.Contains("," + c1sv + ","))
+                if (c1sv == "any" || c2join.Contains("," + c1sv + ","))
                 {
                     return true;
                 }
