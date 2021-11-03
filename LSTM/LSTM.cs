@@ -68,12 +68,12 @@ namespace LSTMMod
             dropSorterKeyEracesNavi = Config.Bind("Keyboard Shortcuts", "dropSorterKeyEracesNavi", false,
                 "clear navi line when \"Remove Copied Sorter Previews\" shortcut is pressed");
 
-            enableTLRemoteCluster = Config.Bind("Traffic Logic", "TLRemoteCluster", false,
-                "enable Traffic Logic:Remote Cluster");
-            enableTLLocalCluster = Config.Bind("Traffic Logic", "TLLocalCluster", false,
-               "enable Traffic Logic:Local Cluster");
-            enableTLConsiderOppositeRange = Config.Bind("Traffic Logic", "TLConsiderOppositeRange", false,
-                "enable Traffic Logic:Consider Opposite Range");
+            enableTLRemoteCluster = Config.Bind("TrafficLogic", "TLRemoteCluster", false,
+                "enable TrafficLogic:Remote Cluster");
+            enableTLLocalCluster = Config.Bind("TrafficLogic", "TLLocalCluster", false,
+               "enable TrafficLogic:Local Cluster");
+            enableTLConsiderOppositeRange = Config.Bind("TrafficLogic", "TLConsiderOppositeRange", false,
+                "enable TrafficLogic:Consider Opposite Range");
 
             new Harmony(__GUID__).PatchAll(typeof(Patch));
             new Harmony(__GUID__).PatchAll(typeof(LSTMStarDistance.Patch));

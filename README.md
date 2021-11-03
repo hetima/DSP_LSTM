@@ -6,6 +6,7 @@ Lists the supply and demand balance of the Logistics Station by item and by plan
 
 - Show overall status for each item
 - Show the status of all stations on specific planet
+- Improve transport behavior (New in 0.3)
 
 - Display the target planet in the starmap (Universe Exploration lv4 is required)
 - Display navigation of the target station location.
@@ -23,6 +24,30 @@ Compatibility with other mods has not yet been checked.
 
 ![screen shot](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen.jpg)
 
+## TrafficLogic (New in 0.3)
+Change transport behavior. Can be turned on and off individually. Default is all off. It must be turned on in the configuration file to be used.  
+
+__Incompatible__ with some mods (GalacticScale, StationRangeLimiter, etc.). TrafficLogic will not work if you use these mods.
+
+### Consider Opposite Range `TLConsiderOppositeRange`
+The partner's maximum transport distance will now be calculated too, and the transport will not be executed unless both maximum transport distances are exceeded. Applies to all transport, local and remote.
+
+### Remote Cluster `TLRemoteCluster`
+Groups stations together and separates them from other groups or unconfigured stations.  
+You can include the string `[C:name]` in the station name to belong to the `name` cluster, where __C: is UPPER CASE__.  
+Once a cluster has been established, stations can only be transported by stations that belong to the same cluster.  
+The cluster name `any` has a special meaning. A cluster with this name can interact with all other clusters and unconfigured stations. Demanding from `any` cluster is likely to upset the balance of other clusters, so it is better to keep it supply only.  
+As an exception, the __Space Warper__ will be transported ignoring the cluster settings.  
+
+For now, the only way to set it up is to edit the name directly (You can edit the name in the station window by clicking on it. This is a default game feature). Please wait for additional features such as a settings UI.
+
+
+### Local Cluster `TLLocalCluster`
+This is the same function as Remote Cluster. Applies to local transport. The configuration is almost the same as Remote Cluster, with `[c:name]` in the station name, where __c: is lower case__.
+
+
+
+
 ## Configuration
 
 LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`).
@@ -33,6 +58,15 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 |showButtonInStationWindow|bool|true|Add open LSTM button to Station Window|
 |showButtonInStatisticsWindow|bool|false|Add open LSTM button to Statistics Window|
 |actAsStandardPanel|bool|true|true: close with other panels by esc key. false: one more esc needed|
+|dropSorterKeyEracesNavi|bool|false|clear navi line when "Remove Copied Sorter Previews" shortcut is pressed|
+
+TrafficLogic settings
+
+|Key|Type|Default|Description|
+|---|---|---|---|
+|TLConsiderOppositeRange|bool|false|enable TrafficLogic:Consider Opposite Range|
+|TLRemoteCluster|bool|false|enable TrafficLogic:Remote Cluster|
+|TLLocalCluster|bool|false|enable TrafficLogic:Local Cluster|
 
 
 ## 説明
@@ -41,6 +75,7 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 
 - アイテムごとに全体の状況を表示
 - 惑星内の全ステーションの状況を表示
+- 輸送ロジックの改良 (New in 0.3)
 
 - 対象の惑星を星間ビューで表示(宇宙探査レベル4が必要)
 - 対象のステーションの場所をナビ表示
@@ -53,10 +88,39 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 
 キーボードショートカットで開くときに、マウスポインタ上にアイテム情報を見つけたらそのアイテムでフィルタ表示します（インベントリ、ストレージ、合成機、統計パネル、その他のアイコンが表示されている場所）
 
+
+## TrafficLogic (New in 0.3)
+輸送の挙動を変更します。個別に設定でオンオフできます。デフォルトはすべてオフです。使用するには設定ファイルでオンにする必要があります。  
+
+一部のmod(GalacticScale, StationRangeLimiter 等)とは互換性がありません。これらのmodを使用している場合 TrafficLogic は機能しません。  
+
+### Consider Opposite Range `TLConsiderOppositeRange`
+相手の最大輸送距離も考慮されるようになり、双方の最大輸送距離を越えていないと輸送が実行されなくなります。ローカル/リモートすべてのステーションに適用されます。  
+
+### Remote Cluster `TLRemoteCluster`
+ステーションをグループ化し、他のグループや未設定のステーションと切り離します。   
+ステーション名に `[C:name]` という文字列を含めることで `name` のクラスターに属します。 __C:は大文字__ です。  
+クラスターが設定されたステーションは同じクラスターに属するステーションとしか輸送できなくなります。  
+`any` というクラスター名は特別な意味を持ちます。この名前のクラスターは他のすべてのクラスター、および未設定のステーションとやりとりできます。 `any` クラスターで要求を実行すると他クラスターのバランスが崩れる可能性が高いので、供給専用にした方が良いでしょう。  
+例外として __空間歪曲器__ はクラスター設定を無視して輸送されます。  
+
+今のところ直接名前を編集するしか設定方法がありません（ステーションウィンドウの名前をクリックすることで編集できます。これはデフォルトの機能です）。設定UIなどの機能追加をする予定なのでお待ち下さい。
+
+### Local Cluster `TLLocalCluster`
+Remote Cluster と同じ機能です。ローカル輸送に適用されます。設定方法は Remote Cluster とほぼ同じで、ステーション名に `[c:name]` と記述します。 __c:は小文字__ です。
+
+
+
 ## Release Notes
+
+### v0.3.0
+- added key feature that called "TrafficLogic"
+- added TrafficLogic setting `TLConsiderOppositeRange`, `TLRemoteCluster` and `TLLocalCluster`
+- added setting `dropSorterKeyEracesNavi`
 
 ### v0.2.3
 - Rebuild for 0.8.22.9331
+- added setting `actAsStandardPanel` (I forgot to list it)
 
 ### v0.2.2
 
