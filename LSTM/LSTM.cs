@@ -44,7 +44,11 @@ namespace LSTMMod
         public static ConfigEntry<bool> enableTLRemoteCluster;
         public static ConfigEntry<bool> enableTLLocalCluster;
         public static ConfigEntry<bool> enableTLConsiderOppositeRange;
-
+        public static ConfigEntry<bool> enableTLDCBalance;
+        public static ConfigEntry<float> TLDCSupplyMultiplier;
+        public static ConfigEntry<float> TLDCDemandMultiplier;
+        public static ConfigEntry<float> TLDCSupplyDenominator;
+        
         new internal static ManualLogSource Logger;
 
 
@@ -74,6 +78,14 @@ namespace LSTMMod
                "enable TrafficLogic:Local Cluster");
             enableTLConsiderOppositeRange = Config.Bind("TrafficLogic", "TLConsiderOppositeRange", false,
                 "enable TrafficLogic:Consider Opposite Range");
+            enableTLDCBalance = Config.Bind("TrafficLogic", "TLDCBalance", false,
+                "enable TrafficLogic:Remote Distance/Capacity Balance");
+            TLDCSupplyMultiplier = Config.Bind("TrafficLogic", "TLDCSupplyMultiplier", 1f,
+                "enable TrafficLogic:Multiplier for Remote Supply Distance/Capacity Balance (1-100)");
+            TLDCDemandMultiplier = Config.Bind("TrafficLogic", "TLDCDemandMultiplier", 1f,
+                "enable TrafficLogic:Denominator for Remote Demand Distance/Capacity Balance (1-100)");
+            TLDCSupplyDenominator = Config.Bind("TrafficLogic", "TLDCSupplyDenominator", 1f,
+                "enable TrafficLogic:Denominator for Remote Supply Distance/Capacity Balance (1-100)");
 
             new Harmony(__GUID__).PatchAll(typeof(Patch));
             new Harmony(__GUID__).PatchAll(typeof(LSTMStarDistance.Patch));

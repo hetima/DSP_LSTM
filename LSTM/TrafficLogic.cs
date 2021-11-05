@@ -33,6 +33,8 @@ namespace LSTMMod
             double result = sc.tripRangeShips;
             StationComponent demandCmp = gStationPool[supplyDemandPair.demandId];
             StationComponent supplyCmp = gStationPool[supplyDemandPair.supplyId];
+            double demandRange = demandCmp.tripRangeShips;
+            double supplyRange = supplyCmp.tripRangeShips;
 
             if (LSTM.enableTLRemoteCluster.Value)
             {
@@ -47,9 +49,59 @@ namespace LSTMMod
                 }
             }
 
+            //Remote Distance/Capacity Balance
+            if (LSTM.enableTLDCBalance.Value)
+            {
+                float max;
+
+                max = demandCmp.storage[supplyDemandPair.demandIndex].max;
+                if (max >= 2000)
+                {
+                    float multi = LSTM.TLDCDemandMultiplier.Value;
+                    int num = demandCmp.storage[supplyDemandPair.demandIndex].totalSupplyCount;
+                    float rate = num / max;
+                    //demand距離を減らす利点はあるのか?
+                    //if (rate >= 0.7 && div > 1 && div < 100.01f)
+                    //{
+                    //    demandRange /= div;
+                    //}
+                    if (rate < 0.299 && multi > 1.01f && multi < 100.01f)
+                    {
+                        demandRange *= multi;
+                    }
+                }
+
+                max = supplyCmp.storage[supplyDemandPair.supplyIndex].max;
+                if(max >= 2000)
+                {
+                    float multi = LSTM.TLDCSupplyMultiplier.Value;
+                    float div = LSTM.TLDCSupplyDenominator.Value;
+
+                    int num = supplyCmp.storage[supplyDemandPair.supplyIndex].totalSupplyCount;
+                    float rate = num / max;
+                    if (rate >= 0.7 && multi > 1.01f && multi < 100.01f)
+                    {
+                        supplyRange *= multi;
+                    }
+                    else if (rate < 0.301 && div > 1.01f && div < 100.01f)
+                    {
+                        supplyRange /= div;
+                    }
+                }
+
+                if (sc.id == supplyDemandPair.demandId)
+                {
+                    result = demandRange;
+                }
+                else
+                {
+                    result = supplyRange;
+                }
+            }
+
             if (LSTM.enableTLConsiderOppositeRange.Value)
             {
-                result = demandCmp.tripRangeShips >= supplyCmp.tripRangeShips ? supplyCmp.tripRangeShips : demandCmp.tripRangeShips;
+                result = demandRange >= supplyRange ? supplyRange : demandRange;
             }
 
             return result;
