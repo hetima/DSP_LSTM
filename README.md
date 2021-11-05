@@ -139,6 +139,7 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 ## Release Notes
 
+### v0.3.1
 - Added TrafficLogic setting `TLDCBalance`
 - TLConsiderOppositeRange ignores Space Warper
 - Local list will be sorted by items
