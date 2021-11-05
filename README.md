@@ -139,17 +139,18 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 ## Release Notes
 
-- added TrafficLogic setting `TLDCBalance`
+- Added TrafficLogic setting `TLDCBalance`
 - TLConsiderOppositeRange ignores Space Warper
+- Local list will be sorted by items
 
 ### v0.3.0
-- added key feature that called "TrafficLogic"
-- added TrafficLogic setting `TLConsiderOppositeRange`, `TLRemoteCluster` and `TLLocalCluster`
-- added setting `dropSorterKeyEracesNavi`
+- Added key feature that called "TrafficLogic"
+- Added TrafficLogic setting `TLConsiderOppositeRange`, `TLRemoteCluster` and `TLLocalCluster`
+- Added setting `dropSorterKeyEracesNavi`
 
 ### v0.2.3
 - Rebuild for 0.8.22.9331
-- added setting `actAsStandardPanel` (I forgot to list it)
+- Added setting `actAsStandardPanel` (I forgot to list it)
 
 ### v0.2.2
 
