@@ -115,10 +115,10 @@ namespace LSTMMod
             double result = sc.tripRangeDrones;
             StationComponent demandCmp = stationPool[supplyDemandPair.demandId];
             StationComponent supplyCmp = stationPool[supplyDemandPair.supplyId];
+            int itemId = supplyCmp.storage[supplyDemandPair.supplyIndex].itemId;
 
             if (LSTM.enableTLLocalCluster.Value)
             {
-                int itemId = supplyCmp.storage[supplyDemandPair.supplyIndex].itemId;
                 //空間歪曲器は除外
                 if (itemId != 1210)
                 {
@@ -129,7 +129,7 @@ namespace LSTMMod
                 }
             }
 
-            if (LSTM.enableTLConsiderOppositeRange.Value)
+            if (LSTM.enableTLConsiderOppositeRange.Value && itemId != 1210) //空間歪曲器は除外
             {
                 result = demandCmp.tripRangeDrones <= supplyCmp.tripRangeDrones ? supplyCmp.tripRangeDrones : demandCmp.tripRangeDrones;
             }
