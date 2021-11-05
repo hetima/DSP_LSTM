@@ -241,10 +241,18 @@ namespace LSTMMod
 
             SetUpItemList();
             SetUpItemUI();
-
-            _demandList.Sort((a, b) => a.distance - b.distance);
-            _supplyList.Sort((a, b) => a.distance - b.distance);
-            _storageList.Sort((a, b) => a.distance - b.distance);
+            if (!balanceData.isLocal && balanceData.itemId > 0)
+            {
+                _demandList.Sort((a, b) => a.distance - b.distance);
+                _supplyList.Sort((a, b) => a.distance - b.distance);
+                _storageList.Sort((a, b) => a.distance - b.distance);
+            }
+            else
+            {
+                _demandList.Sort((a, b) => a.itemId - b.itemId);
+                _supplyList.Sort((a, b) => a.itemId - b.itemId);
+                _storageList.Sort((a, b) => a.itemId - b.itemId);
+            }
             //貯蔵はsupply側にしておく
             _supplyList.AddRange(_storageList);
             _storageList.Clear();
