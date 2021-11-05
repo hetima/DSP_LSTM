@@ -35,10 +35,10 @@ namespace LSTMMod
             StationComponent supplyCmp = gStationPool[supplyDemandPair.supplyId];
             double demandRange = demandCmp.tripRangeShips;
             double supplyRange = supplyCmp.tripRangeShips;
+            int itemId = supplyCmp.storage[supplyDemandPair.supplyIndex].itemId;
 
             if (LSTM.enableTLRemoteCluster.Value)
             {
-                int itemId = supplyCmp.storage[supplyDemandPair.supplyIndex].itemId;
                 //空間歪曲器は除外
                 if (itemId != 1210)
                 {
@@ -99,7 +99,7 @@ namespace LSTMMod
                 }
             }
 
-            if (LSTM.enableTLConsiderOppositeRange.Value)
+            if (LSTM.enableTLConsiderOppositeRange.Value && itemId != 1210) //空間歪曲器は除外
             {
                 result = demandRange >= supplyRange ? supplyRange : demandRange;
             }
