@@ -83,7 +83,7 @@ namespace LSTMMod
             TLDCSupplyMultiplier = Config.Bind("TrafficLogic", "TLDCSupplyMultiplier", 1f,
                 "enable TrafficLogic:Multiplier for Remote Supply Distance/Capacity Balance (1-100)");
             TLDCDemandMultiplier = Config.Bind("TrafficLogic", "TLDCDemandMultiplier", 1f,
-                "enable TrafficLogic:Denominator for Remote Demand Distance/Capacity Balance (1-100)");
+                "enable TrafficLogic:Multiplier for Remote Demand Distance/Capacity Balance (1-100)");
             TLDCSupplyDenominator = Config.Bind("TrafficLogic", "TLDCSupplyDenominator", 1f,
                 "enable TrafficLogic:Denominator for Remote Supply Distance/Capacity Balance (1-100)");
 

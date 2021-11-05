@@ -47,6 +47,16 @@ This is the same function as Remote Cluster. Applies to local transport. The con
 Remote Cluster and Local Cluster can be configured simultaneously.  
 Example: [C:r01][c:l01]station#1
 
+### Remote Distance/Capacity Balance `TLDCBalance`
+Increase and decrease the maximum transport distance according to the storage ratio.
+In addition to turning the function itself on and off, you also need to set how much you want to change the distance. The value is a number between 1.0 and 100.0.
+
+- `TLDCSupplyMultiplier`: multiply the distance by x while the supply storage is 70%-100%.
+- `TLDCDemandMultiplier`: multiply the distance by x while the demand storage is 0%-30%.
+- `TLDCSupplyDenominator`: divide the distance by x while the supply storage is 0%-30%.
+
+When the value is set to 1, the distance does not change. There is no setting to reduce the demand distance. It does not affect storage with a maximum capacity of less than 2000.
+
 
 ## Configuration
 
@@ -67,7 +77,10 @@ TrafficLogic settings
 |TLConsiderOppositeRange|bool|false|enable TrafficLogic:Consider Opposite Range|
 |TLRemoteCluster|bool|false|enable TrafficLogic:Remote Cluster|
 |TLLocalCluster|bool|false|enable TrafficLogic:Local Cluster|
-
+|TLDCBalance|bool|false|enable TrafficLogic:Remote Distance/Capacity Balance|
+|TLDCSupplyMultiplier|float|1.0|Multiplier for Remote Supply Distance/Capacity Balance (1-100)|
+|TLDCDemandMultiplier|float|1.0|Multiplier for Remote Demand Distance/Capacity Balance (1-100)|
+|TLDCSupplyDenominator|float|1.0|Denominator for Remote Supply Distance/Capacity Balance (1-100)|
 
 ## 説明
 
@@ -112,8 +125,19 @@ Remote Cluster と同じ機能です。ローカル輸送に適用されます�
 Remote Cluster と Local Cluster は同時に設定できます。  
 例：[C:r01][c:l01]station#1
 
+### Remote Distance/Capacity Balance `TLDCBalance`
+貯蔵量に応じて最大輸送距離を増減させます。機能自体のオンオフに加えて、どのくらい距離を変更するか設定する必要があります。値は1.0～100.0の数値です。
+
+- `TLDCSupplyMultiplier`: supply の貯蔵量が 70%-100% の間は距離をx倍に
+- `TLDCDemandMultiplier`: demand の貯蔵量が 0%-30% の間は距離をx倍に
+- `TLDCSupplyDenominator`: supply の貯蔵量が 0%-30% の間は距離を1/x倍に
+
+値を1にすると距離は変化しません。demand の距離を縮める設定はありません。最大貯蔵量が2000未満のストレージには影響しません。
+
 
 ## Release Notes
+
+- added TrafficLogic setting `TLDCBalance`
 
 ### v0.3.0
 - added key feature that called "TrafficLogic"
