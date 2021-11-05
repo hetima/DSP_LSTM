@@ -30,7 +30,8 @@ Change transport behavior. Can be turned on and off individually. Default is all
 __Incompatible__ with some mods (GalacticScale, StationRangeLimiter, etc.). TrafficLogic will not work if you use these mods.
 
 ### Consider Opposite Range `TLConsiderOppositeRange`
-The partner's maximum transport distance will now be calculated too, and the transport will not be executed unless both maximum transport distances are exceeded. Applies to all transport, local and remote.
+The partner's maximum transport distance will now be calculated too, and the transport will not be executed unless both maximum transport distances are exceeded. Applies to all transport, local and remote.  
+As an exception, the __Space Warper__ will be transported ignoring this settings.  
 
 ### Remote Cluster `TLRemoteCluster`
 Groups stations together and separates them from other groups or unconfigured stations.  
@@ -109,6 +110,7 @@ TrafficLogic settings
 
 ### Consider Opposite Range `TLConsiderOppositeRange`
 相手の最大輸送距離も考慮されるようになり、双方の最大輸送距離を越えていないと輸送が実行されなくなります。ローカル/リモートすべてのステーションに適用されます。  
+例外として __空間歪曲器__ はこの設定を無視して輸送されます。 
 
 ### Remote Cluster `TLRemoteCluster`
 ステーションをグループ化し、他のグループや未設定のステーションと切り離します。   
@@ -138,6 +140,7 @@ Remote Cluster と Local Cluster は同時に設定できます。
 ## Release Notes
 
 - added TrafficLogic setting `TLDCBalance`
+- TLConsiderOppositeRange ignores Space Warper
 
 ### v0.3.0
 - added key feature that called "TrafficLogic"
