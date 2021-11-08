@@ -99,6 +99,21 @@ namespace LSTMMod
                 }
             }
 
+            //Remote Demand Delay
+            if (LSTM.enableTLRemoteDemandDelay.Value) {
+                //remote local 両方 demand
+                if (demandCmp.storage[supplyDemandPair.demandIndex].remoteLogic == demandCmp.storage[supplyDemandPair.demandIndex].localLogic)
+                {
+                    float total = demandCmp.storage[supplyDemandPair.demandIndex].totalSupplyCount;
+                    float actual = demandCmp.storage[supplyDemandPair.demandIndex].count;
+                    float max = demandCmp.storage[supplyDemandPair.demandIndex].max;
+                    if (max >= 5000 && total / max >= 0.98 && actual / max >= 0.5 )
+                    {
+                        return 0;
+                    }
+                }
+            }
+
             if (LSTM.enableTLConsiderOppositeRange.Value && itemId != 1210) //空間歪曲器は除外
             {
                 result = demandRange >= supplyRange ? supplyRange : demandRange;
