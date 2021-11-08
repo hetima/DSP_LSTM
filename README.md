@@ -48,7 +48,7 @@ This is the same function as Remote Cluster. Applies to local transport. The con
 Remote Cluster and Local Cluster can be configured simultaneously.  
 Example: [C:r01][c:l01]station#1
 
-### Remote Distance/Capacity Balance `TLDCBalance`
+### Remote Distance/Capacity Balance `TLDCBalance` (New in 0.3.1)
 Increase and decrease the maximum transport distance according to the storage ratio.
 In addition to turning the function itself on and off, you also need to set how much you want to change the distance. The value is a number between 1.0 and 100.0.
 
@@ -56,7 +56,14 @@ In addition to turning the function itself on and off, you also need to set how 
 - `TLDCDemandMultiplier`: multiply the distance by x while the demand storage is 0%-30%.
 - `TLDCSupplyDenominator`: divide the distance by x while the supply storage is 0%-30%.
 
-When the value is set to 1, the distance does not change. There is no setting to reduce the demand distance. It does not affect storage with a maximum capacity of less than 2000.
+When the value is set to 1, the distance does not change. There is no setting to reduce the demand distance. It does not affect storage with a maximum capacity of less than 2,000.
+
+### Remote Demand Delay `TLRemoteDemandDelay` (New in 0.3.2)
+If both local and remote are set to demand, delays the triggering of remote demand.
+This applies to slots with a maximum storage capacity is 5,000 or more.
+Remote demand will not be executed until the total stock (actual stock + the amount in transit) falls below 98%.
+This subtle deviation solves a situation where there is no room for a local demand to occur.
+The system will return to normal operation when the actual stock (excluding the amount in transit) is less than 50%.
 
 
 ## Configuration
@@ -82,6 +89,7 @@ TrafficLogic settings
 |TLDCSupplyMultiplier|float|1.0|Multiplier for Remote Supply Distance/Capacity Balance (1-100)|
 |TLDCDemandMultiplier|float|1.0|Multiplier for Remote Demand Distance/Capacity Balance (1-100)|
 |TLDCSupplyDenominator|float|1.0|Denominator for Remote Supply Distance/Capacity Balance (1-100)|
+|TLRemoteDemandDelay|bool|false|enable TrafficLogic:Remote Demand Delay|
 
 ## 説明
 
@@ -127,17 +135,23 @@ Remote Cluster と同じ機能です。ローカル輸送に適用されます�
 Remote Cluster と Local Cluster は同時に設定できます。  
 例：[C:r01][c:l01]station#1
 
-### Remote Distance/Capacity Balance `TLDCBalance`
+### Remote Distance/Capacity Balance `TLDCBalance` (New in 0.3.1)
 貯蔵量に応じて最大輸送距離を増減させます。機能自体のオンオフに加えて、どのくらい距離を変更するか設定する必要があります。値は1.0～100.0の数値です。
 
 - `TLDCSupplyMultiplier`: supply の貯蔵量が 70%-100% の間は距離をx倍に
 - `TLDCDemandMultiplier`: demand の貯蔵量が 0%-30% の間は距離をx倍に
 - `TLDCSupplyDenominator`: supply の貯蔵量が 0%-30% の間は距離を1/x倍に
 
-値を1にすると距離は変化しません。demand の距離を縮める設定はありません。最大貯蔵量が2000未満のストレージには影響しません。
+値を1にすると距離は変化しません。demand の距離を縮める設定はありません。最大貯蔵量が2,000未満のストレージには影響しません。
+
+### Remote Demand Delay `TLRemoteDemandDelay` (New in 0.3.2)
+ローカル/リモート両方を demand に設定している場合、リモートの発動を遅らせます。最大貯蔵量5,000以上のスロットが対象で、総在庫(実在庫+輸送中の数)が98%を下回るまでリモート輸入を実行しません。これによりローカル側の demand が発生する隙がない状態を回避できます。輸送中の数を除いた実在庫が50%未満になると通常動作に戻ります。
 
 
 ## Release Notes
+
+
+- Added TrafficLogic setting `TLRemoteDemandDelay`
 
 ### v0.3.1
 - Added TrafficLogic setting `TLDCBalance`
