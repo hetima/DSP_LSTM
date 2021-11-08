@@ -63,7 +63,6 @@ If both local and remote are set to demand, delays the triggering of remote dema
 This applies to slots with a maximum storage capacity is 5,000 or more.
 Remote demand will not be executed until the total stock (actual stock + the amount in transit) falls below 98%.
 This subtle deviation solves a situation where there is no room for a local demand to occur.
-The system will return to normal operation when the actual stock (excluding the amount in transit) is less than 50%.
 
 
 ## Configuration
@@ -145,7 +144,7 @@ Remote Cluster と Local Cluster は同時に設定できます。
 値を1にすると距離は変化しません。demand の距離を縮める設定はありません。最大貯蔵量が2,000未満のストレージには影響しません。
 
 ### Remote Demand Delay `TLRemoteDemandDelay` (New in 0.3.2)
-ローカル/リモート両方を demand に設定している場合、リモートの発動を遅らせます。最大貯蔵量5,000以上のスロットが対象で、総在庫(実在庫+輸送中の数)が98%を下回るまでリモート輸入を実行しません。これによりローカル側の demand が発生する隙がない状態を回避できます。輸送中の数を除いた実在庫が50%未満になると通常動作に戻ります。
+ローカル/リモート両方を demand に設定している場合、リモートの発動を遅らせます。最大貯蔵量5,000以上のスロットが対象で、総在庫(実在庫+輸送中の数)が98%を下回るまでリモート輸入を実行しません。これによりローカル側の demand が発生する隙がない状態を回避できます。
 
 
 ## Release Notes

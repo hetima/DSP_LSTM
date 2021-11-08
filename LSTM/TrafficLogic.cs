@@ -105,9 +105,9 @@ namespace LSTMMod
                 if (demandCmp.storage[supplyDemandPair.demandIndex].remoteLogic == demandCmp.storage[supplyDemandPair.demandIndex].localLogic)
                 {
                     float total = demandCmp.storage[supplyDemandPair.demandIndex].totalSupplyCount;
-                    float actual = demandCmp.storage[supplyDemandPair.demandIndex].count;
+                    //float actual = demandCmp.storage[supplyDemandPair.demandIndex].count;
                     float max = demandCmp.storage[supplyDemandPair.demandIndex].max;
-                    if (max >= 5000 && total / max >= 0.98 && actual / max >= 0.5 )
+                    if (max >= 5000 && total / max >= 0.98 )
                     {
                         return 0;
                     }
