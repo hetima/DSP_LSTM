@@ -178,7 +178,7 @@ namespace LSTMMod
 
         public static void OnStarmapButtonClick(int obj)
         {
-            VFAudio.Create("ui-click-0", null, Vector3.zero, true, 2);
+            //VFAudio.Create("ui-click-0", null, Vector3.zero, true, 2);
             PlanetData planet = UIRoot.instance.uiGame.planetDetail.planet;
             if (planet != null)
             {
@@ -189,7 +189,7 @@ namespace LSTMMod
 
         public static void OnStationWinLocateButtonClick(int obj)
         {
-            VFAudio.Create("ui-click-0", null, Vector3.zero, true, 2);
+            //VFAudio.Create("ui-click-0", null, Vector3.zero, true, 2);
             UIStationWindow stationWindow = UIRoot.instance.uiGame.stationWindow;
             StationComponent stationComponent = stationWindow.transport.stationPool[stationWindow.stationId];
             LocateStation(stationComponent, stationWindow.transport.planet.id);
@@ -470,7 +470,7 @@ namespace LSTMMod
             int itemId = productEntry.entryData.itemId;
             if (itemId > 0)
             {
-                VFAudio.Create("ui-click-0", null, Vector3.zero, true, 2);
+                //VFAudio.Create("ui-click-0", null, Vector3.zero, true, 2);
                 LSTM.OpenBalanceWindow(itemId);
             }
         }
@@ -558,12 +558,12 @@ namespace LSTMMod
 
         public void OpenLocalBalance(int obj)
         {
-            VFAudio.Create("ui-click-0", null, Vector3.zero, true, 2);
+            //VFAudio.Create("ui-click-0", null, Vector3.zero, true, 2);
             OpenBalance(true);
         }
         public void OpenRemoteBalance(int obj)
         {
-            VFAudio.Create("ui-click-0", null, Vector3.zero, true, 2);
+            //VFAudio.Create("ui-click-0", null, Vector3.zero, true, 2);
             OpenBalance(false);
         }
 
