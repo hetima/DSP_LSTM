@@ -149,7 +149,8 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 ## Release Notes
 
-
+### v0.3.2
+- Rebuild for 0.8.23.9808
 - Added TrafficLogic setting `TLRemoteDemandDelay`
 
 ### v0.3.1
