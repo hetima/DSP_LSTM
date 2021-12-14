@@ -150,6 +150,7 @@ Remote Cluster と Local Cluster は同時に設定できます。
 ## Release Notes
 
 - `TLConsiderOppositeRange` ignores when the capacity of demand is small
+- Fix `TLDCBalance` wrong demand range
 
 ### v0.3.2
 - Rebuild for 0.8.23.9808

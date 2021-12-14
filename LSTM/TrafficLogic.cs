@@ -89,7 +89,7 @@ namespace LSTMMod
                     }
                 }
 
-                if (sc.id == supplyDemandPair.demandId)
+                if (sc.gid == supplyDemandPair.demandId)
                 {
                     result = demandRange;
                 }
