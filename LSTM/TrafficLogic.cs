@@ -131,7 +131,7 @@ namespace LSTMMod
             StationComponent demandCmp = stationPool[supplyDemandPair.demandId];
             StationComponent supplyCmp = stationPool[supplyDemandPair.supplyId];
             int itemId = supplyCmp.storage[supplyDemandPair.supplyIndex].itemId;
-
+            
             if (LSTM.enableTLLocalCluster.Value)
             {
                 //空間歪曲器は除外
@@ -144,9 +144,13 @@ namespace LSTMMod
                 }
             }
 
-            if (LSTM.enableTLConsiderOppositeRange.Value && itemId != 1210) //空間歪曲器は除外
+            if (LSTM.enableTLConsiderOppositeRange.Value) 
             {
-                result = demandCmp.tripRangeDrones <= supplyCmp.tripRangeDrones ? supplyCmp.tripRangeDrones : demandCmp.tripRangeDrones;
+                //空間歪曲器は除外、 demand 1000未満も除外
+                if (itemId != 1210 && demandCmp.storage[supplyDemandPair.demandIndex].max >= 1000)
+                {
+                    result = demandCmp.tripRangeDrones <= supplyCmp.tripRangeDrones ? supplyCmp.tripRangeDrones : demandCmp.tripRangeDrones;
+                }
             }
 
             return result;

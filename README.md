@@ -31,7 +31,7 @@ __Incompatible__ with some mods (GalacticScale, StationRangeLimiter, etc.). Traf
 
 ### Consider Opposite Range `TLConsiderOppositeRange`
 The partner's maximum transport distance will now be calculated too, and the transport will not be executed unless both maximum transport distances are exceeded. Applies to all transport, local and remote.  
-As an exception, the __Space Warper__ will be transported ignoring this settings.  
+As an exception, remote transports with a maximum demand capacity of less than 1,000 and the __Space Warper__ will be transported ignoring this settings.  
 
 ### Remote Cluster `TLRemoteCluster`
 Groups stations together and separates them from other groups or unconfigured stations.  
@@ -117,7 +117,7 @@ TrafficLogic settings
 
 ### Consider Opposite Range `TLConsiderOppositeRange`
 相手の最大輸送距離も考慮されるようになり、双方の最大輸送距離を越えていないと輸送が実行されなくなります。ローカル/リモートすべてのステーションに適用されます。  
-例外として __空間歪曲器__ はこの設定を無視して輸送されます。 
+例外としてリモート demand の最大貯蔵量が1,000未満の場合と、 __空間歪曲器__ はこの設定を無視して輸送されます。  
 
 ### Remote Cluster `TLRemoteCluster`
 ステーションをグループ化し、他のグループや未設定のステーションと切り離します。   
@@ -148,6 +148,8 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 
 ## Release Notes
+
+- `TLConsiderOppositeRange` ignores when the capacity of demand is small
 
 ### v0.3.2
 - Rebuild for 0.8.23.9808
