@@ -114,9 +114,13 @@ namespace LSTMMod
                 }
             }
 
-            if (LSTM.enableTLConsiderOppositeRange.Value && itemId != 1210) //空間歪曲器は除外
+            if (LSTM.enableTLConsiderOppositeRange.Value)
             {
-                result = demandRange >= supplyRange ? supplyRange : demandRange;
+                //空間歪曲器は除外、 demand 1000未満も除外
+                if (itemId != 1210 && demandCmp.storage[supplyDemandPair.demandIndex].max >= 1000)
+                {
+                    result = demandRange >= supplyRange ? supplyRange : demandRange;
+                }
             }
 
             return result;
@@ -146,8 +150,8 @@ namespace LSTMMod
 
             if (LSTM.enableTLConsiderOppositeRange.Value) 
             {
-                //空間歪曲器は除外、 demand 1000未満も除外
-                if (itemId != 1210 && demandCmp.storage[supplyDemandPair.demandIndex].max >= 1000)
+                //空間歪曲器は除外
+                if (itemId != 1210)
                 {
                     result = demandCmp.tripRangeDrones <= supplyCmp.tripRangeDrones ? supplyCmp.tripRangeDrones : demandCmp.tripRangeDrones;
                 }
