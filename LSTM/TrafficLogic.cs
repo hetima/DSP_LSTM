@@ -50,7 +50,7 @@ namespace LSTMMod
             }
 
             //Remote Distance/Capacity Balance
-            if (LSTM.enableTLDCBalance.Value)
+            if (LSTM.enableTLDCBalance.Value && !LSTM.enableTLSmartTransport.Value)
             {
                 float max;
 
@@ -160,8 +160,152 @@ namespace LSTMMod
             return result;
         }
 
+        //InternalTickRemote で最初にチェックされる remotePairs と同種のペアから在庫が多く距離が近いものを探して配列を入れ替える
+        public static void SmartTransport(StationComponent sc)
+        {
+            if (sc.remotePairCount == 0 || sc.idleShipCount == 0)
+            {
+                return;
+            }
+
+            StationComponent[] gStationPool = UIRoot.instance.uiGame.gameData.galacticTransport.stationPool;
+            int currentProcess = sc.remotePairProcess % sc.remotePairCount;
+            int targetProcess = currentProcess;
+            int currentStarId = sc.planetId / 100;
+            int currentOtherStarId;
+            int currentCount;
+            SupplyDemandPair currentPair = sc.remotePairs[currentProcess];
+            bool isDemand = (sc.gid == currentPair.demandId);
+            //string testLabel = "";
+            if (isDemand)
+            {
+                if(sc.storage[currentPair.demandIndex].remoteDemandCount <= 0)
+                {
+                    return;
+                }
+
+                currentOtherStarId = gStationPool[currentPair.supplyId].planetId / 100;
+                currentCount = gStationPool[currentPair.supplyId].storage[currentPair.supplyIndex].totalSupplyCount;
+                //testLabel = "D";
+            }
+            else
+            {
+                currentOtherStarId = gStationPool[currentPair.demandId].planetId / 100;
+                currentCount = gStationPool[currentPair.demandId].storage[currentPair.demandIndex].totalDemandCount;
+                if (currentCount<=0)
+                {
+                    return;
+                }
+                //testLabel = "S";
+            }
+
+            //check
+            float currentDistance = GetDistanceFactor(currentStarId, currentOtherStarId);
+            if (currentCount >= 2000 && currentCount < 9000)
+            {
+                currentCount = 9000;
+            }
+            float targetScore = currentCount / currentDistance;
+
+            //int testCount=0;
+            //float testDistance=0f;
+
+            for (int i = 0; i < sc.remotePairCount; i++)
+            {
+                if (i == currentProcess)
+                {
+                    continue;
+                }
+                SupplyDemandPair pair = sc.remotePairs[i];
+                //StationComponent otherSc;
+                int otherStarId;
+                int count;
+                if (isDemand)
+                {
+                    if(sc.gid != currentPair.demandId || pair.demandIndex != currentPair.demandIndex)
+                    {
+                        continue;
+                    }
+                    count = gStationPool[pair.supplyId].storage[pair.supplyIndex].totalSupplyCount;
+                    if (count < 1000)
+                    {
+                        continue;
+                    }
+                    otherStarId = gStationPool[pair.supplyId].planetId / 100;
+                }
+                else
+                {
+                    if (sc.gid != currentPair.supplyId || pair.supplyIndex != currentPair.supplyIndex)
+                    {
+                        continue;
+                    }
+                    count = gStationPool[pair.demandId].storage[pair.demandIndex].totalDemandCount;
+                    if (count <= 300)
+                    {
+                        continue;
+                    }
+                    otherStarId = gStationPool[pair.demandId].planetId / 100;
+
+                }
+
+                //計算分からん 実質距離だけで決まりそう
+                float distance = GetDistanceFactor(currentStarId, otherStarId);
+                if (count >= 2000 && count < 9000)
+                {
+                    count = 9000;
+                }
+                float score = count / distance;
+                if (targetScore < score)
+                {
+                    targetScore = score;
+                    targetProcess = i;
+                    //testCount = count;
+                    //testDistance = distance;
+                }
+            }
+
+            //replace
+            if (targetProcess != currentProcess)
+            {
+                SupplyDemandPair targetPair = sc.remotePairs[targetProcess];
+                sc.remotePairs[targetProcess] = sc.remotePairs[currentProcess];
+                sc.remotePairs[currentProcess] = targetPair;
+
+                //LSTM.instance.Log(testLabel + "[" + sc.gid + "] from:" + currentCount + "/" + currentDistance + " to:" + testCount+"/"+ testDistance);
+            }
+        }
+
+        public const float distanceFactor = 0.2f;
+
+        public static float GetDistanceFactor(int starId1, int starId2)
+        {
+            if (starId1 == starId2)
+            {
+                return distanceFactor;
+            }
+            float distance = LSTMStarDistance.StarDistance(starId1, starId2) * distanceFactor;
+            if (distance < 0.5f)
+            {
+                distance = 0.5f;
+            }
+            
+            return distance;
+        }
+
+
         public static class Patch
         {
+            [HarmonyPrefix, HarmonyPatch(typeof(StationComponent), "InternalTickRemote"), HarmonyAfter("dsp.nebula-multiplayer")]
+            public static void StationComponent_InternalTickRemote_Prefix(StationComponent __instance, int timeGene)
+            {
+                if (timeGene == __instance.gene)
+                {
+                    if (LSTM.enableTLSmartTransport.Value)
+                    {
+                        SmartTransport(__instance);
+                    }
+                }
+            }
 
             // StationComponent InternalTickRemote
             // Prefixで完全に置き換えているmod(GalacticScale, StationRangeLimiter 等)とは互換性なし こっちが使えなくなる

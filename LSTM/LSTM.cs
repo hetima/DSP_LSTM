@@ -49,6 +49,8 @@ namespace LSTMMod
         public static ConfigEntry<float> TLDCDemandMultiplier;
         public static ConfigEntry<float> TLDCSupplyDenominator;
         public static ConfigEntry<bool> enableTLRemoteDemandDelay;
+        public static ConfigEntry<bool> enableTLSmartTransport;
+        
 
         new internal static ManualLogSource Logger;
 
@@ -89,6 +91,8 @@ namespace LSTMMod
                 "enable TrafficLogic:Denominator for Remote Supply Distance/Capacity Balance (1-100)");
             enableTLRemoteDemandDelay = Config.Bind("TrafficLogic", "TLRemoteDemandDelay", false,
                 "enable TrafficLogic:Remote Demand Delay");
+            enableTLSmartTransport = Config.Bind("TrafficLogic", "TLSmartTransport", false,
+                "enable TrafficLogic:Smart Transport");
 
             new Harmony(__GUID__).PatchAll(typeof(Patch));
             new Harmony(__GUID__).PatchAll(typeof(LSTMStarDistance.Patch));
