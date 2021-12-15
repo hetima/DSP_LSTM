@@ -29,8 +29,8 @@ Change transport behavior. Can be turned on and off individually. Default is all
 
 __Incompatible__ with some mods (GalacticScale, StationRangeLimiter, etc.). TrafficLogic will not work if you use these mods.
 
-### Smart Transport `TLSmartTransport` (experimental)
-Priority will be given to nearby stations as much as possible. For now, only remote transport is supported.  
+### Smart Transport `TLSmartTransport` (New in 0.3.3 experimental)
+Priority will be given to nearby stations as much as possible. For now, only remote transports is supported.  
 This is a rough implementation, so it may not work as expected. If this is enabled, `TLDCBalance` will be forced disabled because of some incompatibilities. Only this setting can be used with some of the above mods, but using with IntelligentTransport may have unexpected results.
 
 ### Consider Opposite Range `TLConsiderOppositeRange`
@@ -120,7 +120,7 @@ TrafficLogic settings
 
 一部のmod(GalacticScale, StationRangeLimiter 等)とは互換性がありません。これらのmodを使用している場合 TrafficLogic は機能しません。  
 
-### Smart Transport `TLSmartTransport` (experimental)
+### Smart Transport `TLSmartTransport` (New in 0.3.3 experimental)
 なるべく近くのステーションを優先して輸送します。いまのところリモートのみ対応です。  
 雑な実装なので期待通りには動かないかもしれません。これをオンにすると `TLDCBalance` は若干相性が悪いため強制的にオフになります。この設定のみ上記の一部modと併用可能ですが、IntelligentTransport との併用は予期せぬ結果になるかもしれません。
 
@@ -158,6 +158,7 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 ## Release Notes
 
+### v0.3.3
 - Added TrafficLogic setting `TLSmartTransport`
 - `TLConsiderOppositeRange` ignores when the capacity of demand is small
 - Fix `TLDCBalance` wrong demand range
