@@ -158,6 +158,9 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 ## Release Notes
 
+### v0.3.4
+- Support for capacity upgrade in game version 0.9.24
+
 ### v0.3.3
 - Added TrafficLogic setting `TLSmartTransport`
 - `TLConsiderOppositeRange` ignores when the capacity of demand is small
