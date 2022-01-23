@@ -19,7 +19,7 @@ namespace LSTMMod
         public UIBalanceWindow window;
 
 
-        public int stationMaxItemCount = 10000;
+        public int stationMaxItemCount = 0;
 
         public bool isLocal;
         public EStoreType storeType;
@@ -284,14 +284,14 @@ namespace LSTMMod
                 }
             }
 
-                if (stationMaxItemCount == 0)
+            if (stationMaxItemCount == 0)
             {
-                stationMaxItemCount = 10000;
+                stationMaxItemCount = LSTM.RemoteStationMaxItemCount();
             }
-            else if (stationMaxItemCount < 10000)
+            else if (stationMaxItemCount < LSTM.RemoteStationMaxItemCount())
             {
                 RectTransform rect = (RectTransform)maxSlider.gameObject.transform;
-                rect.sizeDelta = new Vector2(rect.sizeDelta.x / (10000f / (float)stationMaxItemCount), rect.sizeDelta.y);
+                rect.sizeDelta = new Vector2(rect.sizeDelta.x / ((float)LSTM.RemoteStationMaxItemCount() / (float)stationMaxItemCount), rect.sizeDelta.y);
             }
             if (useStationName && station != null)
             {
@@ -367,6 +367,10 @@ namespace LSTMMod
                 if (station.isCollector)
                 {
                     shipCount = "[GS]";
+                }
+                else if (station.isVeinCollector)
+                {
+                    shipCount = "[AM]";
                 }
                 else
                 {
@@ -473,7 +477,7 @@ namespace LSTMMod
                 orderValueText.color = orderNoneTextColor;
             }
 
-            if (max >= 10000)
+            if (max >= LSTM.RemoteStationMaxItemCount())
             {
                 maxValueText.text = (max / 1000).ToString() + "k";
             }
@@ -486,7 +490,7 @@ namespace LSTMMod
             max /= divisor;
             totalOrdered /= divisor;
             barMax /= (float)divisor;
-            float barMaxWidth = 200f / (10000f / barMax);
+            float barMaxWidth = 200f / ((float)LSTM.RemoteStationMaxItemCount() / barMax);
             float num2 = (float)count / barMax;
             float num3 = (float)totalOrdered / barMax;
             int num4 = (int)(barMaxWidth * num2 + 0.49f);

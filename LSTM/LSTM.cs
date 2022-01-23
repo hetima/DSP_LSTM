@@ -107,6 +107,10 @@ namespace LSTMMod
         }
 
 
+        public static int RemoteStationMaxItemCount()
+        {
+            return 10000 + GameMain.history.remoteStationExtraStorage;
+        }
 
         public static void OpenBalanceWindow(StationComponent targetStation, int index, bool isLocal, PlanetFactory targetFactory = null)
         {

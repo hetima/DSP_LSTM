@@ -370,7 +370,12 @@ namespace LSTMMod
                                 int maxCount;
 
                                 //factory = GameMain.galaxy.PlanetById(cmp.planetId).factory;
-                                maxCount = cmp.isCollector || !cmp.isStellar ? 5000 : 10000;
+                                maxCount = LSTM.RemoteStationMaxItemCount();
+                                if (cmp.isCollector || !cmp.isStellar)
+                                {
+                                    maxCount /= 2;
+                                }
+
                                 if (cmp.isCollector)
                                 {
                                     if (cmp.storage[j].remoteLogic == ELogisticStorage.Supply)
@@ -393,13 +398,14 @@ namespace LSTMMod
                     }
                 }
 
+                int gasMaxCount = LSTM.RemoteStationMaxItemCount() / 2;
                 foreach (var gasPlanetId in gasSupplyPlanets)
                 {
-                    AddStore(null, 0, gasPlanetId, itemId, 5000, EStoreType.GasStubSupply);
+                    AddStore(null, 0, gasPlanetId, itemId, gasMaxCount, EStoreType.GasStubSupply);
                 }
                 foreach (var gasPlanetId in gasStoragePlanets)
                 {
-                    AddStore(null, 0, gasPlanetId, itemId, 5000, EStoreType.GasStubStorage);
+                    AddStore(null, 0, gasPlanetId, itemId, gasMaxCount, EStoreType.GasStubStorage);
                 }
             }
 
@@ -452,7 +458,11 @@ namespace LSTMMod
                             //{
                             //    maxCount = itemProto2.prefabDesc.stationMaxItemCount;
                             //}
-                            maxCount = cmp.isCollector || !cmp.isStellar ? 5000 : 10000;
+                            maxCount = LSTM.RemoteStationMaxItemCount();
+                            if (cmp.isCollector || !cmp.isStellar)
+                            {
+                                maxCount /= 2;
+                            }
                             AddStore(cmp, j, factory.planetId, cmp.storage[j].itemId, maxCount);
                         }
                     }
