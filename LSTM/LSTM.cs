@@ -303,7 +303,8 @@ namespace LSTMMod
         static class Patch
         {
             internal static bool _initialized = false;
-            internal static GameObject StarmapBtnGO;
+            internal static GameObject starmapBtnGO;
+            internal static GameObject stationWindowControls;
 
             internal static void AddButtonToStationWindow()
             {
@@ -323,7 +324,8 @@ namespace LSTMMod
                     btn.tips.tipText = "Show navigation to this station";
                     btn.tips.corner = 8;
                     btn.tips.offset = new Vector2(0f, 8f);
-                    btn.gameObject.SetActive(true);
+                    stationWindowControls = btn.gameObject;
+                    stationWindowControls.SetActive(true);
                 }
 
                 if (LSTM.showButtonInStationWindow.Value)
@@ -355,8 +357,8 @@ namespace LSTMMod
                     rect.anchoredPosition = new Vector3(-2f, -36f);
                     rect.localScale = Vector3.one;
                     btn.onClick += OnStarmapButtonClick;
-                    StarmapBtnGO = btn.gameObject;
-                    StarmapBtnGO.SetActive(true);
+                    starmapBtnGO = btn.gameObject;
+                    starmapBtnGO.SetActive(true);
                 }
             }
 
@@ -417,6 +419,26 @@ namespace LSTMMod
                 if (__instance.entityPool[id].stationId != 0) //before RemoveStationComponent
                 {
                     _win._Close();
+                }
+            }
+
+            [HarmonyPostfix, HarmonyPatch(typeof(UIStationWindow), "OnStationIdChange")]
+            public static void UIStationWindow_OnStationIdChange_Postfix(UIStationWindow __instance)
+            {
+                if (stationWindowControls != null && __instance.active && __instance.stationId != 0 && __instance.factory != null)
+                {
+                    StationComponent stationComponent = __instance.transport.stationPool[__instance.stationId];
+                    if (stationComponent != null || stationComponent.id == __instance.stationId)
+                    {
+                        if (stationComponent.isVeinCollector)
+                        {
+                            stationWindowControls.SetActive(false);
+                        }
+                        else
+                        {
+                            stationWindowControls.SetActive(true);
+                        }
+                    }
                 }
             }
 
