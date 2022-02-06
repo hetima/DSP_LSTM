@@ -158,6 +158,8 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 
 ## Release Notes
+
+### v0.3.5
 - Added setting `indicatesWarperSign`
 - `TLRemoteDemandDelay` will now be applied to all remote demands
 
