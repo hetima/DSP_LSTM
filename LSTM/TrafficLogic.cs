@@ -102,16 +102,16 @@ namespace LSTMMod
             //Remote Demand Delay
             if (LSTM.enableTLRemoteDemandDelay.Value) {
                 //remote local 両方 demand
-                if (demandCmp.storage[supplyDemandPair.demandIndex].remoteLogic == demandCmp.storage[supplyDemandPair.demandIndex].localLogic)
+                //if (demandCmp.storage[supplyDemandPair.demandIndex].remoteLogic == demandCmp.storage[supplyDemandPair.demandIndex].localLogic){}
+                
+                float total = demandCmp.storage[supplyDemandPair.demandIndex].totalSupplyCount;
+                //float actual = demandCmp.storage[supplyDemandPair.demandIndex].count;
+                float max = demandCmp.storage[supplyDemandPair.demandIndex].max;
+                if (max >= 5000 && total / max >= 0.98 )
                 {
-                    float total = demandCmp.storage[supplyDemandPair.demandIndex].totalSupplyCount;
-                    //float actual = demandCmp.storage[supplyDemandPair.demandIndex].count;
-                    float max = demandCmp.storage[supplyDemandPair.demandIndex].max;
-                    if (max >= 5000 && total / max >= 0.98 )
-                    {
-                        return 0;
-                    }
+                    return 0;
                 }
+                
             }
 
             if (LSTM.enableTLConsiderOppositeRange.Value)

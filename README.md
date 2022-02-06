@@ -63,7 +63,7 @@ In addition to turning the function itself on and off, you also need to set how 
 When the value is set to 1, the distance does not change. There is no setting to reduce the demand distance. It does not affect storage with a maximum capacity of less than 2,000.
 
 ### Remote Demand Delay `TLRemoteDemandDelay` (New in 0.3.2)
-If both local and remote are set to demand, delays the triggering of remote demand.
+Delays the triggering of remote demand.
 This applies to slots with a maximum storage capacity is 5,000 or more.
 Remote demand will not be executed until the total stock (actual stock + the amount in transit) falls below 98%.
 This subtle deviation solves a situation where there is no room for a local demand to occur.
@@ -153,10 +153,11 @@ Remote Cluster と Local Cluster は同時に設定できます。
 値を1にすると距離は変化しません。demand の距離を縮める設定はありません。最大貯蔵量が2,000未満のストレージには影響しません。
 
 ### Remote Demand Delay `TLRemoteDemandDelay` (New in 0.3.2)
-ローカル/リモート両方を demand に設定している場合、リモートの発動を遅らせます。最大貯蔵量5,000以上のスロットが対象で、総在庫(実在庫+輸送中の数)が98%を下回るまでリモート輸入を実行しません。これによりローカル側の demand が発生する隙がない状態を回避できます。
+リモート輸入の発動を遅らせます。最大貯蔵量5,000以上のスロットが対象で、総在庫(実在庫+輸送中の数)が98%を下回るまでリモート輸入を実行しません。これによりローカル側の demand やベルト搬入が発生する隙がない状態を回避できます。
 
 
 ## Release Notes
+- `TLRemoteDemandDelay` will now be applied to all remote demands
 
 ### v0.3.4
 - Support for capacity upgrade in game version 0.9.24
