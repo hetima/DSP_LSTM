@@ -80,6 +80,7 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 |showButtonInStatisticsWindow|bool|false|Add open LSTM button to Statistics Window|
 |actAsStandardPanel|bool|true|true: close with other panels by esc key. false: one more esc needed|
 |dropSorterKeyEracesNavi|bool|false|clear navi line when "Remove Copied Sorter Previews" shortcut is pressed|
+|indicatesWarperSign|bool|false|true: show sign on the list if station has warper|
 
 TrafficLogic settings
 
@@ -157,6 +158,7 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 
 ## Release Notes
+- Added setting `indicatesWarperSign`
 - `TLRemoteDemandDelay` will now be applied to all remote demands
 
 ### v0.3.4

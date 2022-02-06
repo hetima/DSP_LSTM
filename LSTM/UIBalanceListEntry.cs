@@ -351,18 +351,6 @@ namespace LSTMMod
                     return false;
                 }
                 //輸送船
-                int ship;
-                int totalShip;
-                if (isLocal)
-                {
-                    ship = station.idleDroneCount;
-                    totalShip = ship + station.workDroneCount;
-                }
-                else
-                {
-                    ship = station.idleShipCount;
-                    totalShip = ship + station.workShipCount;
-                }
                 string shipCount;
                 if (station.isCollector)
                 {
@@ -374,7 +362,24 @@ namespace LSTMMod
                 }
                 else
                 {
-                    shipCount = ship.ToString() + "/" + totalShip.ToString();
+                    int ship;
+                    int totalShip;
+                    if (isLocal)
+                    {
+                        ship = station.idleDroneCount;
+                        totalShip = ship + station.workDroneCount;
+                        shipCount = ship.ToString() + "/" + totalShip.ToString();
+                    }
+                    else
+                    {
+                        ship = station.idleShipCount;
+                        totalShip = ship + station.workShipCount;
+                        shipCount = ship.ToString() + "/" + totalShip.ToString();
+                        if (LSTM.indicatesWarperSign.Value && station.warperCount > 0)
+                        {
+                            shipCount += "*";
+                        }
+                    }
                 }
                 shipCountText.text = shipCount;
 

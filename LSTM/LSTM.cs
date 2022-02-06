@@ -40,6 +40,7 @@ namespace LSTMMod
         public static ConfigEntry<bool> showButtonInStationWindow;
         public static ConfigEntry<bool> showButtonInStatisticsWindow;
         public static ConfigEntry<bool> actAsStandardPanel;
+        public static ConfigEntry<bool> indicatesWarperSign;
 
         public static ConfigEntry<bool> enableTLRemoteCluster;
         public static ConfigEntry<bool> enableTLLocalCluster;
@@ -74,6 +75,8 @@ namespace LSTMMod
                 "true: close with other panels by esc key. false: one more esc needed");
             dropSorterKeyEracesNavi = Config.Bind("Keyboard Shortcuts", "dropSorterKeyEracesNavi", false,
                 "clear navi line when \"Remove Copied Sorter Previews\" shortcut is pressed");
+            indicatesWarperSign = Config.Bind("Interface", "indicatesWarperSign", false,
+                "show sign on the list if station has warper.");
 
             enableTLRemoteCluster = Config.Bind("TrafficLogic", "TLRemoteCluster", false,
                 "enable TrafficLogic:Remote Cluster");
