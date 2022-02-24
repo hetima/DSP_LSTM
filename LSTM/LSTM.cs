@@ -132,6 +132,17 @@ namespace LSTMMod
             _win.SetUpAndOpen(0, 0, true);
         }
 
+        public static void OpenStationWindow(StationComponent station, int planetId)
+        {
+            if (GameMain.mainPlayer.factory == null || planetId != GameMain.mainPlayer.factory.planetId || station == null)
+            {
+                return;
+            }
+
+            _win.keepOpen = true;
+            GameMain.mainPlayer.controller.actionInspect.SetInspectee(EObjectType.Entity, station.entityId);
+            _win.keepOpen = false;
+        }
 
         public static void LocateStation(StationComponent station, int planetId)
         {

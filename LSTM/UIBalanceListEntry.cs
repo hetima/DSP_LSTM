@@ -262,6 +262,7 @@ namespace LSTMMod
             maxSlider.enabled = false;
             filterBtn.onClick += OnFilterButtonClick;
             locateBtn.onClick += OnLocateButtonClick;
+            locateBtn.onRightClick += OnLocateButtonRightClick;
             locateBtn.gameObject.SetActive(false);
             filterBtn.gameObject.SetActive(false);
         }
@@ -549,10 +550,12 @@ namespace LSTMMod
 
         private void OnLocateButtonClick(int obj)
         {
-
             LSTM.LocateStation(station, planetId);
         }
-
+        private void OnLocateButtonRightClick(int obj)
+        {
+            LSTM.OpenStationWindow(station, planetId);
+        }
         private void OnFilterButtonClick(int obj)
         {
             window.Filter(itemId, 0);
