@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Configuration;
+using Compatibility;
 using HarmonyLib;
 //using System;
 //using System.Text;
@@ -12,7 +13,8 @@ using UnityEngine.EventSystems;
 namespace LSTMMod
 {
 
-    [BepInPlugin(__GUID__, __NAME__, "0.3.5")]
+    [BepInPlugin(__GUID__, __NAME__, "0.3.5.1")]
+    [BepInDependency("dsp.nebula-multiplayer-api", BepInDependency.DependencyFlags.SoftDependency)]
     public class LSTM : BaseUnityPlugin
     {
         public const string __NAME__ = "LSTM";
@@ -97,11 +99,15 @@ namespace LSTMMod
             enableTLSmartTransport = Config.Bind("TrafficLogic", "TLSmartTransport", false,
                 "enable TrafficLogic:Smart Transport");
 
-            new Harmony(__GUID__).PatchAll(typeof(Patch));
-            new Harmony(__GUID__).PatchAll(typeof(LSTMStarDistance.Patch));
-            new Harmony(__GUID__).PatchAll(typeof(MyWindowCtl.Patch));
-            new Harmony(__GUID__).PatchAll(typeof(TrafficLogic.Patch));
+            var harmony = new Harmony(__GUID__);
+            harmony.PatchAll(typeof(Patch));
+            harmony.PatchAll(typeof(LSTMStarDistance.Patch));
+            harmony.PatchAll(typeof(MyWindowCtl.Patch));
+            harmony.PatchAll(typeof(TrafficLogic.Patch));
 
+
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("dsp.nebula-multiplayer-api"))
+                NebulaCompat.Init();
         }
 
         public void Log(string str)

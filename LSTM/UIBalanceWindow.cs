@@ -1,6 +1,7 @@
 ﻿
 using BepInEx;
 using BepInEx.Logging;
+using Compatibility;
 using HarmonyLib;
 using System;
 using System.Text;
@@ -71,6 +72,7 @@ namespace LSTMMod
         public bool isPointEnter;
 
         private bool focusPointEnter;
+        private int stage; // 0:not ready 1:requested 2:ready
 
         public bool isFunctionWindow()
         {
@@ -126,7 +128,7 @@ namespace LSTMMod
             planetResetButton.onClick += OnPlanetResetButtonClick;
             localButton.onClick += OnLocalButtonClick;
             remoteButton.onClick += OnRemoteButtonClick;
-
+            NebulaCompat.OnReceiveData += () => { stage = 2; SetUpData(); };
         }
 
         protected override void _OnUnregEvent()
@@ -148,6 +150,7 @@ namespace LSTMMod
             supplyListView.Clear();
             demandListView.Clear();
             isPointEnter = false;
+            stage = 0;
         }
 
         protected override void _OnUpdate()
@@ -220,6 +223,11 @@ namespace LSTMMod
 
         public void SwitchToGlobal()
         {
+            if (NebulaCompat.IsClient)
+            {
+                stage = 1;
+                NebulaCompat.SendRequest();
+            }
             if (!balanceData.isLocal)
             {
                 return;
@@ -337,6 +345,17 @@ namespace LSTMMod
             {
                 int itemId = balanceData.itemId;
                 int planetId = balanceData.planetId;
+
+                if (NebulaCompat.IsClient && stage < 2)
+                {
+                    if (stage == 0)
+                    {
+                        NebulaCompat.SendRequest();
+                        stage = 1;
+                    }
+                    return;
+                }
+
                 //itemId なし
                 if (itemId <= 0)
                 {
@@ -359,10 +378,6 @@ namespace LSTMMod
                     {
                         StationComponent cmp = stationPool[i];
                         int length = cmp.storage.Length;
-                        if (length > 5)
-                        {
-                            length -= 1;
-                        }
                         for (int j = 0; j < length; j++)
                         {
                             if(cmp.storage[j].itemId == itemId)
@@ -421,6 +436,7 @@ namespace LSTMMod
                 factory = GameMain.galaxy.PlanetById(planetId).factory;
                 if (factory == null)
                 {
+                    AddFromGalacticTransport(planetId, itemId, isLocal);
                     return;
                 }
             }
@@ -429,6 +445,7 @@ namespace LSTMMod
                 factory = GameMain.localPlanet?.factory;
                 if (factory == null)
                 {
+                    AddFromGalacticTransport(GameMain.localPlanet?.id ?? 0, itemId, isLocal);
                     return;
                 }
                 tmpPlanetId = GameMain.localPlanet.id;
@@ -444,10 +461,6 @@ namespace LSTMMod
                     StationComponent cmp = stationPool[i];
 
                     int length = cmp.storage.Length;
-                    if (length > 5)
-                    {
-                        length -= 1;
-                    }
                     for (int j = 0; j < length; j++)
                     {
                         if ((itemId <= 0 && cmp.storage[j].itemId > 0) || (itemId > 0 && cmp.storage[j].itemId == itemId))
@@ -470,6 +483,36 @@ namespace LSTMMod
             }
         }
 
+        public void AddFromGalacticTransport(int planetId, int itemId, bool isLocal)
+        {
+            if (isLocal)
+                return;
+
+            StationComponent[] stationPool = UIRoot.instance.uiGame.gameData.galacticTransport.stationPool;
+            int cursor = GameMain.data.galacticTransport.stationCursor;
+            for (int i = 1; i < cursor; i++)
+            {
+                if (stationPool[i] != null && stationPool[i].planetId == planetId)
+                {
+                    StationComponent cmp = stationPool[i];
+
+                    int length = cmp.storage.Length;
+                    for (int j = 0; j < length; j++)
+                    {
+                        if ((itemId <= 0 && cmp.storage[j].itemId > 0) || (itemId > 0 && cmp.storage[j].itemId == itemId))
+                        {
+                            int maxCount;
+                            maxCount = LSTM.RemoteStationMaxItemCount();
+                            if (cmp.isCollector || !cmp.isStellar)
+                            {
+                                maxCount /= 2;
+                            }
+                            AddStore(cmp, j, planetId, cmp.storage[j].itemId, maxCount);
+                        }
+                    }
+                }
+            }
+        }
 
 
         internal List<BalanceListData> _demandList = new List<BalanceListData>(200);
