@@ -41,6 +41,7 @@ namespace LSTMMod
         public static ConfigEntry<bool> showButtonInStatisticsWindow;
         public static ConfigEntry<bool> actAsStandardPanel;
         public static ConfigEntry<bool> indicatesWarperSign;
+        public static ConfigEntry<bool> reactClosePanelKeyE;
 
         public static ConfigEntry<bool> enableTLRemoteCluster;
         public static ConfigEntry<bool> enableTLLocalCluster;
@@ -77,6 +78,8 @@ namespace LSTMMod
                 "clear navi line when \"Remove Copied Sorter Previews\" shortcut is pressed");
             indicatesWarperSign = Config.Bind("Interface", "indicatesWarperSign", false,
                 "show sign on the list if station has warper.");
+            reactClosePanelKeyE = Config.Bind("Keyboard Shortcuts", "reactClosePanelKeyE", true,
+                "close window when close panel key(E) is pressed.");
 
             enableTLRemoteCluster = Config.Bind("TrafficLogic", "TLRemoteCluster", false,
                 "enable TrafficLogic:Remote Cluster");
@@ -310,6 +313,13 @@ namespace LSTMMod
             if (mainWindowHotkey.Value.IsDown())
             {
                 ToggleBalanceWindow();
+            }
+            else if (reactClosePanelKeyE.Value && VFInput._closePanelE && !VFInput.inputing)
+            {
+                if (_win.active)
+                {
+                    _win._Close();
+                }
             }
         }
 
