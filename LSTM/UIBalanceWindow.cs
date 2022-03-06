@@ -45,7 +45,7 @@ namespace LSTMMod
         public int maxCount;
         public int distance;
         public bool isLocal;
-        public bool useStationName;
+        //public bool useStationName;
         public EStoreType storeType;
     }
 
@@ -161,6 +161,10 @@ namespace LSTMMod
             if (_eventLock)
             {
                 return;
+            }
+
+            if (LSTM.switchDisplayMode.Value.IsDown() && !VFInput.inputing)
+            {
             }
 
             if (_demandList.Count>0)
@@ -532,7 +536,7 @@ namespace LSTMMod
                 itemId = itemId,
                 maxCount = maxCount,
                 isLocal = balanceData.isLocal,
-                useStationName = useStationName,
+                //useStationName = useStationName,
                 distance = distance,
                 storeType = storeType,
             };

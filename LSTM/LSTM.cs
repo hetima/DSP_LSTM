@@ -35,6 +35,7 @@ namespace LSTMMod
         public static LSTMNavi navi = null;
         public static UIBalanceWindow _win;
         public static ConfigEntry<KeyboardShortcut> mainWindowHotkey;
+        public static ConfigEntry<KeyboardShortcut> switchDisplayMode;
 
         public static ConfigEntry<bool> dropSorterKeyEracesNavi;
         public static ConfigEntry<bool> showButtonInStationWindow;
@@ -68,6 +69,8 @@ namespace LSTMMod
 
             mainWindowHotkey = Config.Bind("Keyboard Shortcuts", "mainWindowHotkey", KeyboardShortcut.Deserialize("T + LeftControl"),
                 "Hotkey to open/close LSTM window");
+            switchDisplayMode = Config.Bind("Keyboard Shortcuts", "switchDisplayMode", KeyboardShortcut.Deserialize("Tab"),
+                "Hotkey to switch display mode of LSTM window");
             showButtonInStationWindow = Config.Bind("Interface", "showButtonInStationWindow", true,
                 "Add open LSTM button to Station Window (needs restart)");
             showButtonInStatisticsWindow = Config.Bind("Interface", "showButtonInStatisticsWindow", false,
