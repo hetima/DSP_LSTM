@@ -45,6 +45,9 @@ namespace LSTMMod
         [SerializeField]
         public Image orderBar;
 
+        [SerializeField]
+        public Image locateImage;
+
         [Header("Colors & Settings")]
         [SerializeField]
         public Color supplyColor;
@@ -69,6 +72,12 @@ namespace LSTMMod
 
         [SerializeField]
         public Color orderNoneTextColor;
+
+        [SerializeField]
+        public Color locateImageColor;
+
+        [SerializeField]
+        public Color locateImageColorLocal;
 
         [SerializeField]
         public Image itemImage;
@@ -160,8 +169,12 @@ namespace LSTMMod
                 btn.tips.offset = new Vector2(18f, -20f);
                 btn.gameObject.SetActive(false);
                 prefab.locateBtn = btn;
+
+                prefab.locateImage = btn.gameObject.transform.Find("icon")?.GetComponent<Image>();
+                prefab.locateImageColor = new Color(0.8f, 0.8f, 0.8f, 0.55f);
+                prefab.locateImageColorLocal = new Color(0.3821f, 0.8455f, 1f, 0.55f);
             }
-            
+
             //filter button
             Sprite sprite = Util.LoadSpriteResource("ui/textures/sprites/icons/filter-icon");
             btn = Util.MakeIconButtonB(sprite, 22);
@@ -282,6 +295,15 @@ namespace LSTMMod
                 if (itemProto != null)
                 {
                     itemImage.sprite = itemProto.iconSprite;
+                }
+                int local = GameMain.localPlanet != null ? GameMain.localPlanet.id : 0;
+                if (local == planetId)
+                {
+                    locateImage.color = locateImageColorLocal;
+                }
+                else
+                {
+                    locateImage.color = locateImageColor;
                 }
             }
 
