@@ -310,11 +310,16 @@ namespace LSTMMod
             {
                 return;
             }
+
+            if (VFInput.inputing)
+            {
+                return;
+            }
             if (mainWindowHotkey.Value.IsDown())
             {
                 ToggleBalanceWindow();
             }
-            else if (reactClosePanelKeyE.Value && VFInput._closePanelE && !VFInput.inputing)
+            else if (reactClosePanelKeyE.Value && VFInput._closePanelE)
             {
                 if (_win.active)
                 {

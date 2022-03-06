@@ -115,7 +115,7 @@ namespace LSTMMod
             }
             else
             {
-                if (LSTM.dropSorterKeyEracesNavi.Value && VFInput._cancelTemplateInserter.onDown)
+                if (LSTM.dropSorterKeyEracesNavi.Value && VFInput._cancelTemplateInserter.onDown && !VFInput.inputing)
                 {
                     Disable();
                 }

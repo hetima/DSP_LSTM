@@ -153,7 +153,7 @@ namespace LSTMMod
         protected override void _OnUpdate()
         {
 
-            if (VFInput.escape && !UIRoot.instance.uiGame.starmap.active)
+            if (VFInput.escape && !UIRoot.instance.uiGame.starmap.active && !VFInput.inputing)
             {
                 VFInput.UseEscape();
                 base._Close();
