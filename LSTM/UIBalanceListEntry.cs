@@ -15,6 +15,14 @@ namespace LSTMMod
         public int index;
         public int itemId;
         public int planetId;
+        public string stationName
+        {
+            get
+            {
+                string text = string.IsNullOrEmpty(station.name) ? (station.isStellar ? ("星际站点号".Translate() + station.gid.ToString()) : ("本地站点号".Translate() + station.id.ToString())) : station.name;
+                return text;
+            }
+        }
 
         public UIBalanceWindow window;
 
@@ -316,17 +324,23 @@ namespace LSTMMod
                 RectTransform rect = (RectTransform)maxSlider.gameObject.transform;
                 rect.sizeDelta = new Vector2(rect.sizeDelta.x / ((float)LSTM.RemoteStationMaxItemCount() / (float)stationMaxItemCount), rect.sizeDelta.y);
             }
+
+            SetUpNameText(useStationName);
+
+        }
+
+        public void SetUpNameText(bool useStationName)
+        {
             if (useStationName && station != null)
             {
-                string text = string.IsNullOrEmpty(station.name) ? (station.isStellar ? ("星际站点号".Translate() + station.gid.ToString()) : ("本地站点号".Translate() + station.id.ToString())) : station.name;
-                nameText.text = text;
+                nameText.text = stationName;
             }
             else
             {
                 //int starId = planetId / 100;
                 string distStr;
                 float d = LSTMStarDistance.StarDistanceFromHere(planetId / 100);
-                if (d>0)
+                if (d > 0)
                 {
                     distStr = string.Format("   ({0:F1}ly)", d);
                 }
@@ -337,11 +351,13 @@ namespace LSTMMod
                 PlanetData planet = GameMain.galaxy.PlanetById(planetId);
                 if (planet != null)
                 {
-                    nameText.text = planet?.displayName + distStr;
+                    nameText.text = planet.displayName + distStr;
                 }
-
+                else
+                {
+                    nameText.text = distStr;
+                }
             }
-
         }
 
 
