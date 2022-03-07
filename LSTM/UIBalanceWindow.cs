@@ -43,7 +43,7 @@ namespace LSTMMod
         public int planetId;
         public int itemId;
         public int maxCount;
-        public int distance;
+        public int distanceForSort;
         public bool isLocal;
         //public bool useStationName;
         public EStoreType storeType;
@@ -247,9 +247,9 @@ namespace LSTMMod
             SetUpItemUI();
             if (!balanceData.isLocal && balanceData.itemId > 0)
             {
-                _demandList.Sort((a, b) => a.distance - b.distance);
-                _supplyList.Sort((a, b) => a.distance - b.distance);
-                _storageList.Sort((a, b) => a.distance - b.distance);
+                _demandList.Sort((a, b) => a.distanceForSort - b.distanceForSort);
+                _supplyList.Sort((a, b) => a.distanceForSort - b.distanceForSort);
+                _storageList.Sort((a, b) => a.distanceForSort - b.distanceForSort);
             }
             else
             {
@@ -487,11 +487,11 @@ namespace LSTMMod
         {
             List<BalanceListData> list;
             
-            int distance;
+            int distanceForSort;
             if (storeType== EStoreType.Gas)
             {
                 list = _gasList;
-                distance = 0;
+                distanceForSort = 0;
             }
             else
             {
@@ -525,8 +525,20 @@ namespace LSTMMod
                     }
                 }
 
-                float distancef = LSTMStarDistance.StarDistanceFromHere(planetId / 100);
-                distance = (int)(distancef * 100);
+                int localPlanetId = GameMain.localPlanet != null ? GameMain.localPlanet.id : 0;
+                if (localPlanetId == planetId)
+                {
+                    distanceForSort = 0;
+                }
+                else if (localPlanetId / 100 == planetId / 100)
+                {
+                    distanceForSort = planetId % 100;
+                }
+                else
+                {
+                    float distancef = LSTMStarDistance.StarDistanceFromHere(planetId / 100);
+                    distanceForSort = (int)(distancef * 100);
+                }
             }
             BalanceListData d = new BalanceListData()
             {
@@ -537,7 +549,7 @@ namespace LSTMMod
                 maxCount = maxCount,
                 isLocal = balanceData.isLocal,
                 //useStationName = useStationName,
-                distance = distance,
+                distanceForSort = distanceForSort,
                 storeType = storeType,
             };
             list.Add(d);
