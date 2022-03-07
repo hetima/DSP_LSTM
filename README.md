@@ -6,10 +6,11 @@ Lists the supply and demand balance of the Logistics Station by item and by plan
 
 - Show overall status for each item
 - Show the status of all stations on specific planet
-- Improve transport behavior (New in 0.3)
+- Improve transport behavior
 
 - Display the target planet in the starmap (Universe Exploration lv4 is required)
-- Display navigation of the target station location.
+- Display navigation of the target station location
+- Open station window directly (right-click locate button)(only current local planet) (New in 0.3.6)
 
 How to open a window
 - from keyboard shortcut (default is LCtrl+T)
@@ -24,12 +25,12 @@ Compatibility with other mods has not yet been checked.
 
 ![screen shot](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen.jpg)
 
-## TrafficLogic (New in 0.3)
+## TrafficLogic
 Change transport behavior. Can be turned on and off individually. Default is all off. It must be turned on in the configuration file to be used.  
 
 __Incompatible__ with some mods (GalacticScale, StationRangeLimiter, etc.). TrafficLogic will not work if you use these mods.
 
-### Smart Transport `TLSmartTransport` (New in 0.3.3 experimental)
+### Smart Transport `TLSmartTransport` (experimental)
 Priority will be given to nearby stations as much as possible. For now, only remote transports is supported.  
 This is a rough implementation, so it may not work as expected. If this is enabled, `TLDCBalance` will be forced disabled because of some incompatibilities. Only this setting can be used with some of the above mods, but using with IntelligentTransport may have unexpected results.
 
@@ -52,7 +53,7 @@ This is the same function as Remote Cluster. Applies to local transport. The con
 Remote Cluster and Local Cluster can be configured simultaneously.  
 Example: [C:r01][c:l01]station#1
 
-### Remote Distance/Capacity Balance `TLDCBalance` (New in 0.3.1)
+### Remote Distance/Capacity Balance `TLDCBalance`
 Increase and decrease the maximum transport distance according to the storage ratio.
 In addition to turning the function itself on and off, you also need to set how much you want to change the distance. The value is a number between 1.0 and 100.0.
 
@@ -62,7 +63,7 @@ In addition to turning the function itself on and off, you also need to set how 
 
 When the value is set to 1, the distance does not change. There is no setting to reduce the demand distance. It does not affect storage with a maximum capacity of less than 2,000.
 
-### Remote Demand Delay `TLRemoteDemandDelay` (New in 0.3.2)
+### Remote Demand Delay `TLRemoteDemandDelay`
 Delays the triggering of remote demand.
 This applies to slots with a maximum storage capacity is 5,000 or more.
 Remote demand will not be executed until the total stock (actual stock + the amount in transit) falls below 98%.
@@ -76,11 +77,13 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 |Key|Type|Default|Description|
 |---|---|---|---|
 |mainWindowHotkey|shortcut|LCtrl+T|Hotkey to open/close LSTM window|
+|switchDisplayModeHotkey|shortcut|Tab|Hotkey to switch display mode of LSTM window (New in 0.3.6)|
 |showButtonInStationWindow|bool|true|Add open LSTM button to Station Window|
 |showButtonInStatisticsWindow|bool|false|Add open LSTM button to Statistics Window|
 |actAsStandardPanel|bool|true|true: close with other panels by esc key. false: one more esc needed|
 |dropSorterKeyEracesNavi|bool|false|clear navi line when "Remove Copied Sorter Previews" shortcut is pressed|
 |indicatesWarperSign|bool|false|true: show sign on the list if station has warper|
+|reactClosePanelKeyE|bool|true|true: close window when close panel key(E) is pressed (New in 0.3.6)|
 
 TrafficLogic settings
 
@@ -102,10 +105,11 @@ TrafficLogic settings
 
 - アイテムごとに全体の状況を表示
 - 惑星内の全ステーションの状況を表示
-- 輸送ロジックの改良 (New in 0.3)
+- 輸送ロジックの改良
 
 - 対象の惑星を星間ビューで表示(宇宙探査レベル4が必要)
 - 対象のステーションの場所をナビ表示
+- ステーションウィンドウを開く(ナビボタンを右クリック)(現在の惑星のみ対象) (New in 0.3.6)
 
 ウィンドウの開き方
 - キーボードショートカット(デフォルトは LCtrl+T)
@@ -116,12 +120,12 @@ TrafficLogic settings
 キーボードショートカットで開くときに、マウスポインタ上にアイテム情報を見つけたらそのアイテムでフィルタ表示します（インベントリ、ストレージ、合成機、統計パネル、その他のアイコンが表示されている場所）
 
 
-## TrafficLogic (New in 0.3)
+## TrafficLogic
 輸送の挙動を変更します。個別に設定でオンオフできます。デフォルトはすべてオフです。使用するには設定ファイルでオンにする必要があります。  
 
 一部のmod(GalacticScale, StationRangeLimiter 等)とは互換性がありません。これらのmodを使用している場合 TrafficLogic は機能しません。  
 
-### Smart Transport `TLSmartTransport` (New in 0.3.3 experimental)
+### Smart Transport `TLSmartTransport` (experimental)
 なるべく近くのステーションを優先して輸送します。いまのところリモートのみ対応です。  
 雑な実装なので期待通りには動かないかもしれません。これをオンにすると `TLDCBalance` は若干相性が悪いため強制的にオフになります。この設定のみ上記の一部modと併用可能ですが、IntelligentTransport との併用は予期せぬ結果になるかもしれません。
 
@@ -144,7 +148,7 @@ Remote Cluster と同じ機能です。ローカル輸送に適用されます�
 Remote Cluster と Local Cluster は同時に設定できます。  
 例：[C:r01][c:l01]station#1
 
-### Remote Distance/Capacity Balance `TLDCBalance` (New in 0.3.1)
+### Remote Distance/Capacity Balance `TLDCBalance`
 貯蔵量に応じて最大輸送距離を増減させます。機能自体のオンオフに加えて、どのくらい距離を変更するか設定する必要があります。値は1.0～100.0の数値です。
 
 - `TLDCSupplyMultiplier`: supply の貯蔵量が 70%-100% の間は距離をx倍に
@@ -153,11 +157,17 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 値を1にすると距離は変化しません。demand の距離を縮める設定はありません。最大貯蔵量が2,000未満のストレージには影響しません。
 
-### Remote Demand Delay `TLRemoteDemandDelay` (New in 0.3.2)
+### Remote Demand Delay `TLRemoteDemandDelay`
 リモート輸入の発動を遅らせます。最大貯蔵量5,000以上のスロットが対象で、総在庫(実在庫+輸送中の数)が98%を下回るまでリモート輸入を実行しません。これによりローカル側の demand やベルト搬入が発生する隙がない状態を回避できます。
 
 
 ## Release Notes
+
+### v0.3.6
+- Right-click locate button to open the station window (only current local planet).
+- add config `reactClosePanelKeyE` close window when close panel key(E) is pressed. default is true.
+- Press Tab to switch between planet name and station name (add config `switchDisplayModeHotkey` for customize this)
+
 
 ### v0.3.5
 - Added setting `indicatesWarperSign`
