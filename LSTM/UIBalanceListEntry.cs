@@ -15,7 +15,7 @@ namespace LSTMMod
         public int index;
         public int itemId;
         public int planetId;
-        public string stationName
+        public string StationName
         {
             get
             {
@@ -23,7 +23,7 @@ namespace LSTMMod
                 return text;
             }
         }
-
+        public bool nameDirty;
         public UIBalanceWindow window;
 
 
@@ -290,6 +290,7 @@ namespace LSTMMod
 
         public void SetUpValues(bool useStationName)
         {
+            nameDirty = false;
 
             if (storeType == EStoreType.GasStubStorage || storeType == EStoreType.GasStubSupply)
             {
@@ -331,14 +332,16 @@ namespace LSTMMod
 
         public void SetUpNameText(bool useStationName)
         {
-            if (useStationName && station != null)
+            //int starId = planetId / 100;
+            int localPlanetId = GameMain.localPlanet != null ? GameMain.localPlanet.id : 0;
+            string distStr;
+
+            if (localPlanetId == planetId)
             {
-                nameText.text = stationName;
+                distStr = "";
             }
             else
             {
-                //int starId = planetId / 100;
-                string distStr;
                 float d = LSTMStarDistance.StarDistanceFromHere(planetId / 100);
                 if (d > 0)
                 {
@@ -346,8 +349,17 @@ namespace LSTMMod
                 }
                 else
                 {
-                    distStr = "";
+                    //same star system
+                    distStr = "   (near)";
                 }
+            }
+
+            if (useStationName && station != null)
+            {
+                nameText.text = StationName + distStr;
+            }
+            else
+            {
                 PlanetData planet = GameMain.galaxy.PlanetById(planetId);
                 if (planet != null)
                 {
@@ -363,6 +375,12 @@ namespace LSTMMod
 
         public bool RefreshValues(bool shown, bool onlyNewlyEmerged = false)
         {
+            if (nameDirty)
+            {
+                nameDirty = false;
+                SetUpNameText(window.UseStationName);
+            }
+
             if (shown != gameObject.activeSelf)
             {
                 gameObject.SetActive(shown);

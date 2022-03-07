@@ -29,6 +29,12 @@ namespace LSTMMod
             isLocal = _isLocal;
         }
     }
+
+    public struct DisplayMode
+    {
+        public bool useStationName;
+    }
+
     public enum EStoreType
     {
         Normal,
@@ -58,7 +64,21 @@ namespace LSTMMod
         public BalanceData balanceData;
 
         public int tmpPlanetId;
-        bool useStationName;
+        bool _useStationNameFallback;
+        public bool UseStationName
+        {
+            get
+            {
+                if (displayModes[currentDisplayMode].useStationName)
+                {
+                    return true;
+                }
+                return _useStationNameFallback;
+            }
+        }
+
+        internal DisplayMode[] displayModes;
+        internal int currentDisplayMode;
 
         public int totalSupplyCount;
         public int totalSupplyCapacity;
@@ -100,6 +120,10 @@ namespace LSTMMod
             windowTrans = MyWindowCtl.GetRectTransform(this);
             windowTrans.sizeDelta = new Vector2(700, 640);
             balanceData = new BalanceData(0, 0, false);
+            displayModes = new DisplayMode[2];
+            displayModes[0].useStationName = false;
+            displayModes[1].useStationName = true;
+            currentDisplayMode = 0;
             CreateListViews();
             CreateUI();
         }
@@ -163,8 +187,10 @@ namespace LSTMMod
                 return;
             }
 
+            //デフォルトだとスプリッターの形変更などと被るけど、LSTM出したまま建築することもないだろうからとりあえず無視
             if (LSTM.switchDisplayMode.Value.IsDown() && !VFInput.inputing)
             {
+                SwitchDisplayMode();
             }
 
             if (_demandList.Count>0)
@@ -230,6 +256,33 @@ namespace LSTMMod
             }
             balanceData = new BalanceData(balanceData.itemId, balanceData.planetId, !balanceData.isLocal);
             SetUpData();
+        }
+
+        public void SwitchDisplayMode()
+        {
+            DisplayMode currentMode = displayModes[currentDisplayMode];
+            currentDisplayMode++;
+            currentDisplayMode %= displayModes.Length;
+            DisplayMode newMode = displayModes[currentDisplayMode];
+            if (currentMode.useStationName != newMode.useStationName)
+            {
+                for (int i = 0; i < demandListView.ItemCount; i++)
+                {
+                    UIBalanceListEntry e = demandListView.GetItem<UIBalanceListEntry>(i);
+                    if (e != null && e.itemId > 0)
+                    {
+                        e.nameDirty = true;
+                    }
+                }
+                for (int i = 0; i < supplyListView.ItemCount; i++)
+                {
+                    UIBalanceListEntry e = supplyListView.GetItem<UIBalanceListEntry>(i);
+                    if (e != null && e.itemId > 0)
+                    {
+                        e.nameDirty = true;
+                    }
+                }
+            }
         }
 
         public void SetUpData()
@@ -332,7 +385,7 @@ namespace LSTMMod
 
         internal void SetUpItemList()
         {
-            useStationName = false;
+            _useStationNameFallback = false;
             if (balanceData.isLocal)
             {
                 AddFromPlanet(balanceData.planetId, balanceData.itemId, balanceData.isLocal);
@@ -417,7 +470,7 @@ namespace LSTMMod
 
         public void AddFromPlanet(int planetId, int itemId, bool isLocal)
         {
-            useStationName = true;
+            _useStationNameFallback = true;
 
             PlanetFactory factory = null;
             if (planetId != 0)
@@ -581,7 +634,7 @@ namespace LSTMMod
                 e.isLocal = balanceData.isLocal;
                 e.stationMaxItemCount = d.maxCount;
                 e.storeType = d.storeType;
-                e.SetUpValues(useStationName);
+                e.SetUpValues(UseStationName);
 
             }
             return count;
