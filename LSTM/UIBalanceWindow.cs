@@ -188,7 +188,7 @@ namespace LSTMMod
             }
 
             //デフォルトだとスプリッターの形変更などと被るけど、LSTM出したまま建築することもないだろうからとりあえず無視
-            if (LSTM.switchDisplayMode.Value.IsDown() && !VFInput.inputing)
+            if (LSTM.switchDisplayModeHotkey.Value.IsDown() && !VFInput.inputing)
             {
                 SwitchDisplayMode();
             }
