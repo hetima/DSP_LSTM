@@ -478,6 +478,7 @@ namespace LSTMMod
                 factory = GameMain.galaxy.PlanetById(planetId).factory;
                 if (factory == null)
                 {
+                    AddFromPlanetFailedGetFactory(planetId, itemId, isLocal);
                     return;
                 }
             }
@@ -486,6 +487,7 @@ namespace LSTMMod
                 factory = GameMain.localPlanet?.factory;
                 if (factory == null)
                 {
+                    AddFromPlanetFailedGetFactory(planetId, itemId, isLocal);
                     return;
                 }
                 tmpPlanetId = GameMain.localPlanet.id;
@@ -526,6 +528,11 @@ namespace LSTMMod
                     }
                 }
             }
+        }
+
+        public void AddFromPlanetFailedGetFactory(int planetId, int itemId, bool isLocal)
+        {
+            //nothing to do
         }
 
 
