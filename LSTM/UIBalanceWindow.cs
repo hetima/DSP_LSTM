@@ -416,10 +416,10 @@ namespace LSTMMod
                     {
                         StationComponent cmp = stationPool[i];
                         int length = cmp.storage.Length;
-                        if (length > 5)
-                        {
-                            length -= 1;
-                        }
+                        //if (length == 6)
+                        //{
+                        //    length -= 1;
+                        //}
                         for (int j = 0; j < length; j++)
                         {
                             if(cmp.storage[j].itemId == itemId)
@@ -501,10 +501,11 @@ namespace LSTMMod
                     StationComponent cmp = stationPool[i];
 
                     int length = cmp.storage.Length;
-                    if (length > 5)
-                    {
-                        length -= 1;
-                    }
+                    //warperスロットが存在するかと思ってたけどないっぽい
+                    //if (length == 6)
+                    //{
+                    //    length -= 1;
+                    //}
                     for (int j = 0; j < length; j++)
                     {
                         if ((itemId <= 0 && cmp.storage[j].itemId > 0) || (itemId > 0 && cmp.storage[j].itemId == itemId))
