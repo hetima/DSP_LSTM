@@ -179,7 +179,7 @@ namespace LSTMMod
             var bg = btn.gameObject.transform.Find("bg");
             if (bg != null) bg.gameObject.SetActive(false);
             var sd = btn.gameObject.transform.Find("sd");
-            if (sd != null) bg.gameObject.SetActive(false);
+            if (sd != null) sd.gameObject.SetActive(false);
 
             var icon = btn.gameObject.transform.Find("icon");
             if (sprite != null && icon != null)
