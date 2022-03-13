@@ -78,6 +78,7 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 |---|---|---|---|
 |mainWindowHotkey|shortcut|LCtrl+T|Hotkey to open/close LSTM window|
 |switchDisplayModeHotkey|shortcut|Tab|Hotkey to switch display mode of LSTM window (New in 0.3.6)|
+|showMaterialPicker|bool|true|Add Material Picker for quick item switching to LSTM window (New in 0.4.0)|
 |showButtonInStationWindow|bool|true|Add open LSTM button to Station Window|
 |showButtonInStatisticsWindow|bool|false|Add open LSTM button to Statistics Window|
 |actAsStandardPanel|bool|true|true: close with other panels by esc key. false: one more esc needed|
@@ -162,6 +163,10 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 
 ## Release Notes
+
+### 0.4.0
+- Added Material Picker for quick item switching (add config `showMaterialPicker` for customize this)
+- Probably fixed the problem of last slot not showing up when other mods that increase slots are installed
 
 ### v0.3.6
 - Right-click locate button to open the station window (only current local planet).
