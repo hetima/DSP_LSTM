@@ -164,7 +164,7 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 ## Release Notes
 
-### 0.4.0
+### v0.4.0
 - Added Material Picker for quick item switching (add config `showMaterialPicker` for customize this)
 - Probably fixed the problem of last slot not showing up when other mods that increase slots are installed
 
