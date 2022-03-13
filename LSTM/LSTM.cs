@@ -43,6 +43,7 @@ namespace LSTMMod
         public static ConfigEntry<bool> actAsStandardPanel;
         public static ConfigEntry<bool> indicatesWarperSign;
         public static ConfigEntry<bool> reactClosePanelKeyE;
+        public static ConfigEntry<bool> showMaterialPicker;
 
         public static ConfigEntry<bool> enableTLRemoteCluster;
         public static ConfigEntry<bool> enableTLLocalCluster;
@@ -83,6 +84,8 @@ namespace LSTMMod
                 "show sign on the list if station has warper.");
             reactClosePanelKeyE = Config.Bind("Keyboard Shortcuts", "reactClosePanelKeyE", true,
                 "close window when close panel key(E) is pressed.");
+            showMaterialPicker = Config.Bind("Interface", "showMaterialPicker", true,
+                "Add Material Picker for quick item switching to LSTM window");
 
             enableTLRemoteCluster = Config.Bind("TrafficLogic", "TLRemoteCluster", false,
                 "enable TrafficLogic:Remote Cluster");

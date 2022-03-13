@@ -82,6 +82,7 @@
     <Compile Include="TrafficLogic.cs" />
     <Compile Include="UIBalanceListEntry.cs" />
     <Compile Include="UIBalanceWindow.cs" />
+    <Compile Include="UIMaterialPicker.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

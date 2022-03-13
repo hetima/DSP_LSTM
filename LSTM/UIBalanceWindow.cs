@@ -87,6 +87,7 @@ namespace LSTMMod
 
         public UIListView supplyListView;
         public UIListView demandListView;
+        public UIMaterialPicker materialView;
 
         public bool isPointEnter;
 
@@ -100,6 +101,7 @@ namespace LSTMMod
         public void SetUpAndOpen(int _itemId, int _planetId, bool _isLocal)
         {
             balanceData = new BalanceData(_itemId, _planetId, _isLocal);
+            materialView.RefreshWithProduct(balanceData.itemId);
             SetUpData();
 
             UIRoot.instance.uiGame.ShutPlayerInventory();
@@ -223,7 +225,7 @@ namespace LSTMMod
             }
         }
 
-        public void Filter(int itemId, int planetId = 0)
+        public void Filter(int itemId, int planetId = 0, bool refreshMaterial = true)
         {
             if (itemId != balanceData.itemId)
             {
@@ -235,6 +237,10 @@ namespace LSTMMod
             //    balanceData = new BalanceData(balanceData.itemId, planetId, balanceData.isLocal);
             //    SetUpData();
             //}
+            if (refreshMaterial)
+            {
+                materialView.RefreshWithProduct(balanceData.itemId);
+            }
         }
 
 
@@ -913,6 +919,16 @@ namespace LSTMMod
                 rect.SetParent(windowTrans, false);
                 rect.anchoredPosition = new Vector2(150f, 210f);
             }
+
+            //materialView
+            materialView = UIMaterialPicker.CreateView(this);
+            if (materialView != null)
+            {
+                materialView.window = this;
+                materialView.transform.SetSiblingIndex(0);
+                //RectTransform rect2 = (RectTransform)materialView.gameObject.transform;
+                //rect2.SetParent(windowTrans, false);
+            }
         }
 
         private void OnLocalButtonClick(int obj)
@@ -928,6 +944,7 @@ namespace LSTMMod
         private void OnItemResetButtonClick(int obj)
         {
             balanceData = new BalanceData(0, balanceData.planetId, balanceData.isLocal);
+            materialView.RefreshWithProduct(balanceData.itemId);
             SetUpData();
         }
         private void OnPlanetResetButtonClick(int obj)
@@ -954,9 +971,9 @@ namespace LSTMMod
             }
             //targetFactory = null;
             balanceData = new BalanceData(itemProto.ID, balanceData.planetId, balanceData.isLocal);
+            materialView.RefreshWithProduct(balanceData.itemId);
             SetUpData();
         }
-
 
 
 
