@@ -367,13 +367,13 @@ namespace LSTMMod
                 {
                     //before _OnCreate
                     //storageUIPrefabに付けたほうが効率良いけどUIBalanceListEntryでも使う
-                    //UIStationStorageParasite.MakeUIStationStorageParasite(stationWindow.storageUIPrefab);
+                    //UIStationStorageAgent.MakeUIStationStorageAgent(stationWindow.storageUIPrefab);
 
                     //after _OnCreate
                     UIStationStorage[] storageUIs = AccessTools.FieldRefAccess<UIStationWindow, UIStationStorage[]>(stationWindow, "storageUIs");
                     for (int i = 0; i < storageUIs.Length; i++)
                     {
-                        UIStationStorageParasite.MakeUIStationStorageParasite(storageUIs[i]);
+                        UIStationStorageAgent.MakeUIStationStorageAgent(storageUIs[i]);
                     }
                 }
             }
@@ -401,9 +401,8 @@ namespace LSTMMod
             [HarmonyPrefix, HarmonyPatch(typeof(UIGame), "_OnCreate")]
             public static void UIGame__OnCreate_Prefix()
             {
-                if (LSTM.showButtonInStatisticsWindow.Value)
-                {
-                    ProductEntryParasite.AddButtonToStatisticsWindow();
+                if (!_initialized) {
+                    UIProductEntryAgent.PreCreate();
                 }
             }
 
@@ -417,7 +416,7 @@ namespace LSTMMod
 
                     AddButtonToStarmap();
                     AddButtonToStationWindow();
-
+                    UIProductEntryAgent.PostCreate();
                 }
             }
 
@@ -482,7 +481,7 @@ namespace LSTMMod
             {
                 if (LSTM.showButtonInStationWindow.Value)
                 {
-                    __instance.GetComponent<UIStationStorageParasite>()?.RefreshValues();
+                    __instance.GetComponent<UIStationStorageAgent>()?.RefreshValues();
                 }
             }
 
@@ -518,66 +517,8 @@ namespace LSTMMod
 
     }
 
-    public class ProductEntryParasite : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
-    {
-        [SerializeField]
-        public UIProductEntry productEntry;
-        [SerializeField]
-        public Button showBalanceButton;
 
-        void Start()
-        {
-            showBalanceButton?.onClick.AddListener(ShowBalanceButtonClicked);
-        }
-
-        public void ShowBalanceButtonClicked()
-        {
-            int itemId = productEntry.entryData.itemId;
-            if (itemId > 0)
-            {
-                //VFAudio.Create("ui-click-0", null, Vector3.zero, true, 2);
-                LSTM.OpenBalanceWindow(itemId);
-            }
-        }
-
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            if (LSTM.showButtonInStatisticsWindow.Value)
-            {
-                showBalanceButton.gameObject.SetActive(true);
-            }
-        }
-        public void OnPointerExit(PointerEventData _eventData)
-        {
-            showBalanceButton.gameObject.SetActive(false);
-        }
-
-        public static void AddButtonToStatisticsWindow()
-        {
-            //UIStatisticsWindow _OnCreate() より先に
-            UIStatisticsWindow statisticsWindow = UIRoot.instance.uiGame.statWindow;
-            UIProductEntry productEntry = statisticsWindow.productEntry;
-            UIButton btn = Util.MakeSmallTextButton("LSTM", 38f, 20f);
-            RectTransform rect = Util.NormalizeRectD(btn.gameObject);
-            rect.SetParent(productEntry.transform, false);
-            rect.anchoredPosition = new Vector3(6f, -6f);
-            rect.localScale = Vector3.one;
-            btn.gameObject.SetActive(false);
-            ProductEntryParasite p = productEntry.gameObject.AddComponent<ProductEntryParasite>();
-            p.productEntry = productEntry;
-            p.showBalanceButton = btn.button;
-
-            //OnPointerEnter OnPointerExit のため
-            Image img = productEntry.gameObject.AddComponent<Image>();
-            img.color = Color.clear;
-            img.alphaHitTestMinimumThreshold = 0f;
-        }
-
-    }
-
-
-
-    public class UIStationStorageParasite : MonoBehaviour
+    public class UIStationStorageAgent : MonoBehaviour
     {
         public UIStationStorage uiStorage;
         
@@ -645,12 +586,12 @@ namespace LSTMMod
             LSTM.OpenBalanceWindow(cmp, index, isLocal, stationWindow.factory);
         }
 
-        public static UIStationStorageParasite MakeUIStationStorageParasite(UIStationStorage stationStorage)
+        public static UIStationStorageAgent MakeUIStationStorageAgent(UIStationStorage stationStorage)
         {
             GameObject parent = stationStorage.gameObject;
             GameObject go = new GameObject("lstm-open-barance-button");
 
-            UIStationStorageParasite parasite = parent.AddComponent<UIStationStorageParasite>();
+            UIStationStorageAgent agent = parent.AddComponent<UIStationStorageAgent>();
             go.transform.parent = parent.transform;
             go.transform.localPosition = new Vector3(523, -60, 0);
             go.transform.localScale = new Vector3(1, 1, 1);
@@ -658,24 +599,24 @@ namespace LSTMMod
             //rect.sizeDelta = new Vector2(16, 32);
 
             Sprite s = Util.LoadSpriteResource("ui/textures/sprites/icons/resume-icon");
-            parasite.remoteBtn = Util.MakeIconButton(go.transform, s, 0, 0);
-            parasite.localBtn = Util.MakeIconButton(go.transform, s, 0, 32);
+            agent.remoteBtn = Util.MakeIconButton(go.transform, s, 0, 0);
+            agent.localBtn = Util.MakeIconButton(go.transform, s, 0, 32);
 
-            if (parasite.localBtn != null && parasite.remoteBtn != null)
+            if (agent.localBtn != null && agent.remoteBtn != null)
             {
 
-                parasite.localBtn.gameObject.name = "lstm-open-barance-local";
-                parasite.remoteBtn.gameObject.name = "lstm-open-barance-remote";
+                agent.localBtn.gameObject.name = "lstm-open-barance-local";
+                agent.remoteBtn.gameObject.name = "lstm-open-barance-remote";
                 //btn.uiBtn.gameObject.transform.Find("bg").gameObject.SetActive(false); //or destroy
                 //btn.uiBtn.gameObject.transform.Find("sd").gameObject.SetActive(false);
-                parasite.uiStorage = stationStorage;
+                agent.uiStorage = stationStorage;
             }
             else
             {
-                LSTM.instance.Log("UIStationStorageParasite is null");
+                LSTM.instance.Log("UIStationStorageAgent is null");
             }
 
-            return parasite;
+            return agent;
         }
     }
 }

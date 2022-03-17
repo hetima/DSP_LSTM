@@ -76,6 +76,7 @@
     <Compile Include="LSTMNavi.cs" />
     <Compile Include="MyWindowCtl.cs" />
     <Compile Include="NaviLine.cs" />
+    <Compile Include="UIProductEntryAgent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StarDistance.cs" />
     <Compile Include="TLCluster.cs" />
