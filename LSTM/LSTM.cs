@@ -402,7 +402,7 @@ namespace LSTMMod
             public static void UIGame__OnCreate_Prefix()
             {
                 if (!_initialized) {
-                    UIProductEntryAgent.PreCreate();
+                    UIStatisticsWindowAgent.PreCreate();
                 }
             }
 
@@ -416,7 +416,7 @@ namespace LSTMMod
 
                     AddButtonToStarmap();
                     AddButtonToStationWindow();
-                    UIProductEntryAgent.PostCreate();
+                    UIStatisticsWindowAgent.PostCreate();
                 }
             }
 
