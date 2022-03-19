@@ -110,6 +110,7 @@ namespace LSTMMod
             new Harmony(__GUID__).PatchAll(typeof(LSTMStarDistance.Patch));
             new Harmony(__GUID__).PatchAll(typeof(MyWindowCtl.Patch));
             new Harmony(__GUID__).PatchAll(typeof(TrafficLogic.Patch));
+            new Harmony(__GUID__).PatchAll(typeof(UIStatisticsWindowAgent.Patch));
 
         }
 
