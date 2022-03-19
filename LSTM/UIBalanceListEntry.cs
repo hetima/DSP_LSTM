@@ -401,11 +401,16 @@ namespace LSTMMod
             int divisor = 1; //画像描画用
             if (storeType == EStoreType.Normal)
             {
-                barMax = (float)stationMaxItemCount;
                 StationStore stationStore = station.storage[index];
                 if (stationStore.itemId != itemId)
                 {
                     return false;
+                }
+                barMax = (float)stationMaxItemCount;
+                //compatibility with some mod?
+                if (barMax < stationStore.max)
+                {
+                    barMax = (float)stationStore.max;
                 }
                 //輸送船
                 string shipCount;
@@ -553,6 +558,11 @@ namespace LSTMMod
             totalOrdered /= divisor;
             barMax /= (float)divisor;
             float barMaxWidth = 200f / ((float)LSTM.RemoteStationMaxItemCount() / barMax);
+            //compatibility with some mod?
+            if (barMaxWidth > 200f)
+            {
+                barMaxWidth = 200f;
+            }
             float num2 = (float)count / barMax;
             float num3 = (float)totalOrdered / barMax;
             int num4 = (int)(barMaxWidth * num2 + 0.49f);
