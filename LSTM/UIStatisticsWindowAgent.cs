@@ -304,7 +304,7 @@ namespace LSTMMod
 
     }
 
-    public class UIStatBalance : MonoBehaviour
+    public class UIStatBalance : MonoBehaviour, IPointerClickHandler
     {
         [SerializeField]
         public Text demandText;
@@ -351,6 +351,15 @@ namespace LSTMMod
                 supplyText.text = string.Format("{0:F1}<size=18> <color=#464646ff>%</color></size>", val);
             }
         }
+        public void OnPointerClick(PointerEventData pointerEventData)
+        {
+            if (pointerEventData.button == PointerEventData.InputButton.Right)
+            {
+                //UIRealtimeTip.Popup("right", false, 0);
+            }
+            //UIRealtimeTip.Popup("click", false, 0);
+
+        }
 
         public static UIStatBalance CreatePreｆab()
         {
@@ -361,7 +370,12 @@ namespace LSTMMod
             GameObject go = new GameObject("station-balance-prefab");
             go.AddComponent<RectTransform>();
             RectTransform rect = Util.NormalizeRect(go);
-            rect.sizeDelta = new Vector2(100, height);
+            rect.sizeDelta = new Vector2(80, height);
+
+            //for IPointerClickHandler
+            Image img = go.AddComponent<Image>();
+            img.color = Color.clear;
+            img.alphaHitTestMinimumThreshold = 0f;
 
             UIStatBalance prefab = go.AddComponent<UIStatBalance>();
 
