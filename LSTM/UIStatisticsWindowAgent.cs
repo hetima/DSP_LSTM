@@ -20,6 +20,35 @@ namespace LSTMMod
         public int entriesLen;
         public UIButton balanceBtn;
 
+        void Start()
+        {
+            ShowStatInStatisticsWindowChanged();
+            if (LSTM.showStatInStatisticsWindow.Value && LSTM._showStatInStatisticsWindow.Value)
+            {
+                ShowBalance();
+            }
+            else
+            {
+                LSTM._showStatInStatisticsWindow.Value = false;
+            }
+            LSTM.showStatInStatisticsWindow.SettingChanged += (sender, args) => {
+                ShowStatInStatisticsWindowChanged();
+            };
+        }
+
+        public void ShowStatInStatisticsWindowChanged()
+        {
+            if (LSTM.showStatInStatisticsWindow.Value)
+            {
+                balanceBtn.gameObject.SetActive(true);
+            }
+            else
+            {
+                balanceBtn.gameObject.SetActive(false);
+                HideBalance();
+            }
+        }
+
         public void ShowBalance()
         {
             for (int i = 0; i < entriesLen; i++)
@@ -30,6 +59,7 @@ namespace LSTMMod
             {
                 balanceBtn.highlighted = true;
             }
+            LSTM._showStatInStatisticsWindow.Value = true;
         }
 
         public void HideBalance()
@@ -42,6 +72,7 @@ namespace LSTMMod
             {
                 balanceBtn.highlighted = false;
             }
+            LSTM._showStatInStatisticsWindow.Value = false;
         }
 
         public void OnBalanceBtnClick(int obj)

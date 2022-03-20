@@ -40,6 +40,7 @@ namespace LSTMMod
         public static ConfigEntry<bool> dropSorterKeyEracesNavi;
         public static ConfigEntry<bool> showButtonInStationWindow;
         public static ConfigEntry<bool> showButtonInStatisticsWindow;
+        public static ConfigEntry<bool> showStatInStatisticsWindow;
         public static ConfigEntry<bool> actAsStandardPanel;
         public static ConfigEntry<bool> indicatesWarperSign;
         public static ConfigEntry<bool> reactClosePanelKeyE;
@@ -55,6 +56,7 @@ namespace LSTMMod
         public static ConfigEntry<bool> enableTLRemoteDemandDelay;
         public static ConfigEntry<bool> enableTLSmartTransport;
         
+        public static ConfigEntry<bool> _showStatInStatisticsWindow;
 
         new internal static ManualLogSource Logger;
 
@@ -75,7 +77,11 @@ namespace LSTMMod
             showButtonInStationWindow = Config.Bind("Interface", "showButtonInStationWindow", true,
                 "Add open LSTM button to Station Window (needs restart)");
             showButtonInStatisticsWindow = Config.Bind("Interface", "showButtonInStatisticsWindow", false,
-                "Add open LSTM button to Statistics Window (needs restart)");
+                "Add open LSTM button to Statistics Window");
+            showStatInStatisticsWindow = Config.Bind("Interface", "showStatInStatisticsWindow", true,
+                "Add station stat to Statistics Window");
+            
+
             actAsStandardPanel = Config.Bind("Interface", "actAsStandardPanel", true,
                 "true: close with other panels by esc key. false: one more esc needed");
             dropSorterKeyEracesNavi = Config.Bind("Keyboard Shortcuts", "dropSorterKeyEracesNavi", false,
@@ -105,6 +111,9 @@ namespace LSTMMod
                 "enable TrafficLogic:Remote Demand Delay");
             enableTLSmartTransport = Config.Bind("TrafficLogic", "TLSmartTransport", false,
                 "enable TrafficLogic:Smart Transport");
+
+            _showStatInStatisticsWindow = Config.Bind("Z", "_showStatInStatisticsWindow", false,
+                "Internal setting. Do not change directly");
 
             new Harmony(__GUID__).PatchAll(typeof(Patch));
             new Harmony(__GUID__).PatchAll(typeof(LSTMStarDistance.Patch));
