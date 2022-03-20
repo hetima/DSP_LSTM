@@ -6,11 +6,12 @@ Lists the supply and demand balance of the Logistics Station by item and by plan
 
 - Show overall status for each item
 - Show the status of all stations on specific planet
+- Show station storage ratio and total actual amounts information in the statistics panel (New in 0.5.0)
 - Improve transport behavior
 
 - Display the target planet in the starmap (Universe Exploration lv4 is required)
 - Display navigation of the target station location
-- Open station window directly (right-click locate button)(only current local planet) (New in 0.3.6)
+- Open station window directly (right-click locate button)(only current local planet)
 
 How to open a window
 - from keyboard shortcut (default is LCtrl+T)
@@ -24,6 +25,8 @@ When opening with the keyboard shortcut, if the item information is found under 
 Compatibility with other mods has not yet been checked.
 
 ![screen shot](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen.jpg)
+
+![screen shot2](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen2.jpg)
 
 ## TrafficLogic
 Change transport behavior. Can be turned on and off individually. Default is all off. It must be turned on in the configuration file to be used.  
@@ -77,14 +80,15 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 |Key|Type|Default|Description|
 |---|---|---|---|
 |mainWindowHotkey|shortcut|LCtrl+T|Hotkey to open/close LSTM window|
-|switchDisplayModeHotkey|shortcut|Tab|Hotkey to switch display mode of LSTM window (New in 0.3.6)|
+|switchDisplayModeHotkey|shortcut|Tab|Hotkey to switch display mode of LSTM window|
 |showMaterialPicker|bool|true|Add Material Picker for quick item switching to LSTM window (New in 0.4.0)|
 |showButtonInStationWindow|bool|true|Add open LSTM button to Station Window|
-|showButtonInStatisticsWindow|bool|false|Add open LSTM button to Statistics Window|
+|showButtonInStatisticsWindow|bool|false|Add open LSTM button to statistics panel|
+|showStatInStatisticsWindow|bool|true|Add station stat to statistics panel (New in 0.5.0)|
 |actAsStandardPanel|bool|true|true: close with other panels by esc key. false: one more esc needed|
 |dropSorterKeyEracesNavi|bool|false|clear navi line when "Remove Copied Sorter Previews" shortcut is pressed|
 |indicatesWarperSign|bool|false|true: show sign on the list if station has warper|
-|reactClosePanelKeyE|bool|true|true: close window when close panel key(E) is pressed (New in 0.3.6)|
+|reactClosePanelKeyE|bool|true|true: close window when close panel key(E) is pressed|
 
 TrafficLogic settings
 
@@ -106,11 +110,12 @@ TrafficLogic settings
 
 - アイテムごとに全体の状況を表示
 - 惑星内の全ステーションの状況を表示
+- ステーションの貯蔵率と実数を統計パネルに表示 (New in 0.5.0)
 - 輸送ロジックの改良
 
 - 対象の惑星を星間ビューで表示(宇宙探査レベル4が必要)
 - 対象のステーションの場所をナビ表示
-- ステーションウィンドウを開く(ナビボタンを右クリック)(現在の惑星のみ対象) (New in 0.3.6)
+- ステーションウィンドウを開く(ナビボタンを右クリック)(現在の惑星のみ対象)
 
 ウィンドウの開き方
 - キーボードショートカット(デフォルトは LCtrl+T)
@@ -164,6 +169,10 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 ## Release Notes
 
+v0.5.0
+- Added station storage ratio and total actual amounts information to statistics panel (config `showStatInStatisticsWindow` default is true)
+- Added ability to filter by star system to main window
+
 ### v0.4.0
 - Added Material Picker for quick item switching (add config `showMaterialPicker` for customize this)
 - Probably fixed the problem of last slot not showing up when other mods that increase slots are installed
@@ -172,7 +181,6 @@ Remote Cluster と Local Cluster は同時に設定できます。
 - Right-click locate button to open the station window (only current local planet).
 - add config `reactClosePanelKeyE` close window when close panel key(E) is pressed. default is true.
 - Press Tab to switch between planet name and station name (add config `switchDisplayModeHotkey` for customize this)
-
 
 ### v0.3.5
 - Added setting `indicatesWarperSign`
