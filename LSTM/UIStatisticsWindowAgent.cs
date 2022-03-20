@@ -140,6 +140,7 @@ namespace LSTMMod
             for (int i = 0; i < agent.entriesLen; i++)
             {
                 agent.entries[i] = ary[i]?.gameObject.GetComponent<UIProductEntryAgent>();
+                agent.entries[i].gameObject.SetActive(false);
             }
 
 
@@ -177,9 +178,8 @@ namespace LSTMMod
             {
                 iconRect.sizeDelta = new Vector2(20, 20);
             }
-
+            btn.gameObject.SetActive(false);
             agent.balanceBtn = btn;
-            agent.HideBalance();
             instance = agent;
         }
 
