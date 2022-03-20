@@ -307,10 +307,10 @@ namespace LSTMMod
     public class UIStatBalance : MonoBehaviour, IPointerClickHandler
     {
         [SerializeField]
-        public Text demandText;
+        public Text demandRatioText;
 
         [SerializeField]
-        public Text supplyText;
+        public Text supplyRatioText;
 
         public void TakeValueFromScanner(StationStorageScanner scanner)
         {
@@ -323,15 +323,15 @@ namespace LSTMMod
             val *= 100;
             if (val < 0)
             {
-                demandText.text = "<color=#464646ff>--</color>";
+                demandRatioText.text = "<color=#464646ff>--</color>";
             }
             else if (val > 999)
             {
-                demandText.text = "999+<size=18> <color=#464646ff>%</color></size>";
+                demandRatioText.text = "999+<size=18> <color=#464646ff>%</color></size>";
             }
             else
             {
-                demandText.text = string.Format("{0:F1}<size=18> <color=#464646ff>%</color></size>", val);
+                demandRatioText.text = string.Format("{0:F1}<size=18> <color=#464646ff>%</color></size>", val);
             }
         }
 
@@ -340,15 +340,15 @@ namespace LSTMMod
             val *= 100;
             if (val < 0)
             {
-                supplyText.text = "<color=#464646ff>--</color>";
+                supplyRatioText.text = "<color=#464646ff>--</color>";
             }
             else if (val > 999)
             {
-                supplyText.text = "999+<size=18> <color=#464646ff>%</color></size>";
+                supplyRatioText.text = "999+<size=18> <color=#464646ff>%</color></size>";
             }
             else
             {
-                supplyText.text = string.Format("{0:F1}<size=18> <color=#464646ff>%</color></size>", val);
+                supplyRatioText.text = string.Format("{0:F1}<size=18> <color=#464646ff>%</color></size>", val);
             }
         }
         public void OnPointerClick(PointerEventData pointerEventData)
@@ -379,16 +379,17 @@ namespace LSTMMod
 
             UIStatBalance prefab = go.AddComponent<UIStatBalance>();
 
-            prefab.demandText = Util.MakeGameObject<Text>(go.transform, productEntry.consumeText.gameObject,  0, 0, 90, 40, false, true);
-            prefab.supplyText = Util.MakeGameObject<Text>(go.transform, productEntry.productText.gameObject,  0, 60, 90, 40, false, true);
-            prefab.demandText.alignment = TextAnchor.MiddleLeft;
-            prefab.demandText.resizeTextForBestFit = true;
-            prefab.demandText.resizeTextMaxSize = 34;
-            prefab.supplyText.alignment = TextAnchor.MiddleLeft;
-            prefab.supplyText.resizeTextForBestFit = true;
-            prefab.supplyText.resizeTextMaxSize = 34;
-            prefab.demandText.supportRichText = true;
-            prefab.supplyText.supportRichText = true;
+            prefab.demandRatioText = Util.MakeGameObject<Text>(go.transform, productEntry.consumeText.gameObject,  0, 0, 90, 40, false, true);
+            prefab.demandRatioText.alignment = TextAnchor.MiddleLeft;
+            prefab.demandRatioText.resizeTextForBestFit = true;
+            prefab.demandRatioText.resizeTextMaxSize = 34;
+            prefab.demandRatioText.supportRichText = true;
+
+            prefab.supplyRatioText = Util.MakeGameObject<Text>(go.transform, productEntry.productText.gameObject,  0, 60, 90, 40, false, true);
+            prefab.supplyRatioText.alignment = TextAnchor.MiddleLeft;
+            prefab.supplyRatioText.resizeTextForBestFit = true;
+            prefab.supplyRatioText.resizeTextMaxSize = 34;
+            prefab.supplyRatioText.supportRichText = true;
 
             Text txt = Util.MakeGameObject<Text>(go.transform, productEntry.consumeLabel.gameObject, 0, 28, 0, 0, false, true); 
             txt.text = "Demand";

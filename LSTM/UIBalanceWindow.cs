@@ -823,8 +823,8 @@ namespace LSTMMod
         public UIButton localButton;
         public UIButton remoteButton;
         public UIButton starSystemButton;
-        public Text demandText;
-        public Text supplyText;
+        public Text demandLabel;
+        public Text supplyLabel;
 
         public UIComboBox starSystemComboBox;
         internal Image starSystemBoxBg;
@@ -997,9 +997,9 @@ namespace LSTMMod
 
             go = GameObject.Instantiate(stateText.gameObject);
             go.name = "supply-label";
-            supplyText = go.GetComponent<Text>();
-            supplyText.text = "Supply".Translate();
-            supplyText.color = Util.DSPBlue;
+            supplyLabel = go.GetComponent<Text>();
+            supplyLabel.text = "Supply".Translate();
+            supplyLabel.color = Util.DSPBlue;
             rect = Util.NormalizeRectC(go);
             rect.SetParent(windowTrans, false);
             rect.sizeDelta = new Vector2(80, rect.sizeDelta.y);
@@ -1008,9 +1008,9 @@ namespace LSTMMod
 
             go = GameObject.Instantiate(go, windowTrans);
             go.name = "demand-label";
-            demandText = go.GetComponent<Text>();
-            demandText.text = "Demand".Translate();
-            demandText.color = Util.DSPOrange;
+            demandLabel = go.GetComponent<Text>();
+            demandLabel.text = "Demand".Translate();
+            demandLabel.color = Util.DSPOrange;
             rect = go.transform as RectTransform;
             rect.anchoredPosition = new Vector2(-310f, 168f);
 
