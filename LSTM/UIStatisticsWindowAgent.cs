@@ -268,7 +268,7 @@ namespace LSTMMod
         public void ShowBalance()
         {
             statBalance.gameObject.SetActive(true);
-            graphTrans.sizeDelta = new Vector2(graphTransDefaultWidth - 60, graphTrans.sizeDelta.y);
+            graphTrans.sizeDelta = new Vector2(graphTransDefaultWidth - 100, graphTrans.sizeDelta.y);
 
         }
         public void HideBalance()
@@ -312,10 +312,28 @@ namespace LSTMMod
         [SerializeField]
         public Text supplyRatioText;
 
+        [SerializeField]
+        public Text supplyMaxText;
+
+        [SerializeField]
+        public Text supplyCountText;
+
+        [SerializeField]
+        public Text demandMaxText;
+
+        [SerializeField]
+        public Text demandCountText;
+
+        public static string undefString = "<color=#464646ff>--</color>";
+
         public void TakeValueFromScanner(StationStorageScanner scanner)
         {
             SetDemandRatio(scanner.demandRatio);
             SetSupplyRatio(scanner.supplyRatio);
+            demandMaxText.text = scanner.demandMax <= 0 ? undefString : Util.KMGFormat(scanner.demandMax);
+            demandCountText.text = scanner.demandMax <= 0 ? undefString : Util.KMGFormat(scanner.demandCount);
+            supplyMaxText.text = scanner.supplyMax <= 0 ? undefString : Util.KMGFormat(scanner.supplyMax);
+            supplyCountText.text = scanner.supplyMax <= 0 ? undefString : Util.KMGFormat(scanner.supplyCount);
         }
 
         public void SetDemandRatio(float val)
@@ -323,7 +341,7 @@ namespace LSTMMod
             val *= 100;
             if (val < 0)
             {
-                demandRatioText.text = "<color=#464646ff>--</color>";
+                demandRatioText.text = undefString;
             }
             else if (val > 999)
             {
@@ -340,7 +358,7 @@ namespace LSTMMod
             val *= 100;
             if (val < 0)
             {
-                supplyRatioText.text = "<color=#464646ff>--</color>";
+                supplyRatioText.text = undefString;
             }
             else if (val > 999)
             {
@@ -370,7 +388,7 @@ namespace LSTMMod
             GameObject go = new GameObject("station-balance-prefab");
             go.AddComponent<RectTransform>();
             RectTransform rect = Util.NormalizeRect(go);
-            rect.sizeDelta = new Vector2(80, height);
+            rect.sizeDelta = new Vector2(120, height);
 
             //for IPointerClickHandler
             Image img = go.AddComponent<Image>();
@@ -379,23 +397,63 @@ namespace LSTMMod
 
             UIStatBalance prefab = go.AddComponent<UIStatBalance>();
 
-            prefab.demandRatioText = Util.MakeGameObject<Text>(go.transform, productEntry.consumeText.gameObject,  0, 0, 90, 40, false, true);
-            prefab.demandRatioText.alignment = TextAnchor.MiddleLeft;
-            prefab.demandRatioText.resizeTextForBestFit = true;
-            prefab.demandRatioText.resizeTextMaxSize = 34;
-            prefab.demandRatioText.supportRichText = true;
+            Text txt;
+            txt = Util.MakeGameObject<Text>(go.transform, productEntry.consumeText.gameObject,  0, 0, 80, 40, false, true);
+            txt.alignment = TextAnchor.MiddleLeft;
+            txt.resizeTextForBestFit = true;
+            txt.resizeTextMaxSize = 34;
+            txt.supportRichText = true;
+            prefab.demandRatioText = txt;
 
-            prefab.supplyRatioText = Util.MakeGameObject<Text>(go.transform, productEntry.productText.gameObject,  0, 60, 90, 40, false, true);
-            prefab.supplyRatioText.alignment = TextAnchor.MiddleLeft;
-            prefab.supplyRatioText.resizeTextForBestFit = true;
-            prefab.supplyRatioText.resizeTextMaxSize = 34;
-            prefab.supplyRatioText.supportRichText = true;
+            txt = Util.MakeGameObject<Text>(go.transform, productEntry.productText.gameObject,  0, 60, 80, 40, false, true);
+            txt.alignment = TextAnchor.MiddleLeft;
+            txt.resizeTextForBestFit = true;
+            txt.resizeTextMaxSize = 34;
+            txt.supportRichText = true;
+            prefab.supplyRatioText = txt;
 
-            Text txt = Util.MakeGameObject<Text>(go.transform, productEntry.consumeLabel.gameObject, 0, 28, 0, 0, false, true); 
+            txt = Util.MakeGameObject<Text>(go.transform, productEntry.consumeText.gameObject, 75, 4, 44, 20, false, true);
+            txt.alignment = TextAnchor.MiddleCenter;
+            txt.resizeTextForBestFit = true;
+            txt.resizeTextMaxSize = 18;
+            txt.supportRichText = true;
+            prefab.demandMaxText = txt;
+
+            txt = Util.MakeGameObject<Text>(go.transform, productEntry.consumeText.gameObject, 75, 25, 44, 20, false, true);
+            txt.alignment = TextAnchor.MiddleCenter;
+            txt.resizeTextForBestFit = true;
+            txt.resizeTextMaxSize = 18;
+            txt.supportRichText = true;
+            prefab.demandCountText = txt;
+
+            txt = Util.MakeGameObject<Text>(go.transform, productEntry.productText.gameObject, 75, 60, 44, 20, false, true);
+            txt.alignment = TextAnchor.MiddleCenter;
+            txt.resizeTextForBestFit = true;
+            txt.resizeTextMaxSize = 18;
+            txt.supportRichText = true;
+            prefab.supplyMaxText = txt;
+
+            txt = Util.MakeGameObject<Text>(go.transform, productEntry.productText.gameObject, 75, 81, 44, 20, false, true);
+            txt.alignment = TextAnchor.MiddleCenter;
+            txt.resizeTextForBestFit = true;
+            txt.resizeTextMaxSize = 18;
+            txt.supportRichText = true;
+            prefab.supplyCountText = txt;
+
+            txt = Util.MakeGameObject<Text>(go.transform, productEntry.consumeLabel.gameObject, 0, 28, 0, 0, false, true); 
             txt.text = "Demand";
             txt = Util.MakeGameObject<Text>(go.transform, productEntry.productLabel.gameObject, 0, 88, 0, 0, false, true);
             txt.text = "Supply";
 
+            GameObject sepSrc = new GameObject();
+            rect = sepSrc.AddComponent<RectTransform>();
+            rect.sizeDelta = new Vector2(40f, 0.8f);
+            img = sepSrc.AddComponent<Image>();
+            img.color = new Color(0.9f, 0.9f, 0.9f, 0.1f);
+
+            Util.MakeGameObject<Image>(go.transform, sepSrc, 77f, 24f, 40f, 0.8f, false, true);
+            Util.MakeGameObject<Image>(go.transform, sepSrc, 77f, 80f, 40f, 0.8f, false, true);
+            Object.Destroy(sepSrc);
 
             return prefab;
         }
@@ -410,9 +468,9 @@ namespace LSTMMod
         public float supplyRatio;
 
         public long demandMax;
-        public long demandFill;
+        public long demandCount;
         public long supplyMax;
-        public long supplyFill;
+        public long supplyCount;
 
         
         public StationStorageScanner(int itemId)
@@ -429,12 +487,12 @@ namespace LSTMMod
                     if (s.storage[i].remoteLogic == ELogisticStorage.Supply)
                     {
                         supplyMax += s.storage[i].max;
-                        supplyFill += s.storage[i].count;
+                        supplyCount += s.storage[i].count;
                     }
                     else if (s.storage[i].remoteLogic == ELogisticStorage.Demand)
                     {
                         demandMax += s.storage[i].max;
-                        demandFill += s.storage[i].count;
+                        demandCount += s.storage[i].count;
                     }
                     //else
                     //{
@@ -454,7 +512,7 @@ namespace LSTMMod
             }
             else
             {
-                supplyRatio = (float)supplyFill / (float)supplyMax;
+                supplyRatio = (float)supplyCount / (float)supplyMax;
             }
 
             if (demandMax == 0)
@@ -463,7 +521,7 @@ namespace LSTMMod
             }
             else
             {
-                demandRatio = (float)demandFill / (float)demandMax;
+                demandRatio = (float)demandCount / (float)demandMax;
             }
         }
 

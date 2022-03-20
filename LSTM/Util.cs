@@ -232,6 +232,28 @@ namespace LSTMMod
             }
             return go.GetComponent<T>();
         }
-        
+
+        public static string KMGFormat(long num)
+        {
+            if (num >= 100_000_000_000_000)
+                return (num / 1_000_000_000_000).ToString("#,0T");
+            if (num >= 10_000_000_000_000)
+                return (num / 1_000_000_000_000).ToString("0.#") + "T";
+            if (num >= 100_000_000_000)
+                return (num / 1_000_000_000).ToString("#,0G");
+            if (num >= 10_000_000_000)
+                return (num / 1_000_000_000).ToString("0.#") + "G";
+            if (num >= 100_000_000)
+                return (num / 1_000_000).ToString("#,0M");
+            if (num >= 10_000_000)
+                return (num / 1_000_000).ToString("0.#") + "M";
+            if (num >= 100_000)
+                return (num / 1_000).ToString("#,0K");
+            if (num >= 10_000)
+                return (num / 1_000).ToString("0.#") + "K";
+
+            return num.ToString("#,0");
+        }
+
     }
 }
