@@ -112,7 +112,7 @@ namespace LSTMMod
             enableTLSmartTransport = Config.Bind("TrafficLogic", "TLSmartTransport", false,
                 "enable TrafficLogic:Smart Transport");
 
-            _showStatInStatisticsWindow = Config.Bind("Z", "_showStatInStatisticsWindow", false,
+            _showStatInStatisticsWindow = Config.Bind("Z", "_showStatInStatisticsWindow", true,
                 "Internal setting. Do not change directly");
 
             new Harmony(__GUID__).PatchAll(typeof(Patch));
