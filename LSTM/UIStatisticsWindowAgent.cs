@@ -361,10 +361,10 @@ namespace LSTMMod
         {
             SetDemandRatio(scanner.demandRatio);
             SetSupplyRatio(scanner.supplyRatio);
-            demandMaxText.text = scanner.demandMax <= 0 ? undefString : Util.KMGFormat(scanner.demandMax);
-            demandCountText.text = scanner.demandMax <= 0 ? undefString : Util.KMGFormat(scanner.demandCount);
-            supplyMaxText.text = scanner.supplyMax <= 0 ? undefString : Util.KMGFormat(scanner.supplyMax);
-            supplyCountText.text = scanner.supplyMax <= 0 ? undefString : Util.KMGFormat(scanner.supplyCount);
+            demandMaxText.text = scanner.demandMax <= 0 ? "" : Util.KMGFormat(scanner.demandMax);
+            demandCountText.text = scanner.demandMax <= 0 ? "" : Util.KMGFormat(scanner.demandCount);
+            supplyMaxText.text = scanner.supplyMax <= 0 ? "" : Util.KMGFormat(scanner.supplyMax);
+            supplyCountText.text = scanner.supplyMax <= 0 ? "" : Util.KMGFormat(scanner.supplyCount);
         }
 
         public void SetDemandRatio(float val)
@@ -373,14 +373,17 @@ namespace LSTMMod
             if (val < 0)
             {
                 demandRatioText.text = undefString;
+                demandRatioText.alignment = TextAnchor.MiddleCenter;
             }
             else if (val > 999)
             {
                 demandRatioText.text = "999+<size=18> <color=#464646ff>%</color></size>";
+                demandRatioText.alignment = TextAnchor.MiddleRight;
             }
             else
             {
                 demandRatioText.text = string.Format("{0:F1}<size=18> <color=#464646ff>%</color></size>", val);
+                demandRatioText.alignment = TextAnchor.MiddleRight;
             }
         }
 
@@ -390,14 +393,17 @@ namespace LSTMMod
             if (val < 0)
             {
                 supplyRatioText.text = undefString;
+                supplyRatioText.alignment = TextAnchor.MiddleCenter;
             }
             else if (val > 999)
             {
                 supplyRatioText.text = "999+<size=18> <color=#464646ff>%</color></size>";
+                supplyRatioText.alignment = TextAnchor.MiddleRight;
             }
             else
             {
                 supplyRatioText.text = string.Format("{0:F1}<size=18> <color=#464646ff>%</color></size>", val);
+                supplyRatioText.alignment = TextAnchor.MiddleRight;
             }
         }
         public void OnPointerClick(PointerEventData pointerEventData)
@@ -429,15 +435,15 @@ namespace LSTMMod
             UIStatBalance prefab = go.AddComponent<UIStatBalance>();
 
             Text txt;
-            txt = Util.MakeGameObject<Text>(go.transform, productEntry.consumeText.gameObject,  0, 0, 80, 40, false, true);
-            txt.alignment = TextAnchor.MiddleLeft;
+            txt = Util.MakeGameObject<Text>(go.transform, productEntry.consumeText.gameObject,  2, 0, 72, 40, false, true);
+            txt.alignment = TextAnchor.MiddleRight;
             txt.resizeTextForBestFit = true;
             txt.resizeTextMaxSize = 34;
             txt.supportRichText = true;
             prefab.demandRatioText = txt;
 
-            txt = Util.MakeGameObject<Text>(go.transform, productEntry.productText.gameObject,  0, 60, 80, 40, false, true);
-            txt.alignment = TextAnchor.MiddleLeft;
+            txt = Util.MakeGameObject<Text>(go.transform, productEntry.productText.gameObject,  2, 60, 72, 40, false, true);
+            txt.alignment = TextAnchor.MiddleRight;
             txt.resizeTextForBestFit = true;
             txt.resizeTextMaxSize = 34;
             txt.supportRichText = true;
