@@ -312,7 +312,7 @@ namespace LSTMMod
                 {
                     if (productEntry.productionStatWindow.isProductionTab)
                     {
-                        return productEntry.entryData.itemId;
+                        return productEntry.entryData?.itemId ?? 0;
                     }
                     return 0;
                 }

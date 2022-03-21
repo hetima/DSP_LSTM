@@ -276,7 +276,7 @@ namespace LSTMMod
 
         public void ShowBalanceButtonClicked()
         {
-            int itemId = productEntry.entryData.itemId;
+            int itemId = productEntry?.entryData?.itemId ?? 0;
             if (itemId > 0)
             {
                 //VFAudio.Create("ui-click-0", null, Vector3.zero, true, 2);
@@ -311,7 +311,7 @@ namespace LSTMMod
 
         public bool NeedToUpdate(int frame)
         {
-            int currentItemId = productEntry.entryData.itemId;
+            int currentItemId = productEntry?.entryData?.itemId ?? 0;
             if (frame > nextUpdateFrame || itemId != currentItemId)
             {
                 itemId = currentItemId;
