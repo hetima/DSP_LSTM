@@ -141,9 +141,9 @@ namespace LSTMMod
             _win.SetUpAndOpen(targetStation.storage[index].itemId, isLocal ? planetId : 0, isLocal);
         }
 
-        public static void OpenBalanceWindow(int itemId)
+        public static void OpenBalanceWindow(int itemId, int planetId = 0, int starId = 0)
         {
-            _win.SetUpAndOpen(itemId, 0, false);
+            _win.SetUpAndOpen(itemId, planetId, false, starId);
         }
 
         public static void OpenBalanceWindow()
