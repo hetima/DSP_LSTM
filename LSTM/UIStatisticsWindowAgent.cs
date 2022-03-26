@@ -215,7 +215,7 @@ namespace LSTMMod
                     starId = window.astroFilter / 100;
                     if (starId == 0)
                     {
-                        starId = window.gameData.localStar.id;
+                        starId = window.gameData.localStar?.id ?? 0;
                     }
                 }
                 else
@@ -275,9 +275,39 @@ namespace LSTMMod
         {
             int itemId = productEntry?.entryData?.itemId ?? 0;
             if (itemId > 0)
-            {
+            {UIRealtimeTip.Popup("", false, 0);
+
+                int planetId = 0;
+                int starId = 0;
+                if (VFInput.control || VFInput.alt)
+                {
+                    //ctrlかaltを押していたら現在のスコープを使う
+                    //BalanceWindowの仕様がplanetId あり itemId ありの場合 planetId は無視なので
+                    //惑星は無視される
+                    int astroFilter = productEntry.productionStatWindow.astroFilter;
+                    if (astroFilter == -1)
+                    {
+
+                    }
+                    else if (productEntry.productionStatWindow.gameData.localPlanet != null && astroFilter == 0)
+                    {
+                        //planetId = productEntry.productionStatWindow.gameData.localPlanet.id;
+                    }
+                    else if (astroFilter % 100 == 0)
+                    {
+                        starId = astroFilter / 100;
+                        if (starId == 0)
+                        {
+                            //starId = productEntry.productionStatWindow.gameData.localStar?.id ?? 0;
+                        }
+                    }
+                    //else
+                    //{
+                    //    planetId = astroFilter;
+                    //}
+                }
                 //VFAudio.Create("ui-click-0", null, Vector3.zero, true, 2);
-                LSTM.OpenBalanceWindow(itemId);
+                LSTM.OpenBalanceWindow(itemId, planetId, starId);
             }
         }
 
