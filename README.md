@@ -169,6 +169,9 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 ## Release Notes
 
+### v0.5.1
+- Minor bug fix
+
 ### v0.5.0
 - Added station storage ratio and total actual amounts information to statistics panel (config `showStatInStatisticsWindow` default is true)
 - Added ability to filter by star system to main window
