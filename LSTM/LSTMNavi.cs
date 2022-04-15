@@ -23,11 +23,7 @@ namespace LSTMMod
             btn.gameObject.SetActive(false);
 
             //元の onClick は m_PersistentCalls にあるっぽいので作り直す
-            Button oldbutton = btn.button;
-            GameObject.DestroyImmediate(oldbutton); //Immediateしないと入れ替えられない
-            Button button = btn.gameObject.AddComponent<Button>();
-            btn.button = button;
-            //btn.button.onClick.RemoveAllListeners();
+            Util.RemovePersistentCalls(btn.gameObject);
             btn.button?.onClick.AddListener(navi.NaviLineTipClicked);
 
             Text txt = btn.transform.Find("text")?.GetComponent<Text>();

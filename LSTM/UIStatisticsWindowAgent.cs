@@ -152,10 +152,8 @@ namespace LSTMMod
                 go.SetActive(false); //GameObject.Destroy(go);
             }
             //onClick が m_PersistentCalls に残ってるので作り直す
-            Button oldbutton = btn.button;
-            GameObject.DestroyImmediate(oldbutton);
-            Button button = btn.gameObject.AddComponent<Button>();
-            btn.button = button;
+            Util.RemovePersistentCalls(btn.gameObject);
+
             btn.gameObject.SetActive(true);
 
             btn.onClick += agent.OnBalanceBtnClick;

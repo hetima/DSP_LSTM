@@ -40,6 +40,17 @@ namespace LSTMMod
         public static Color DSPBlue => new Color(0.3821f, 0.8455f, 1f, 0.7059f);
         public static Color DSPOrange => new Color(0.9906f, 0.5897f, 0.3691f, 0.7059f);
 
+        public static void RemovePersistentCalls(GameObject go)
+        {
+            Button oldbutton = go.GetComponent<Button>();
+            UIButton btn = go.GetComponent<UIButton>();
+            if (btn != null && oldbutton != null)
+            {
+                GameObject.DestroyImmediate(oldbutton);
+                btn.button = go.AddComponent<Button>();
+            }
+        }
+
         //俺たちは雰囲気でUnity座標系をやっている
         public static RectTransform NormalizeRect(GameObject go, float width = 0, float height = 0)
         {
