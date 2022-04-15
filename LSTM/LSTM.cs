@@ -45,6 +45,7 @@ namespace LSTMMod
         public static ConfigEntry<bool> indicatesWarperSign;
         public static ConfigEntry<bool> reactClosePanelKeyE;
         public static ConfigEntry<bool> showMaterialPicker;
+        public static ConfigEntry<bool> setConstructionPointToGround;
 
         public static ConfigEntry<bool> enableTLRemoteCluster;
         public static ConfigEntry<bool> enableTLLocalCluster;
@@ -80,7 +81,8 @@ namespace LSTMMod
                 "Add open LSTM button to Statistics Window");
             showStatInStatisticsWindow = Config.Bind("Interface", "showStatInStatisticsWindow", true,
                 "Add station stat to Statistics Window");
-            
+            setConstructionPointToGround = Config.Bind("Other", "setConstructionPointToGround", true,
+                "set the construction point to ground instead of top of the tower");
 
             actAsStandardPanel = Config.Bind("Interface", "actAsStandardPanel", true,
                 "true: close with other panels by esc key. false: one more esc needed");
@@ -120,7 +122,8 @@ namespace LSTMMod
             new Harmony(__GUID__).PatchAll(typeof(MyWindowCtl.Patch));
             new Harmony(__GUID__).PatchAll(typeof(TrafficLogic.Patch));
             new Harmony(__GUID__).PatchAll(typeof(UIStatisticsWindowAgent.Patch));
-
+            new Harmony(__GUID__).PatchAll(typeof(ConstructionPoint.Patch));
+            
         }
 
         public void Log(string str)

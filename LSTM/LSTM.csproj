@@ -72,6 +72,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConstructionPoint.cs" />
     <Compile Include="LSTM.cs" />
     <Compile Include="LSTMNavi.cs" />
     <Compile Include="MyWindowCtl.cs" />
