@@ -117,12 +117,13 @@ namespace LSTMMod
             _showStatInStatisticsWindow = Config.Bind("Z", "_showStatInStatisticsWindow", true,
                 "Internal setting. Do not change directly");
 
-            new Harmony(__GUID__).PatchAll(typeof(Patch));
-            new Harmony(__GUID__).PatchAll(typeof(LSTMStarDistance.Patch));
-            new Harmony(__GUID__).PatchAll(typeof(MyWindowCtl.Patch));
-            new Harmony(__GUID__).PatchAll(typeof(TrafficLogic.Patch));
-            new Harmony(__GUID__).PatchAll(typeof(UIStatisticsWindowAgent.Patch));
-            new Harmony(__GUID__).PatchAll(typeof(ConstructionPoint.Patch));
+            Harmony harmony = new Harmony(__GUID__);
+            harmony.PatchAll(typeof(Patch));
+            harmony.PatchAll(typeof(LSTMStarDistance.Patch));
+            harmony.PatchAll(typeof(MyWindowCtl.Patch));
+            harmony.PatchAll(typeof(TrafficLogic.Patch));
+            harmony.PatchAll(typeof(UIStatisticsWindowAgent.Patch));
+            harmony.PatchAll(typeof(ConstructionPoint.Patch));
             
         }
 
