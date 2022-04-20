@@ -107,6 +107,13 @@ namespace LSTMMod
         [SerializeField]
         public UIButton filterBtn;
 
+        [SerializeField]
+        public Image itemIncs1;
+        [SerializeField]
+        public Image itemIncs2;
+        [SerializeField]
+        public Image itemIncs3;
+
         public static UIBalanceListEntry CreatePreｆab()
         {
             UIStationWindow stationWindow = UIRoot.instance.uiGame.stationWindow;
@@ -131,6 +138,12 @@ namespace LSTMMod
             prefab.itemImage = src.itemImage;
             prefab.maxSlider = src.maxSlider;
             prefab.itemButton = src.itemButton;
+            if (src.itemIncs.Length >= 3)
+            {
+                prefab.itemIncs1 = src.itemIncs[0];
+                prefab.itemIncs2 = src.itemIncs[1];
+                prefab.itemIncs3 = src.itemIncs[2];
+            }
 
             GameObject.Destroy(src);
 
@@ -460,6 +473,13 @@ namespace LSTMMod
                 {
                     leftBarRemote.gameObject.SetActive(false);
                 }
+
+                //inc
+                int incNum = (stationStore.count <= 0 || stationStore.inc <= 0) ? 0 : (stationStore.inc / stationStore.count);
+                int incNum2 = (int)Cargo.fastIncArrowTable[(incNum > 10) ? 10 : incNum];
+                itemIncs1.enabled = (incNum2 == 1);
+                itemIncs2.enabled = (incNum2 == 2);
+                itemIncs3.enabled = (incNum2 == 3);
             }
             else if (storeType == EStoreType.GasStubStorage || storeType == EStoreType.GasStubSupply)
             {
