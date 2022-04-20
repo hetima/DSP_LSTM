@@ -154,12 +154,12 @@ namespace LSTMMod
             }
 
             //Local Demand Delay
-            //check isStellar or not?
-            if (LSTM.enableTLLocalDemandDelay.Value && !demandCmp.isStellar)
+            //check demandCmp.isStellar or not?
+            if (LSTM.enableTLLocalDemandDelay.Value)
             {
                 float total = demandCmp.storage[supplyDemandPair.demandIndex].totalSupplyCount;
                 float max = demandCmp.storage[supplyDemandPair.demandIndex].max;
-                if (max >= 2500 && total / max >= 0.98f)
+                if (max >= 2500 && total / max >= 0.99f)
                 {
                     return 2.0f;
                 }
