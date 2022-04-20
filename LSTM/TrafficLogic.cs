@@ -100,18 +100,14 @@ namespace LSTMMod
             }
 
             //Remote Demand Delay
-            if (LSTM.enableTLRemoteDemandDelay.Value) {
-                //remote local 両方 demand
-                //if (demandCmp.storage[supplyDemandPair.demandIndex].remoteLogic == demandCmp.storage[supplyDemandPair.demandIndex].localLogic){}
-                
+            if (LSTM.enableTLRemoteDemandDelay.Value)
+            {
                 float total = demandCmp.storage[supplyDemandPair.demandIndex].totalSupplyCount;
-                //float actual = demandCmp.storage[supplyDemandPair.demandIndex].count;
                 float max = demandCmp.storage[supplyDemandPair.demandIndex].max;
-                if (max >= 5000 && total / max >= 0.98 )
+                if (max >= 5000 && total / max >= 0.98f )
                 {
                     return 0;
                 }
-                
             }
 
             if (LSTM.enableTLConsiderOppositeRange.Value)
@@ -143,7 +139,7 @@ namespace LSTMMod
                 {
                     if (!TLCluster.IsSameLocalCluster(supplyCmp, demandCmp))
                     {
-                        return 2.0;
+                        return 2.0f;
                     }
                 }
             }
@@ -155,6 +151,19 @@ namespace LSTMMod
                 {
                     result = demandCmp.tripRangeDrones <= supplyCmp.tripRangeDrones ? supplyCmp.tripRangeDrones : demandCmp.tripRangeDrones;
                 }
+            }
+
+            //Local Demand Delay
+            //check isStellar or not?
+            if (LSTM.enableTLLocalDemandDelay.Value && !demandCmp.isStellar)
+            {
+                float total = demandCmp.storage[supplyDemandPair.demandIndex].totalSupplyCount;
+                float max = demandCmp.storage[supplyDemandPair.demandIndex].max;
+                if (max >= 2500 && total / max >= 0.98f)
+                {
+                    return 2.0f;
+                }
+
             }
 
             return result;
