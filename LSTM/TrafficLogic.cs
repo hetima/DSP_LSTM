@@ -37,6 +37,18 @@ namespace LSTMMod
             double supplyRange = supplyCmp.tripRangeShips;
             int itemId = supplyCmp.storage[supplyDemandPair.supplyIndex].itemId;
 
+            //Remote Demand Delay
+            if (LSTM.enableTLRemoteDemandDelay.Value)
+            {
+                float total = demandCmp.storage[supplyDemandPair.demandIndex].totalSupplyCount;
+                float max = demandCmp.storage[supplyDemandPair.demandIndex].max;
+                if (max >= 5000 && total / max >= 0.98f)
+                {
+                    return 0;
+                }
+            }
+
+            //Remote Cluster
             if (LSTM.enableTLRemoteCluster.Value)
             {
                 //空間歪曲器は除外
@@ -99,17 +111,7 @@ namespace LSTMMod
                 }
             }
 
-            //Remote Demand Delay
-            if (LSTM.enableTLRemoteDemandDelay.Value)
-            {
-                float total = demandCmp.storage[supplyDemandPair.demandIndex].totalSupplyCount;
-                float max = demandCmp.storage[supplyDemandPair.demandIndex].max;
-                if (max >= 5000 && total / max >= 0.98f )
-                {
-                    return 0;
-                }
-            }
-
+            //Consider Opposite Range
             if (LSTM.enableTLConsiderOppositeRange.Value)
             {
                 //空間歪曲器は除外、 demand 1000未満も除外
@@ -131,7 +133,20 @@ namespace LSTMMod
             StationComponent demandCmp = stationPool[supplyDemandPair.demandId];
             StationComponent supplyCmp = stationPool[supplyDemandPair.supplyId];
             int itemId = supplyCmp.storage[supplyDemandPair.supplyIndex].itemId;
-            
+
+            //Local Demand Delay
+            //check demandCmp.isStellar or not?
+            if (LSTM.enableTLLocalDemandDelay.Value)
+            {
+                float total = demandCmp.storage[supplyDemandPair.demandIndex].totalSupplyCount;
+                float max = demandCmp.storage[supplyDemandPair.demandIndex].max;
+                if (max >= 2500 && total / max >= 0.99f)
+                {
+                    return 2.0f;
+                }
+            }
+
+            //Local Cluster
             if (LSTM.enableTLLocalCluster.Value)
             {
                 //空間歪曲器は除外
@@ -144,6 +159,7 @@ namespace LSTMMod
                 }
             }
 
+            //Consider Opposite Range
             if (LSTM.enableTLConsiderOppositeRange.Value) 
             {
                 //空間歪曲器は除外
@@ -151,19 +167,6 @@ namespace LSTMMod
                 {
                     result = demandCmp.tripRangeDrones <= supplyCmp.tripRangeDrones ? supplyCmp.tripRangeDrones : demandCmp.tripRangeDrones;
                 }
-            }
-
-            //Local Demand Delay
-            //check demandCmp.isStellar or not?
-            if (LSTM.enableTLLocalDemandDelay.Value)
-            {
-                float total = demandCmp.storage[supplyDemandPair.demandIndex].totalSupplyCount;
-                float max = demandCmp.storage[supplyDemandPair.demandIndex].max;
-                if (max >= 2500 && total / max >= 0.99f)
-                {
-                    return 2.0f;
-                }
-
             }
 
             return result;
