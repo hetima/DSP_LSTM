@@ -64,18 +64,20 @@ namespace LSTMMod
             UIMaterialPicker materialView = go.AddComponent<UIMaterialPicker>();
             go.transform.SetParent(parent.transform, false);
 
-            UISlotPicker slotPicker = UIRoot.instance.uiGame.slotPicker;
-
-            RectTransform bg = slotPicker.bgTrans;
+            //bg
+            UIMechaLab mechaLab = UIRoot.instance.uiGame.mechaLab;
+            RectTransform bg = mechaLab.miniLabBg;
             if (bg != null)
             {
-                GameObject bgGo = UnityEngine.Object.Instantiate(bg.gameObject);
-                Image img = bgGo.GetComponent<Image>();
-                if (img != null)
+                GameObject bgGo = GameObject.Instantiate(bg.gameObject);
+                for (int i = bgGo.transform.childCount -1; i >= 0; i--)
                 {
-                    img.color = new Color(0.19f, 0.19f, 0.19f, 0.92f);
+                    Transform child = bgGo.transform.GetChild(i);
+                    if (child.name != "color")
+                    {
+                        GameObject.Destroy(child.gameObject);
+                    }
                 }
-
                 RectTransform rect2 = Util.NormalizeRectB(bgGo);
                 bgGo.transform.SetParent(go.transform, false);
                 rect2.offsetMax = Vector2.zero;
@@ -86,8 +88,9 @@ namespace LSTMMod
             rect.sizeDelta = new Vector2(30f, 200f);
             rect.anchoredPosition = new Vector2(-20f, -90f);
 
+            //slots
+            UISlotPicker slotPicker = UIRoot.instance.uiGame.slotPicker;
             materialView.items = new UIMaterialViewItem[numberOfSlots];
-
             for (int i = 0; i < numberOfSlots; i++)
             {
                 GameObject go2 = new GameObject("btn-" + i.ToString());
@@ -96,8 +99,8 @@ namespace LSTMMod
                 materialView.items[i] = go2.AddComponent<UIMaterialViewItem>();
                 go2.transform.SetParent(go.transform, false);
 
-                UIButton btn = UnityEngine.Object.Instantiate<UIButton>(slotPicker.iconButtonProto, go2.transform);
-                Image img = UnityEngine.Object.Instantiate<Image>(slotPicker.iconImageProto, go2.transform);
+                UIButton btn = GameObject.Instantiate<UIButton>(slotPicker.iconButtonProto, go2.transform);
+                Image img = GameObject.Instantiate<Image>(slotPicker.iconImageProto, go2.transform);
                 if (btn != null && img != null)
                 {
                     btn.gameObject.SetActive(true);
