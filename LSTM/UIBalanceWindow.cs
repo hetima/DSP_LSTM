@@ -7,6 +7,7 @@ using System.Text;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 
@@ -102,6 +103,7 @@ namespace LSTMMod
         public bool isPointEnter;
 
         private bool focusPointEnter;
+        private Image configImg;
 
         public bool isFunctionWindow()
         {
@@ -177,6 +179,10 @@ namespace LSTMMod
 
         protected override void _OnOpen()
         {
+            if (configImg?.sprite == null)
+            {
+                configImg.sprite = LDB.signals.IconSprite(504);
+            }
             RefreshstarSystemComboBox();
         }
 
@@ -1111,8 +1117,31 @@ namespace LSTMMod
                 //rect2.SetParent(windowTrans, false);
             }
 
+            //config button
+            //Sprite sprite = LDB.signals.IconSprite(504); //この時点では取れないみたい
+            UIButton configBtn = Util.MakeIconButtonC(null, 32f);
+            configBtn.button.onClick.AddListener(new UnityAction(this.OnConfigButtonClick));
+            rect = Util.NormalizeRectC(configBtn.gameObject);
+            //rect.localScale = new Vector3(1f, 1f, 1f);
+            rect.SetParent(windowTrans, false);
+            rect.anchoredPosition = new Vector2(-186f, 286f);
+            configBtn.gameObject.name = "config-button";
+            configBtn.gameObject.SetActive(true);
+            configImg = configBtn.gameObject.GetComponent<Image>(); //後でセットする
+            configImg.color = new Color(1f, 1f, 1f, 0.17f);
+            if (configBtn.transitions.Length > 0)
+            {
+                configBtn.transitions[0].mouseoverColor = new Color(1f, 1f, 1f, 0.67f);
+                configBtn.transitions[0].normalColor = new Color(1f, 1f, 1f, 0.17f);
+                configBtn.transitions[0].pressedColor = new Color(1f, 1f, 1f, 0.5f);
+            }
             CreateStarSystemBox();
 
+        }
+
+        private void OnConfigButtonClick()
+        {
+            LSTM._configWin.OpenWindow();
         }
 
         private void OnLocalButtonClick(int obj)

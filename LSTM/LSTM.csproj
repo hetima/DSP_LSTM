@@ -75,8 +75,10 @@
     <Compile Include="ConstructionPoint.cs" />
     <Compile Include="LSTM.cs" />
     <Compile Include="LSTMNavi.cs" />
+    <Compile Include="MyCheckBox.cs" />
     <Compile Include="MyWindowCtl.cs" />
     <Compile Include="NaviLine.cs" />
+    <Compile Include="UIConfigWindow.cs" />
     <Compile Include="UIStatisticsWindowAgent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StarDistance.cs" />

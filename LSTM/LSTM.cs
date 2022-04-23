@@ -34,6 +34,7 @@ namespace LSTMMod
         
         public static LSTMNavi navi = null;
         public static UIBalanceWindow _win;
+        public static UIConfigWindow _configWin;
         public static ConfigEntry<KeyboardShortcut> mainWindowHotkey;
         public static ConfigEntry<KeyboardShortcut> switchDisplayModeHotkey;
 
@@ -430,8 +431,8 @@ namespace LSTMMod
                 if (!_initialized)
                 {
                     _initialized = true;
+                    _configWin = UIConfigWindow.CreateWindow();
                     _win = MyWindowCtl.CreateWindow<UIBalanceWindow>("LSTMBalanceWindow", "LSTM");
-
                     AddButtonToStarmap();
                     AddButtonToStationWindow();
                     UIStatisticsWindowAgent.PostCreate();

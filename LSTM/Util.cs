@@ -173,7 +173,37 @@ namespace LSTMMod
             return btn;
         }
 
+        public static UIButton MakeIconButtonC(Sprite sprite, float size = 30)
+        {
+            GameObject src = UIRoot.instance.uiGame.starmap.northButton?.transform.parent.Find("tip")?.gameObject;
+            GameObject go = GameObject.Instantiate(src);
 
+            RemovePersistentCalls(go);
+            UIButton btn = go.GetComponent<UIButton>();
+            RectTransform rect = (RectTransform)go.transform;
+            for (int i = rect.childCount - 1; i >= 0; --i)
+            {
+                GameObject.Destroy(rect.GetChild(i).gameObject);
+            }
+            rect.DetachChildren();
+
+            if (size > 0)
+            {
+                rect.sizeDelta = new Vector2(size, size);
+                //float scale = size / rect.sizeDelta.y; //y=30
+                //rect.localScale = new Vector3(scale, scale, scale);
+            }
+
+            Image img = go.GetComponent<Image>();
+            if (img != null)
+            {
+                img.sprite = sprite;
+            }
+            btn.tips.tipText = "";
+            btn.tips.tipTitle = "";
+            btn.tips.delay = 0.6f;
+            return btn;
+        }
 
 
 
