@@ -103,7 +103,6 @@ namespace LSTMMod
         public bool isPointEnter;
 
         private bool focusPointEnter;
-        private Image configImg;
 
         public bool isFunctionWindow()
         {
@@ -179,10 +178,6 @@ namespace LSTMMod
 
         protected override void _OnOpen()
         {
-            if (configImg?.sprite == null)
-            {
-                configImg.sprite = LDB.signals.IconSprite(504);
-            }
             RefreshstarSystemComboBox();
         }
 
@@ -1118,8 +1113,20 @@ namespace LSTMMod
             }
 
             //config button
+            Sprite sprite = null;
             //Sprite sprite = LDB.signals.IconSprite(504); //この時点では取れないみたい
-            UIButton configBtn = Util.MakeIconButtonC(null, 32f);
+            //こっちから取る
+            UIButton[] buildingWarnButtons = UIRoot.instance.optionWindow.buildingWarnButtons;
+            if (buildingWarnButtons.Length >= 4)
+            {
+                UIButton warnBtn = buildingWarnButtons[3];
+                Image warnImg = warnBtn.transform.Find("image")?.GetComponent<Image>();
+                if (warnImg != null)
+                {
+                    sprite = warnImg.sprite;
+                }
+            }
+            UIButton configBtn = Util.MakeIconButtonC(sprite, 32f);
             configBtn.button.onClick.AddListener(new UnityAction(this.OnConfigButtonClick));
             rect = Util.NormalizeRectC(configBtn.gameObject);
             //rect.localScale = new Vector3(1f, 1f, 1f);
@@ -1127,7 +1134,7 @@ namespace LSTMMod
             rect.anchoredPosition = new Vector2(-186f, 286f);
             configBtn.gameObject.name = "config-button";
             configBtn.gameObject.SetActive(true);
-            configImg = configBtn.gameObject.GetComponent<Image>(); //後でセットする
+            Image configImg = configBtn.gameObject.GetComponent<Image>();
             configImg.color = new Color(1f, 1f, 1f, 0.17f);
             if (configBtn.transitions.Length > 0)
             {
