@@ -137,7 +137,7 @@ namespace LSTMMod
             
         }
 
-        public void Log(string str)
+        public static void Log(string str)
         {
             Logger.LogInfo(str);
         }
@@ -647,7 +647,7 @@ namespace LSTMMod
             }
             else
             {
-                LSTM.instance.Log("UIStationStorageAgent is null");
+                LSTM.Log("UIStationStorageAgent is null");
             }
 
             return agent;
