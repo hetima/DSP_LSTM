@@ -35,6 +35,8 @@ namespace LSTMMod
         public static LSTMNavi navi = null;
         public static UIBalanceWindow _win;
         public static UIConfigWindow _configWin;
+        public static StationSignRenderer stationSignRenderer;
+
         public static ConfigEntry<KeyboardShortcut> mainWindowHotkey;
         public static ConfigEntry<KeyboardShortcut> switchDisplayModeHotkey;
 
@@ -47,6 +49,7 @@ namespace LSTMMod
         public static ConfigEntry<bool> reactClosePanelKeyE;
         public static ConfigEntry<bool> showMaterialPicker;
         public static ConfigEntry<bool> setConstructionPointToGround;
+        public static ConfigEntry<bool> showStationInfo;
 
         public static ConfigEntry<bool> enableTLRemoteCluster;
         public static ConfigEntry<bool> enableTLLocalCluster;
@@ -97,6 +100,8 @@ namespace LSTMMod
                 "close window when close panel key(E) is pressed.");
             showMaterialPicker = Config.Bind("Interface", "showMaterialPicker", true,
                 "Add Material Picker for quick item switching to LSTM window");
+            showStationInfo = Config.Bind("Interface", "showStationInfo", true,
+                "Show Station Info Icon");
 
             enableTLRemoteCluster = Config.Bind("TrafficLogic", "TLRemoteCluster", false,
                 "enable TrafficLogic:Remote Cluster");
@@ -436,6 +441,8 @@ namespace LSTMMod
                     AddButtonToStarmap();
                     AddButtonToStationWindow();
                     UIStatisticsWindowAgent.PostCreate();
+                    stationSignRenderer = new StationSignRenderer();
+                    stationSignRenderer.Init();
                 }
             }
 
@@ -532,6 +539,14 @@ namespace LSTMMod
                 }
             }
 
+            [HarmonyPostfix, HarmonyPatch(typeof(EntitySignRenderer), "Draw")]
+            public static void Mod_entitySignPool_Postfix(EntitySignRenderer __instance)
+            {
+                if (GameMain.localPlanet != null)
+                {
+                    stationSignRenderer.Draw(__instance.factory);
+                }
+            }
         }
 
     }

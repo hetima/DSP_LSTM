@@ -78,6 +78,7 @@
     <Compile Include="MyCheckBox.cs" />
     <Compile Include="MyWindowCtl.cs" />
     <Compile Include="NaviLine.cs" />
+    <Compile Include="StationSignRenderer.cs" />
     <Compile Include="UIConfigWindow.cs" />
     <Compile Include="UIStatisticsWindowAgent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

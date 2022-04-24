@@ -36,7 +36,7 @@ namespace LSTMMod
         protected override void _OnCreate()
         {
             windowTrans = MyWindowCtl.GetRectTransform(this);
-            windowTrans.sizeDelta = new Vector2(360f, 260f);
+            windowTrans.sizeDelta = new Vector2(360f, 270f);
 
             CreateUI();
         }
@@ -59,8 +59,10 @@ namespace LSTMMod
                     x_ += windowTrans.sizeDelta.x / 2;
                 }
             }
-
-            RectTransform rect = MyCheckBox.CreateCheckBox(LSTM.showMaterialPicker, "Show Material Picker");
+            RectTransform rect;
+            rect = MyCheckBox.CreateCheckBox(LSTM.showStationInfo, "Show Station Info Icon");
+            addElement(rect);
+            rect = MyCheckBox.CreateCheckBox(LSTM.showMaterialPicker, "Show Material Picker");
             addElement(rect);
             rect = MyCheckBox.CreateCheckBox(LSTM.setConstructionPointToGround, "Set Construction Point To Ground");
             addElement(rect);
