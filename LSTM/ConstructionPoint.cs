@@ -20,7 +20,7 @@ namespace LSTMMod
             public static ItemProto ModLDBItemSelect(ItemProtoSet itemProtoSet, int id)
             {
                 ItemProto result = itemProtoSet.Select(id);
-                if (LSTM.setConstructionPointToGround.Value && result.prefabDesc.isStation)
+                if (LSTM.setConstructionPointToGround.Value && result?.prefabDesc != null && result.prefabDesc.isStation)
                 {
                     return null;
                 }
