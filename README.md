@@ -5,6 +5,7 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 ## Recent Changes (v0.6.0)
 - Added ConfigWindow to change some settings (not yet fulfilled) (open from the button at the top of main window)
 - Added the ability to display station contents and empty slot count as icon (config `showStationInfo` or ConfigWindow) (also affected by in-game building icon display setting)
+- Fix incompatible with DSP Drone Clearing
 
 ![screenshot3](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen3.jpg)
 
@@ -191,6 +192,7 @@ Remote Cluster と Local Cluster は同時に設定できます。
 ### v0.6.0
 - Added ConfigWindow to change some settings (not yet fulfilled) (open from the button at the top of main window)
 - Added the ability to display station contents and empty slot count as icon (config `showStationInfo` or ConfigWindow) (also affected by in-game building icon display setting)
+- Fix incompatible with DSP Drone Clearing
 
 ### v0.5.2
 - Added TrafficLogic setting `TLLocalDemandDelay` default is false
