@@ -101,7 +101,7 @@ namespace LSTMMod
             showMaterialPicker = Config.Bind("Interface", "showMaterialPicker", true,
                 "Add Material Picker for quick item switching to LSTM window");
             showStationInfo = Config.Bind("Interface", "showStationInfo", true,
-                "Show Station Info Icon");
+                "Show station contents and empty slot count as icon. Also affected by in-game building icon display setting");
 
             enableTLRemoteCluster = Config.Bind("TrafficLogic", "TLRemoteCluster", false,
                 "enable TrafficLogic:Remote Cluster");

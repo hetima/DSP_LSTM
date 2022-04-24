@@ -2,10 +2,11 @@
 
 Mod for Dyson Sphere Program. Needs BepInEx.
 
-## Recent Changes (v0.5.2)
-- Added TrafficLogic setting `TLLocalDemandDelay` default is false
-- Added setting `setConstructionPointToGround` for faster construction. default is true
-- Supports indicator display of sprayed with Proliferator
+## Recent Changes (v0.6.0)
+- Added ConfigWindow to change some settings (not yet fulfilled) (open from the button at the top of main window)
+- Added the ability to display station contents and empty slot count as icon (config `showStationInfo` or ConfigWindow) (also affected by in-game building icon display setting)
+
+![screenshot3](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen3.jpg)
 
 
 ## About
@@ -102,7 +103,7 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 |indicatesWarperSign|bool|false|true: show sign on the list if station has warper|
 |reactClosePanelKeyE|bool|true|true: close window when close panel key(E) is pressed|
 |setConstructionPointToGround|bool|true|true: set the construction point of stations to ground level instead of top of the tower|
-
+|showStationInfo|bool|true|Show station contents and empty slot count as icon. Also affected by in-game building icon display setting|
 
 TrafficLogic settings
 
@@ -186,6 +187,10 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 
 ## Release Notes
+
+### v0.6.0
+- Added ConfigWindow to change some settings (not yet fulfilled) (open from the button at the top of main window)
+- Added the ability to display station contents and empty slot count as icon (config `showStationInfo` or ConfigWindow) (also affected by in-game building icon display setting)
 
 ### v0.5.2
 - Added TrafficLogic setting `TLLocalDemandDelay` default is false
