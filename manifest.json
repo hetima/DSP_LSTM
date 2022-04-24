@@ -1,7 +1,7 @@
 {
     "name": "LSTM",
     "description": "Logistics Station Traffic Manager",
-    "version_number": "0.5.2",
+    "version_number": "0.6.0",
     "dependencies": [],
     "website_url": "https://github.com/hetima/DSP_LSTM"
 }
