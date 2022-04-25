@@ -2,7 +2,11 @@
 
 Mod for Dyson Sphere Program. Needs BepInEx.
 
-## Recent Changes (v0.6.0)
+## Recent Changes
+
+### v0.6.1
+- The default values for `setConstructionPointToGround` and `showStationInfo` have been changed to `false`
+### v0.6.0
 - Added ConfigWindow to change some settings (not yet fulfilled) (open from the button at the top of main window)
 - Added the ability to display station contents and empty slot count as icon (config `showStationInfo` or ConfigWindow) (also affected by in-game building icon display setting)
 - Fix incompatible with DSP Drone Clearing Mod
@@ -103,8 +107,8 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 |dropSorterKeyEracesNavi|bool|false|clear navi line when "Remove Copied Sorter Previews" shortcut is pressed|
 |indicatesWarperSign|bool|false|true: show sign on the list if station has warper|
 |reactClosePanelKeyE|bool|true|true: close window when close panel key(E) is pressed|
-|setConstructionPointToGround|bool|true|true: set the construction point of stations to ground level instead of top of the tower|
-|showStationInfo|bool|true|Show station contents and empty slot count as icon. Also affected by in-game building icon display setting|
+|setConstructionPointToGround|bool|false|true: set the construction point of stations to ground level instead of top of the tower|
+|showStationInfo|bool|false|Show station contents and empty slot count as icon. Also affected by in-game building icon display setting|
 
 TrafficLogic settings
 
@@ -188,6 +192,9 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 
 ## Release Notes
+
+### v0.6.1
+- The default values for `setConstructionPointToGround` and `showStationInfo` have been changed to `false`
 
 ### v0.6.0
 - Added ConfigWindow to change some settings (not yet fulfilled) (open from the button at the top of main window)
