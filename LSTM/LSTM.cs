@@ -87,7 +87,7 @@ namespace LSTMMod
                 "Add open LSTM button to Statistics Window");
             showStatInStatisticsWindow = Config.Bind("Interface", "showStatInStatisticsWindow", true,
                 "Add station stat to Statistics Window");
-            setConstructionPointToGround = Config.Bind("Other", "setConstructionPointToGround", true,
+            setConstructionPointToGround = Config.Bind("Other", "setConstructionPointToGround", false,
                 "set the construction point to ground instead of top of the tower");
 
             actAsStandardPanel = Config.Bind("Interface", "actAsStandardPanel", true,
@@ -100,7 +100,7 @@ namespace LSTMMod
                 "close window when close panel key(E) is pressed.");
             showMaterialPicker = Config.Bind("Interface", "showMaterialPicker", true,
                 "Add Material Picker for quick item switching to LSTM window");
-            showStationInfo = Config.Bind("Interface", "showStationInfo", true,
+            showStationInfo = Config.Bind("Interface", "showStationInfo", false,
                 "Show station contents and empty slot count as icon. Also affected by in-game building icon display setting");
 
             enableTLRemoteCluster = Config.Bind("TrafficLogic", "TLRemoteCluster", false,
