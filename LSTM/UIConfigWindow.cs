@@ -36,7 +36,7 @@ namespace LSTMMod
         protected override void _OnCreate()
         {
             windowTrans = MyWindowCtl.GetRectTransform(this);
-            windowTrans.sizeDelta = new Vector2(420f, 270f+170f);
+            windowTrans.sizeDelta = new Vector2(640f, 360f);
 
             CreateUI();
         }
@@ -45,7 +45,7 @@ namespace LSTMMod
         {
             float y_ = 54;
             float x_ = 36f;
-            void addElement(RectTransform rect_, float height)
+            void AddElement(RectTransform rect_, float height)
             {
                 if (rect_ != null)
                 {
@@ -58,30 +58,50 @@ namespace LSTMMod
                     x_ += windowTrans.sizeDelta.x / 2;
                 }
             }
+
+            Text CreateText(string label_)
+            {
+                Text src_ = MyWindowCtl.GetTitleText(this);
+                Text txt_ = GameObject.Instantiate<Text>(src_);
+                txt_.gameObject.name = "label";
+                txt_.text = label_;
+                (txt_.transform as RectTransform).sizeDelta = new Vector2(txt_.preferredWidth + 40f, 30f);
+                return txt_;
+            }
+
             RectTransform rect;
 
             rect = MyKeyBinder.CreateKeyBinder(LSTM.mainWindowHotkey, "Main Hotkey");
-            addElement(rect, 90f);
+            AddElement(rect, 90f);
 
             rect = MyCheckBox.CreateCheckBox(LSTM.showMaterialPicker, "Show Material Picker");
-            addElement(rect, 24f);
+            AddElement(rect, 26f);
             rect = MyCheckBox.CreateCheckBox(LSTM.indicatesWarperSign, "Indicates Warper Sign");
-            addElement(rect, 24f);
+            AddElement(rect, 26f);
             rect = MyCheckBox.CreateCheckBox(LSTM.reactClosePanelKeyE, "Close Panel With E Key");
-            addElement(rect, 24f);
+            AddElement(rect, 26f);
             rect = MyCheckBox.CreateCheckBox(LSTM.actAsStandardPanel, "Act As Standard Panel");
-            addElement(rect, 34f);
+            AddElement(rect, 36f);
             rect = MyCheckBox.CreateCheckBox(LSTM.showStationInfo, "Show Station Info Icon");
-            addElement(rect,24f);
+            AddElement(rect, 26f);
             rect = MyCheckBox.CreateCheckBox(LSTM.setConstructionPointToGround, "Set Construction Point To Ground");
-            addElement(rect, 24f);
-            //addElement(null);
-            //rect = MyCheckBox.CreateCheckBox(LSTM.showButtonInStationWindow, "Show Button In Station Window");
-            //addElement(rect, 24f);
-            //rect = MyCheckBox.CreateCheckBox(LSTM.showButtonInStatisticsWindow, "Show Button In Statistics Window");
-            //addElement(rect, 24f);
-            //rect = MyCheckBox.CreateCheckBox(LSTM.showStatInStatisticsWindow, "Show Stat In Statistics Window");
-            //addElement(rect, 24f);
+            AddElement(rect, 26f);
+
+            x_ = 320f;
+            y_ = 54;
+            Text txt = CreateText("Show Open LSTM Button On");
+            AddElement(txt.transform as RectTransform, 28f);
+            x_ += 16;
+            rect = MyCheckBox.CreateCheckBox(LSTM.showButtonInStationWindow, "Show Button In Station Window");
+            AddElement(rect, 26f);
+            rect = MyCheckBox.CreateCheckBox(LSTM.showButtonInStatisticsWindow, "Show Button In Statistics Window");
+            AddElement(rect, 26f);
+            rect = MyCheckBox.CreateCheckBox(LSTM.showButtonInStarmap, "Show Button In Starmap");
+            AddElement(rect, 36f);
+            x_ -= 16;
+            rect = MyCheckBox.CreateCheckBox(LSTM.showStatInStatisticsWindow, "Show Stat In Statistics Window");
+            AddElement(rect, 26f);
+
 
 
 
