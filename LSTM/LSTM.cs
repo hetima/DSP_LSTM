@@ -43,6 +43,8 @@ namespace LSTMMod
         public static ConfigEntry<bool> dropSorterKeyEracesNavi;
         public static ConfigEntry<bool> showButtonInStationWindow;
         public static ConfigEntry<bool> showButtonInStatisticsWindow;
+        public static ConfigEntry<bool> showButtonInStarmap;
+
         public static ConfigEntry<bool> showStatInStatisticsWindow;
         public static ConfigEntry<bool> actAsStandardPanel;
         public static ConfigEntry<bool> indicatesWarperSign;
@@ -85,6 +87,8 @@ namespace LSTMMod
                 "Add open LSTM button to Station Window (needs restart)");
             showButtonInStatisticsWindow = Config.Bind("Interface", "showButtonInStatisticsWindow", false,
                 "Add open LSTM button to Statistics Window");
+            showButtonInStarmap = Config.Bind("Interface", "showButtonInStarmap", true,
+                "Add open LSTM button to detail panel on starmap");
             showStatInStatisticsWindow = Config.Bind("Interface", "showStatInStatisticsWindow", true,
                 "Add station stat to Statistics Window");
             setConstructionPointToGround = Config.Bind("Other", "setConstructionPointToGround", false,
@@ -417,7 +421,10 @@ namespace LSTMMod
                     rect.localScale = Vector3.one;
                     btn.onClick += OnStarmapButtonClick;
                     starmapBtnGO = btn.gameObject;
-                    starmapBtnGO.SetActive(true);
+                    starmapBtnGO.SetActive(showButtonInStarmap.Value);
+                    showButtonInStarmap.SettingChanged += (sender, args) => {
+                        starmapBtnGO.SetActive(showButtonInStarmap.Value);
+                    };
                 }
             }
 
