@@ -1,11 +1,13 @@
 ﻿//using System;
 //using System.Text;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace LSTMMod
 {
     public class UIStationStorageAgent : MonoBehaviour
     {
+        public static List<UIStationStorageAgent> agents = new List<UIStationStorageAgent>();
         public UIStationStorage uiStorage;
         
         [SerializeField]
@@ -83,6 +85,7 @@ namespace LSTMMod
             go.transform.localScale = new Vector3(1, 1, 1);
             //RectTransform rect = (RectTransform)go.transform;
             //rect.sizeDelta = new Vector2(16, 32);
+            go.transform.SetAsFirstSibling();
 
             Sprite s = Util.LoadSpriteResource("ui/textures/sprites/icons/resume-icon");
             agent.remoteBtn = Util.MakeIconButton(go.transform, s, 0, 0);
@@ -101,7 +104,7 @@ namespace LSTMMod
             {
                 LSTM.Log("UIStationStorageAgent is null");
             }
-
+            agents.Add(agent);
             return agent;
         }
     }

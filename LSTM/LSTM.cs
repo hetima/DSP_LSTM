@@ -391,7 +391,7 @@ namespace LSTMMod
                     stationWindowControls.SetActive(true);
                 }
 
-                if (LSTM.showButtonInStationWindow.Value)
+                //if (LSTM.showButtonInStationWindow.Value)
                 {
                     //before _OnCreate
                     //storageUIPrefabに付けたほうが効率良いけどUIBalanceListEntryでも使う
@@ -403,6 +403,12 @@ namespace LSTMMod
                     {
                         UIStationStorageAgent.MakeUIStationStorageAgent(storageUIs[i]);
                     }
+                    LSTM.showButtonInStationWindow.SettingChanged += (sender, args) => {
+                        foreach (UIStationStorageAgent agent in UIStationStorageAgent.agents)
+                        {
+                            agent.RefreshValues();
+                        }
+                    };
                 }
             }
 
