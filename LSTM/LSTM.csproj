@@ -76,6 +76,7 @@
     <Compile Include="LSTM.cs" />
     <Compile Include="LSTMNavi.cs" />
     <Compile Include="MyCheckBox.cs" />
+    <Compile Include="MyKeyBinder.cs" />
     <Compile Include="MyWindowCtl.cs" />
     <Compile Include="NaviLine.cs" />
     <Compile Include="StationSignRenderer.cs" />

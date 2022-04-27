@@ -36,51 +36,53 @@ namespace LSTMMod
         protected override void _OnCreate()
         {
             windowTrans = MyWindowCtl.GetRectTransform(this);
-            windowTrans.sizeDelta = new Vector2(360f, 270f);
+            windowTrans.sizeDelta = new Vector2(420f, 270f+170f);
 
             CreateUI();
         }
 
         internal void CreateUI()
         {
-            float y_ = windowTrans.sizeDelta.y - 80f;
-            float x_ = 40f;
-            void addElement(RectTransform rect_)
+            float y_ = 54;
+            float x_ = 36f;
+            void addElement(RectTransform rect_, float height)
             {
                 if (rect_ != null)
                 {
-                    rect_.SetParent(windowTrans, false);
-                    rect_.anchoredPosition = new Vector2(x_, y_);
+                    Util.NormalizeRectWithTopLeft(rect_, x_, y_, windowTrans);
                 }
-                y_ -= 30;
-                if (y_ < 40f)
+                y_ += height;
+                if (y_ > windowTrans.sizeDelta.y)
                 {
-                    y_ = windowTrans.sizeDelta.y - 80f;
+                    y_ = 60f;
                     x_ += windowTrans.sizeDelta.x / 2;
                 }
             }
             RectTransform rect;
-            rect = MyCheckBox.CreateCheckBox(LSTM.showStationInfo, "Show Station Info Icon");
-            addElement(rect);
-            rect = MyCheckBox.CreateCheckBox(LSTM.showMaterialPicker, "Show Material Picker");
-            addElement(rect);
-            rect = MyCheckBox.CreateCheckBox(LSTM.setConstructionPointToGround, "Set Construction Point To Ground");
-            addElement(rect);
-            rect = MyCheckBox.CreateCheckBox(LSTM.reactClosePanelKeyE, "Close Panel With E Key");
-            addElement(rect);
-            rect = MyCheckBox.CreateCheckBox(LSTM.indicatesWarperSign, "Indicates Warper Sign");
-            addElement(rect);
-            rect = MyCheckBox.CreateCheckBox(LSTM.actAsStandardPanel, "Act As Standard Panel");
-            addElement(rect);
 
+            rect = MyKeyBinder.CreateKeyBinder(LSTM.mainWindowHotkey, "Main Hotkey");
+            addElement(rect, 90f);
+
+            rect = MyCheckBox.CreateCheckBox(LSTM.showMaterialPicker, "Show Material Picker");
+            addElement(rect, 24f);
+            rect = MyCheckBox.CreateCheckBox(LSTM.indicatesWarperSign, "Indicates Warper Sign");
+            addElement(rect, 24f);
+            rect = MyCheckBox.CreateCheckBox(LSTM.reactClosePanelKeyE, "Close Panel With E Key");
+            addElement(rect, 24f);
+            rect = MyCheckBox.CreateCheckBox(LSTM.actAsStandardPanel, "Act As Standard Panel");
+            addElement(rect, 34f);
+            rect = MyCheckBox.CreateCheckBox(LSTM.showStationInfo, "Show Station Info Icon");
+            addElement(rect,24f);
+            rect = MyCheckBox.CreateCheckBox(LSTM.setConstructionPointToGround, "Set Construction Point To Ground");
+            addElement(rect, 24f);
             //addElement(null);
             //rect = MyCheckBox.CreateCheckBox(LSTM.showButtonInStationWindow, "Show Button In Station Window");
-            //addElement(rect);
+            //addElement(rect, 24f);
             //rect = MyCheckBox.CreateCheckBox(LSTM.showButtonInStatisticsWindow, "Show Button In Statistics Window");
-            //addElement(rect);
+            //addElement(rect, 24f);
             //rect = MyCheckBox.CreateCheckBox(LSTM.showStatInStatisticsWindow, "Show Stat In Statistics Window");
-            //addElement(rect);
-            
+            //addElement(rect, 24f);
+
 
 
         }

@@ -51,6 +51,21 @@ namespace LSTMMod
             }
         }
 
+        //parent 左上原点, cmp 左上基準 Y軸も正の数で渡す
+        public static RectTransform NormalizeRectWithTopLeft(Component cmp, float left, float top, Transform parent = null)
+        {
+            RectTransform rect = cmp.transform as RectTransform;
+            if (parent != null)
+            {
+                rect.SetParent(parent, false);
+            }
+            rect.anchorMax = new Vector2(0f, 1f);
+            rect.anchorMin = new Vector2(0f, 1f);
+            rect.pivot = new Vector2(0f, 1f);
+            rect.anchoredPosition3D = new Vector3(left, -top, 0f);
+            return rect;
+        }
+
         //俺たちは雰囲気でUnity座標系をやっている
         public static RectTransform NormalizeRect(GameObject go, float width = 0, float height = 0)
         {
