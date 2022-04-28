@@ -47,7 +47,6 @@ namespace LSTMMod
 
         internal void CreateUI()
         {
-
             //tabs
             RectTransform base_ = windowTrans;
 
@@ -161,7 +160,7 @@ namespace LSTMMod
 
             x_ = 290f;
             y_ = 0f;
-            rect = MyCheckBox.CreateCheckBox(LSTM.enableTLDCBalance, "Remote Distance/Capacity Balance");
+            rect = MyCheckBox.CreateCheckBox(LSTM.enableTLDCBalance, "Remote Distance/Capacity Balance *");
             AddElement(rect, 26f);
             x_ += 32f;
             txt = CreateText("Supply 70%-100% Multiplier");
@@ -178,6 +177,12 @@ namespace LSTMMod
             AddElement(rect, 26f);
 
             x_ -= 32f;
+
+            x_ = 0f;
+            y_ = 240f;
+            txt = CreateText("* Distance/Capacity Balance will be forced off when Smart Transport is on");
+            txt.fontSize = 15;
+            AddElement(txt.transform as RectTransform, 26f);
 
             OnTabButtonClick(1);
         }
