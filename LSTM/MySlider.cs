@@ -50,6 +50,7 @@ namespace LSTMMod
             if (sl.labelText != null)
             {
                 sl.labelText.fontSize = 14;
+                (sl.labelText.transform as RectTransform).sizeDelta = new Vector2(22f, 22f);
             }
             sl.labelFormat = format;
 
