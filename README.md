@@ -4,14 +4,6 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 
 ## Recent Changes
 
-### v0.6.1
-- The default values for `setConstructionPointToGround` and `showStationInfo` have been changed to `false`
-### v0.6.0
-- Added ConfigWindow to change some settings (not yet fulfilled) (open from the button at the top of main window)
-- Added the ability to display station contents and empty slot count as icon (config `showStationInfo` or ConfigWindow) (also affected by in-game building icon display setting)
-- Fix incompatible with DSP Drone Clearing Mod
-
-![screenshot3](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen3.jpg)
 
 
 ## About
@@ -20,12 +12,13 @@ Lists the supply and demand balance of the Logistics Station by item and by plan
 
 - Show overall status for each item
 - Show the status of all stations on specific planet
-- Show station storage ratio and total actual amounts information in the statistics panel (New in 0.5.0)
+- Show station storage ratio and total actual amounts information in the statistics panel
 - Improve transport behavior
 
 - Display the target planet in the starmap (Universe Exploration lv4 is required)
 - Display navigation of the target station location
 - Open station window directly (right-click locate button)(only current local planet)
+- Display station contents and empty slot count as icon
 
 How to open a window
 - from keyboard shortcut (default is LCtrl+T)
@@ -38,9 +31,14 @@ When opening with the keyboard shortcut, if the item information is found under 
 
 Compatibility with other mods has not yet been checked.
 
+Main Window
 ![screen shot](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen.jpg)
 
+Statistics Panel
 ![screen shot2](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen2.jpg)
+
+Icon Info
+![screenshot3](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen3.jpg)
 
 ## TrafficLogic
 Change transport behavior. Can be turned on and off individually. Default is all off. It must be turned on in the configuration file to be used.  
@@ -86,29 +84,30 @@ This applies to slots with a maximum storage capacity is **5,000** or more.
 Remote demand will not be executed until the total stock (actual stock + the amount in transit) falls below **98%**.
 This subtle deviation solves a situation where there is no room for a local demand to occur.
 
-### Local Demand Delay `TLLocalDemandDelay` (New in 0.5.2)
+### Local Demand Delay `TLLocalDemandDelay`
 Delays the triggering of local demand.
 Same as `TLRemoteDemandDelay` but threshold is **2,500** / **99%**.
 
 
 ## Configuration
 
-LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`).
+LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`). Most settings can be edited in the config window (from gear icon at the top of the main window).
 
 |Key|Type|Default|Description|
 |---|---|---|---|
 |mainWindowHotkey|shortcut|LCtrl+T|Hotkey to open/close LSTM window|
-|switchDisplayModeHotkey|shortcut|Tab|Hotkey to switch display mode of LSTM window|
-|showMaterialPicker|bool|true|Add Material Picker for quick item switching to LSTM window (New in 0.4.0)|
+|showMaterialPicker|bool|true|Add Material Picker for quick item switching to LSTM window|
 |showButtonInStationWindow|bool|true|Add open LSTM button to Station Window|
 |showButtonInStatisticsWindow|bool|false|Add open LSTM button to statistics panel|
-|showStatInStatisticsWindow|bool|true|Add station stat to statistics panel (New in 0.5.0)|
+|showButtonInStarmap|bool|true|Add open LSTM button to detail panel on starmap|
+|showStatInStatisticsWindow|bool|true|Add station stat to statistics panel|
 |actAsStandardPanel|bool|true|true: close with other panels by esc key. false: one more esc needed|
-|dropSorterKeyEracesNavi|bool|false|clear navi line when "Remove Copied Sorter Previews" shortcut is pressed|
 |indicatesWarperSign|bool|false|true: show sign on the list if station has warper|
 |reactClosePanelKeyE|bool|true|true: close window when close panel key(E) is pressed|
 |setConstructionPointToGround|bool|false|true: set the construction point of stations to ground level instead of top of the tower|
 |showStationInfo|bool|false|Show station contents and empty slot count as icon. Also affected by in-game building icon display setting|
+|switchDisplayModeHotkey|shortcut|Tab|Hotkey to switch display mode of LSTM window|
+|dropSorterKeyEracesNavi|bool|false|clear navi line when "Remove Copied Sorter Previews" shortcut is pressed|
 
 TrafficLogic settings
 
@@ -131,12 +130,13 @@ TrafficLogic settings
 
 - アイテムごとに全体の状況を表示
 - 惑星内の全ステーションの状況を表示
-- ステーションの貯蔵率と実数を統計パネルに表示 (New in 0.5.0)
+- ステーションの貯蔵率と実数を統計パネルに表示
 - 輸送ロジックの改良
 
 - 対象の惑星を星間ビューで表示(宇宙探査レベル4が必要)
 - 対象のステーションの場所をナビ表示
 - ステーションウィンドウを開く(ナビボタンを右クリック)(現在の惑星のみ対象)
+- ステーションの内容をアイコンサインで表示
 
 ウィンドウの開き方
 - キーボードショートカット(デフォルトは LCtrl+T)
@@ -187,11 +187,14 @@ Remote Cluster と Local Cluster は同時に設定できます。
 ### Remote Demand Delay `TLRemoteDemandDelay`
 リモート輸入の発動を遅らせます。最大貯蔵量 **5,000** 以上のスロットが対象で、総在庫(実在庫+輸送中の数)が **98%** を下回るまでリモート輸入を実行しません。これによりローカル側の demand やベルト搬入が発生する隙がない状態を回避できます。
 
-### Local Demand Delay `TLLocalDemandDelay` (New in 0.5.2)
+### Local Demand Delay `TLLocalDemandDelay`
 ローカル輸入の発動を遅らせます。`TLRemoteDemandDelay` と同じような機能ですが、発動条件は最大貯蔵量 **2,500** 以上 / 貯蔵率 **99%** です
 
 
 ## Release Notes
+
+### v
+- Added most settings to ConfigWindow
 
 ### v0.6.1
 - The default values for `setConstructionPointToGround` and `showStationInfo` have been changed to `false`
