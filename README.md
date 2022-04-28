@@ -33,12 +33,15 @@ When opening with the keyboard shortcut, if the item information is found under 
 Compatibility with other mods has not yet been checked.
 
 Main Window
+
 ![screen shot](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen.jpg)
 
 Statistics Panel
+
 ![screen shot2](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen2.jpg)
 
 Icon Info
+
 ![screenshot3](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen3.jpg)
 
 ## TrafficLogic
