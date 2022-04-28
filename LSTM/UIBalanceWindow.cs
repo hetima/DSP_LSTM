@@ -1129,9 +1129,7 @@ namespace LSTMMod
             UIButton configBtn = Util.MakeIconButtonC(sprite, 32f);
             configBtn.button.onClick.AddListener(new UnityAction(this.OnConfigButtonClick));
             rect = Util.NormalizeRectC(configBtn.gameObject);
-            //rect.localScale = new Vector3(1f, 1f, 1f);
-            rect.SetParent(windowTrans, false);
-            rect.anchoredPosition = new Vector2(-186f, 286f);
+            rect = Util.NormalizeRectWithTopLeft(configBtn, 158f, 18f, windowTrans);
             configBtn.gameObject.name = "config-button";
             configBtn.gameObject.SetActive(true);
             Image configImg = configBtn.gameObject.GetComponent<Image>();
@@ -1142,6 +1140,8 @@ namespace LSTMMod
                 configBtn.transitions[0].normalColor = new Color(1f, 1f, 1f, 0.17f);
                 configBtn.transitions[0].pressedColor = new Color(1f, 1f, 1f, 0.5f);
             }
+
+
             CreateStarSystemBox();
 
         }
