@@ -4,7 +4,8 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 
 ## Recent Changes
 
-
+### v0.6.2
+- Added most settings to ConfigWindow
 
 ## About
 
@@ -193,7 +194,7 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 ## Release Notes
 
-### v
+### v0.6.2
 - Added most settings to ConfigWindow
 
 ### v0.6.1
