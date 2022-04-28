@@ -65,6 +65,22 @@ namespace LSTMMod
             rect.anchoredPosition3D = new Vector3(left, -top, 0f);
             return rect;
         }
+        public static RectTransform NormalizeRectWithMargin(Component cmp, float top, float left, float bottom, float right, Transform parent = null)
+        {
+            RectTransform rect = cmp.transform as RectTransform;
+            if (parent != null)
+            {
+                rect.SetParent(parent, false);
+            }
+            rect.anchoredPosition3D = Vector3.zero;
+            rect.localScale = Vector3.one;
+            rect.anchorMax = Vector2.one;
+            rect.anchorMin = Vector2.zero;
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.offsetMax = new Vector2(-right, -top);
+            rect.offsetMin = new Vector2(left, bottom);
+            return rect;
+        }
 
         //俺たちは雰囲気でUnity座標系をやっている
         public static RectTransform NormalizeRect(GameObject go, float width = 0, float height = 0)
