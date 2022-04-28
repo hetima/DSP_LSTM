@@ -181,6 +181,16 @@ namespace LSTMMod
             _win.keepOpen = false;
         }
 
+        public static void IntegrationOpenPlanetId(int planetId)
+        {
+            _win.SetUpAndOpen(0, planetId, false);
+        }
+
+        public static void IntegrationOpenItemId(int itemId)
+        {
+            _win.SetUpAndOpen(itemId, 0, false);
+        }
+
         public static void LocateStation(StationComponent station, int planetId)
         {
             navi.Disable();
