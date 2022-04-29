@@ -307,7 +307,15 @@ namespace LSTMMod
 
             if (storeType == EStoreType.GasStubStorage || storeType == EStoreType.GasStubSupply)
             {
-                itemImage.sprite = UIBalanceWindow.gasGiantSprite;
+                //とりあえず
+                if (window.balanceData.starId != 0)
+                {
+                    itemImage.sprite = LDB.items.Select(itemId)?.iconSprite;
+                }
+                else
+                {
+                    itemImage.sprite = UIBalanceWindow.gasGiantSprite;
+                }
                 itemImage.color = new Color(0.5f, 0.5f, 0.5f, 0.6f);
                 ((RectTransform)locateBtn.transform).anchoredPosition = new Vector2(200f, -6f);
             }

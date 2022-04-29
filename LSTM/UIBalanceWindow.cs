@@ -346,7 +346,7 @@ namespace LSTMMod
 
             SetUpItemList();
             SetUpItemUI();
-            if (!balanceData.isLocal && balanceData.itemId > 0)
+            if ((!balanceData.isLocal && balanceData.itemId > 0) || balanceData.starId != 0)
             {
                 _demandList.Sort((a, b) => a.distanceForSort - b.distanceForSort);
                 _supplyList.Sort((a, b) => a.distanceForSort - b.distanceForSort);
@@ -401,12 +401,37 @@ namespace LSTMMod
                     itemText.text = itemProto.name;
                 }
             }
+
+            string AppropriatePlanetName()
+            {
+                if (balanceData.planetId <= 0)
+                {
+                    planetResetButton.gameObject.SetActive(false);
+                    if (tmpPlanetId > 0)
+                    {
+                        return "(" + GameMain.galaxy.PlanetById(tmpPlanetId).displayName + ")";
+                    }
+                    else
+                    {
+                        return "";
+                    }
+                }
+                else
+                {
+                    planetResetButton.gameObject.SetActive(true);
+                    return GameMain.galaxy.PlanetById(balanceData.planetId).displayName;
+                }
+            }
             string planetName;
-            if (balanceData.itemId > 0 && !balanceData.isLocal)
+            if (!balanceData.isLocal)
             {
                 if (balanceData.starId != 0)
                 {
                     planetName = GameMain.galaxy.StarById(balanceData.starId).displayName + "空格行星系".Translate();
+                }
+                else if(balanceData.itemId == 0)
+                {
+                    planetName = AppropriatePlanetName();
                 }
                 else
                 {
@@ -414,22 +439,9 @@ namespace LSTMMod
                 }
                 planetResetButton.gameObject.SetActive(false);
             }
-            else if (balanceData.planetId <= 0)
-            {
-                planetResetButton.gameObject.SetActive(false);
-                if (tmpPlanetId > 0)
-                {
-                    planetName = "(" + GameMain.galaxy.PlanetById(tmpPlanetId).displayName + ")";
-                }
-                else
-                {
-                    planetName = "";
-                }
-            }
             else
             {
-                planetResetButton.gameObject.SetActive(true);
-                planetName = GameMain.galaxy.PlanetById(balanceData.planetId).displayName;
+                planetName = AppropriatePlanetName();
             }
 
             if (planetText != null)
@@ -439,6 +451,7 @@ namespace LSTMMod
                 rect.anchoredPosition = new Vector2(planetText.preferredWidth / 2 + 18f, rect.anchoredPosition.y);
             }
         }
+
 
         internal void SetUpItemList()
         {
@@ -451,14 +464,15 @@ namespace LSTMMod
             {
                 int itemId = balanceData.itemId;
                 int planetId = balanceData.planetId;
-                //itemId なし
-                if (itemId <= 0)
+                //itemId なし starId なし
+                if (itemId <= 0 && balanceData.starId == 0)
                 {
                     AddFromPlanet(planetId, itemId, balanceData.isLocal);
                     return;
                 }
 
                 //planetId あり itemId ありの場合 planetId は無視
+                //starId あり itemIdなしの場合全部追加
 
                 //itemId あり
                 HashSet<int> gasSupplyPlanets = new HashSet<int>();
@@ -466,7 +480,6 @@ namespace LSTMMod
                 GalacticTransport galacticTransport = UIRoot.instance.uiGame.gameData.galacticTransport;
                 StationComponent[] stationPool = galacticTransport.stationPool;
                 int cursor = galacticTransport.stationCursor;
-
                 for (int i = 1; i < cursor; i++)
                 {
                     if (stationPool[i] != null && stationPool[i].gid == i) //gid
@@ -479,13 +492,13 @@ namespace LSTMMod
                         }
 
                         int length = cmp.storage.Length;
-                        //if (length == 6)
-                        //{
-                        //    length -= 1;
-                        //}
                         for (int j = 0; j < length; j++)
                         {
-                            if(cmp.storage[j].itemId == itemId)
+                            if (cmp.storage[j].itemId == 0)
+                            {
+                                continue;
+                            }
+                            if (cmp.storage[j].itemId == itemId || (balanceData.starId != 0 && itemId <= 0))
                             {
                                 int maxCount;
 
@@ -500,32 +513,36 @@ namespace LSTMMod
                                 {
                                     if (cmp.storage[j].remoteLogic == ELogisticStorage.Supply)
                                     {
-                                        gasSupplyPlanets.Add(cmp.planetId);
+                                        gasSupplyPlanets.Add(cmp.planetId * 10_000 + cmp.storage[j].itemId);
                                     }
                                     else
                                     {
-                                        gasStoragePlanets.Add(cmp.planetId);
+                                        gasStoragePlanets.Add(cmp.planetId * 10_000 + cmp.storage[j].itemId);
                                     }
-                                    AddStore(cmp, j, cmp.planetId, itemId, maxCount, EStoreType.Gas);
+                                    AddStore(cmp, j, cmp.planetId, cmp.storage[j].itemId, maxCount, EStoreType.Gas);
                                 }
                                 else
                                 {
-                                    AddStore(cmp, j, cmp.planetId, itemId, maxCount);
+                                    AddStore(cmp, j, cmp.planetId, cmp.storage[j].itemId, maxCount);
                                 }
-                                break;
+                                if (itemId > 0)
+                                {
+                                    break;
+                                }
                             }
                         }
                     }
                 }
 
                 int gasMaxCount = LSTM.RemoteStationMaxItemCount() / 2;
-                foreach (var gasPlanetId in gasSupplyPlanets)
+                LSTM.Log("gs:" +":"+ gasSupplyPlanets.Count.ToString());
+                foreach (int gas in gasSupplyPlanets)
                 {
-                    AddStore(null, 0, gasPlanetId, itemId, gasMaxCount, EStoreType.GasStubSupply);
+                    AddStore(null, 0, gas / 10_000, gas % 10_000, gasMaxCount, EStoreType.GasStubSupply);
                 }
-                foreach (var gasPlanetId in gasStoragePlanets)
+                foreach (int gas in gasStoragePlanets)
                 {
-                    AddStore(null, 0, gasPlanetId, itemId, gasMaxCount, EStoreType.GasStubStorage);
+                    AddStore(null, 0, gas / 10_000, gas % 10_000, gasMaxCount, EStoreType.GasStubStorage);
                 }
             }
 
@@ -663,7 +680,7 @@ namespace LSTMMod
                 else
                 {
                     float distancef = LSTMStarDistance.StarDistanceFromHere(planetId / 100);
-                    distanceForSort = (int)(distancef * 100);
+                    distanceForSort = (int)(distancef * 100) + (planetId % 100);
                 }
             }
             BalanceListData d = new BalanceListData()
