@@ -200,6 +200,9 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 ## Release Notes
 
+### v
+- Filtering by star system with no item selected will display all remote items.
+
 ### v0.6.3
 - Fixed slider values not displaying properly on ConfigWindow
 
