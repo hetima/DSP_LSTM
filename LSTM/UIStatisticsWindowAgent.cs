@@ -22,6 +22,14 @@ namespace LSTMMod
 
         void Start()
         {
+            //UIStatisticsWindowをコピーするmod対策
+            UIStatisticsWindow statWindow = gameObject.GetComponent<UIStatisticsWindow>();
+            if (statWindow == null)
+            {
+                balanceBtn?.gameObject.SetActive(false);
+                return;
+            }
+
             ShowStatInStatisticsWindowChanged();
             if (LSTM.showStatInStatisticsWindow.Value && LSTM._showStatInStatisticsWindow.Value)
             {
