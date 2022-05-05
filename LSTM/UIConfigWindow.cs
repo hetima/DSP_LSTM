@@ -64,9 +64,9 @@ namespace LSTMMod
                 UIDESwarmPanel swarmPanel = UIRoot.instance.uiGame.dysonEditor.controlPanel.hierarchy.swarmPanel;
                 UIButton src = swarmPanel.orbitButtons[0];
                 UIButton btn = GameObject.Instantiate<UIButton>(src);
-                RectTransform btnRext = Util.NormalizeRectWithTopLeft(btn, tabx_, 54f, windowTrans);
-                btnRext.sizeDelta = new Vector2(100f, 24f);
-                (btn.transform.Find("frame").transform as RectTransform).sizeDelta = btnRext.sizeDelta;
+                RectTransform btnRect = Util.NormalizeRectWithTopLeft(btn, tabx_, 54f, windowTrans);
+                btnRect.sizeDelta = new Vector2(100f, 24f);
+                (btn.transform.Find("frame").transform as RectTransform).sizeDelta = btnRect.sizeDelta;
                 // btn.transitions[0] btn btn.transitions[1]==text btn.transitions[2]==frame
                 if (btn.transitions.Length >= 3)
                 {
