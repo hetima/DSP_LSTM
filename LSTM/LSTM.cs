@@ -425,15 +425,14 @@ namespace LSTMMod
             internal static void AddButtonToStarmap()
             {
                 UIPlanetDetail planetDetail = UIRoot.instance.uiGame.planetDetail;
-                GameObject go = planetDetail.typeText.gameObject;
-                if (go != null)
+                Transform parent = planetDetail?.transform;
+                if (parent != null)
                 {
-                    Transform parent = go.transform.parent;
                     UIButton btn = Util.MakeSmallTextButton("LSTM", 38f, 20f);
                     btn.gameObject.name = "lstm-show-btn";
                     RectTransform rect = Util.NormalizeRectD(btn.gameObject);
                     rect.SetParent(parent, false);
-                    rect.anchoredPosition = new Vector3(-2f, -36f);
+                    rect.anchoredPosition3D = new Vector3(-2f, -36f, 0f);
                     rect.localScale = Vector3.one;
                     btn.onClick += OnStarmapButtonClick;
                     starmapBtnGO = btn.gameObject;
