@@ -40,7 +40,7 @@ namespace LSTMMod
         protected override void _OnCreate()
         {
             windowTrans = MyWindowCtl.GetRectTransform(this);
-            windowTrans.sizeDelta = new Vector2(640f, 376f);
+            windowTrans.sizeDelta = new Vector2(640f, 400f);
 
             CreateUI();
         }
@@ -66,11 +66,15 @@ namespace LSTMMod
                 UIButton btn = GameObject.Instantiate<UIButton>(src);
                 RectTransform btnRect = Util.NormalizeRectWithTopLeft(btn, tabx_, 54f, windowTrans);
                 btnRect.sizeDelta = new Vector2(100f, 24f);
-                (btn.transform.Find("frame").transform as RectTransform).sizeDelta = btnRect.sizeDelta;
+                //(btn.transform.Find("frame").transform as RectTransform).sizeDelta = btnRect.sizeDelta;
+                btn.transform.Find("frame").gameObject.SetActive(false);
                 // btn.transitions[0] btn btn.transitions[1]==text btn.transitions[2]==frame
                 if (btn.transitions.Length >= 3)
                 {
-                    btn.transitions[2].highlightColorOverride = new Color(1f, 1f, 1f, 0.1f);
+                    btn.transitions[0].normalColor = new Color(0.1f, 0.1f, 0.1f, 0.68f);
+                    btn.transitions[0].highlightColorOverride = new Color(0.9906f, 0.5897f, 0.3691f, 0.4f);
+                    btn.transitions[1].normalColor = new Color(1f, 1f, 1f, 0.6f);
+                    btn.transitions[1].highlightColorOverride = new Color(0.2f, 0.1f, 0.1f, 0.9f);
                 }
                 Text btnText = btn.transform.Find("Text").GetComponent<Text>();
                 btnText.text = label;
@@ -122,6 +126,10 @@ namespace LSTMMod
             AddElement(rect, 36f);
             rect = MyCheckBox.CreateCheckBox(LSTM.showStationInfo, "Show Station Info Icon");
             AddElement(rect, 26f);
+            x_ += 16;
+            rect = MyCheckBox.CreateCheckBox(LSTM.showStationInfoOnlyInPlanetView, "Only In Planet View");
+            AddElement(rect, 26f);
+            x_ -= 16;
             rect = MyCheckBox.CreateCheckBox(LSTM.setConstructionPointToGround, "Set Construction Point To Ground");
             AddElement(rect, 26f);
 
@@ -179,7 +187,7 @@ namespace LSTMMod
             x_ -= 32f;
 
             x_ = 0f;
-            y_ = 240f;
+            y_ = 264f;
             txt = CreateText("* Distance/Capacity Balance will be forced off when Smart Transport is on");
             txt.fontSize = 15;
             AddElement(txt.transform as RectTransform, 26f);

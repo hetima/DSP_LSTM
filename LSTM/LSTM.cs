@@ -52,6 +52,7 @@ namespace LSTMMod
         public static ConfigEntry<bool> showMaterialPicker;
         public static ConfigEntry<bool> setConstructionPointToGround;
         public static ConfigEntry<bool> showStationInfo;
+        public static ConfigEntry<bool> showStationInfoOnlyInPlanetView;
 
         public static ConfigEntry<bool> enableTLRemoteCluster;
         public static ConfigEntry<bool> enableTLLocalCluster;
@@ -106,7 +107,9 @@ namespace LSTMMod
                 "Add Material Picker for quick item switching to LSTM window");
             showStationInfo = Config.Bind("Interface", "showStationInfo", false,
                 "Show station contents and empty slot count as icon. Also affected by in-game building icon display setting");
-
+            showStationInfoOnlyInPlanetView = Config.Bind("Interface", "showStationInfoOnlyInPlanetView", false,
+                "showStationInfo is only displayed in planet view");
+            
             enableTLRemoteCluster = Config.Bind("TrafficLogic", "TLRemoteCluster", false,
                 "enable TrafficLogic:Remote Cluster");
             enableTLLocalCluster = Config.Bind("TrafficLogic", "TLLocalCluster", false,

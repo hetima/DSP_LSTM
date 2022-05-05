@@ -235,10 +235,14 @@ namespace LSTMMod
 
 		public void Draw(PlanetFactory currentFactory)
 		{
-            if (!EntitySignRenderer.showIcon)
+            if (!EntitySignRenderer.showIcon || !LSTM.showStationInfo.Value)
             {
 				return;
             }
+			if (UIGame.viewMode != EViewMode.Globe && LSTM.showStationInfoOnlyInPlanetView.Value)
+			{
+				return;
+			}
 			Refresh(currentFactory);
 			if (entitySignBufferLen > 1)
 			{
