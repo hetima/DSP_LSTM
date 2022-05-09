@@ -163,7 +163,8 @@ namespace LSTMMod
             localButton.onClick += OnLocalButtonClick;
             remoteButton.onClick += OnRemoteButtonClick;
             starSystemButton.onClick += OnStarSystemButtonClick;
-
+            demandListView.m_ScrollRect.onValueChanged.AddListener(OnDemanScrollRectChanged);
+            supplyListView.m_ScrollRect.onValueChanged.AddListener(OnSupplyScrollRectChanged);
         }
 
         protected override void _OnUnregEvent()
@@ -174,6 +175,8 @@ namespace LSTMMod
             localButton.onClick -= OnLocalButtonClick;
             remoteButton.onClick -= OnRemoteButtonClick;
             starSystemButton.onClick -= OnStarSystemButtonClick;
+            demandListView.m_ScrollRect.onValueChanged.RemoveListener(OnDemanScrollRectChanged);
+            supplyListView.m_ScrollRect.onValueChanged.RemoveListener(OnSupplyScrollRectChanged);
         }
 
         protected override void _OnOpen()
@@ -876,6 +879,12 @@ namespace LSTMMod
             parent.DetachChildren();
             transform.SetParent(parent);
 
+            Image barBg = demandListView.m_ScrollRect.verticalScrollbar.GetComponent<Image>();
+            if (barBg != null)
+            {
+                barBg.color = new Color(0f, 0f, 0f, 0.2f);
+            }
+
             GameObject go2 = GameObject.Instantiate(go);
             go2.name = "list-view-right";
             RectTransform rect2 = (RectTransform)go2.transform;
@@ -1161,6 +1170,28 @@ namespace LSTMMod
 
             CreateStarSystemBox();
 
+        }
+
+        private void OnDemanScrollRectChanged(Vector2 val)
+        {
+            AdjustScrollbar(demandListView.m_ScrollRect.verticalScrollbar);
+        }
+
+        private void OnSupplyScrollRectChanged(Vector2 val)
+        {
+            AdjustScrollbar(supplyListView.m_ScrollRect.verticalScrollbar);
+        }
+
+        private void AdjustScrollbar(Scrollbar bar)
+        {
+            if (bar.size < 0.1f)
+            {
+                bar.size = 0.1f;
+            }
+            else if (bar.size >= 0.99f)
+            {
+                bar.size = 0.001f;
+            }
         }
 
         private void OnConfigButtonClick()
