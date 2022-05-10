@@ -151,37 +151,31 @@ namespace LSTMMod
 
             //balanceBtn
             UIBuildMenu buildMenu = UIRoot.instance.uiGame.buildMenu;
-            UIButton src = buildMenu.categoryButtons[6];
-            UIButton btn = GameObject.Instantiate<UIButton>(src, statisticsWindow.productPanel.transform);
-            btn.button.interactable = true;
-            GameObject go = btn.transform.Find("text")?.gameObject;
-            if (go != null)
-            {
-                go.SetActive(false); //GameObject.Destroy(go);
-            }
-            //onClick が m_PersistentCalls に残ってるので作り直す
-            Util.RemovePersistentCalls(btn.gameObject);
+            Sprite iconSrc = buildMenu.categoryButtons[6]?.transform.Find("icon")?.GetComponent<Image>()?.sprite;
 
-            btn.gameObject.SetActive(true);
-
+            UIButton btn = Util.MakeIconButtonC(iconSrc, 24);
+            btn.transform.SetParent(statisticsWindow.productPanel.transform, false);
             btn.onClick += agent.OnBalanceBtnClick;
             btn.onRightClick += agent.OnBalanceBtnClick;
             btn.tips.delay = 0.8f;
             btn.tips.tipTitle = "ILS Stock Ratio".Translate();
-            btn.tips.tipText = "Click:show / hide ILS stock ratio\nRight click:".Translate();
+            btn.tips.tipText = "Click to show / hide ILS stock ratio\nby LSTM".Translate();
             btn.tips.corner = 3;
             btn.tips.offset = new Vector2(6, 38);
             RectTransform rect = btn.transform as RectTransform;
             rect.anchorMax = new Vector2(0f, 1f);
             rect.anchorMin = new Vector2(0f, 1f);
-            rect.anchoredPosition = new Vector2(458f, -51f);
-            rect.sizeDelta = new Vector2(36, 36);
-            RectTransform iconRect = rect.Find("icon")?.transform as RectTransform;
-            if (iconRect != null)
+            rect.anchoredPosition = new Vector2(476f, -46f);
+            if (btn.transitions.Length > 0)
             {
-                iconRect.sizeDelta = new Vector2(20, 20);
+                btn.transitions[0].target.color = new Color(1f, 1f, 1f, 0.37f);
+                btn.transitions[0].normalColor = new Color(1f, 1f, 1f, 0.37f);
+                btn.transitions[0].mouseoverColor = new Color(1f, 1f, 1f, 0.67f);
+                btn.transitions[0].pressedColor = new Color(1f, 1f, 1f, 0.5f);
+                btn.transitions[0].highlightColorOverride = new Color(0.3f, 0.8f, 0.9f, 0.9f);
             }
             btn.gameObject.SetActive(false);
+
             agent.balanceBtn = btn;
             instance = agent;
         }

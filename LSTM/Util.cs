@@ -233,6 +233,11 @@ namespace LSTMMod
             btn.tips.tipText = "";
             btn.tips.tipTitle = "";
             btn.tips.delay = 0.6f;
+
+            if (btn.transitions != null && btn.transitions.Length > 0)
+            {
+                btn.transitions = new UIButton.Transition[] { btn.transitions[0] };
+            }
             return btn;
         }
 
