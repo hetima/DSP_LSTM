@@ -4,11 +4,10 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 
 ## Recent Changes
 
-### v0.6.3
-- Fixed slider values not displaying properly on ConfigWindow
-
-### v0.6.2
-- Added most settings to ConfigWindow
+### v0.6.4
+- Filtering by star system with no item selected will display all remote items.
+- Added option show station info icon only in planet view (ConfigWindow or `showStationInfoOnlyInPlanetView`)
+- Improved scroll bar appearance
 
 ## About
 
@@ -201,7 +200,7 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 ## Release Notes
 
-### v
+### v0.6.4
 - Filtering by star system with no item selected will display all remote items.
 - Added option show station info icon only in planet view (ConfigWindow or `showStationInfoOnlyInPlanetView`)
 - Improved scroll bar appearance
