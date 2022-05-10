@@ -113,6 +113,7 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 |reactClosePanelKeyE|bool|true|true: close window when close panel key(E) is pressed|
 |setConstructionPointToGround|bool|false|true: set the construction point of stations to ground level instead of top of the tower|
 |showStationInfo|bool|false|Show station contents and empty slot count as icon. Also affected by in-game building icon display setting|
+|showStationInfoOnlyInPlanetView|bool|false|showStationInfo is only displayed in planet view|
 |switchDisplayModeHotkey|shortcut|Tab|Hotkey to switch display mode of LSTM window|
 |dropSorterKeyEracesNavi|bool|false|clear navi line when "Remove Copied Sorter Previews" shortcut is pressed|
 
@@ -202,6 +203,8 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 ### v
 - Filtering by star system with no item selected will display all remote items.
+- Added option show station info icon only in planet view (ConfigWindow or `showStationInfoOnlyInPlanetView`)
+- Improved scroll bar appearance
 
 ### v0.6.3
 - Fixed slider values not displaying properly on ConfigWindow
