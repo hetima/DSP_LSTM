@@ -115,6 +115,7 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 |showStationInfoOnlyInPlanetView|bool|false|showStationInfo is only displayed in planet view|
 |switchDisplayModeHotkey|shortcut|Tab|Hotkey to switch display mode of LSTM window|
 |dropSorterKeyEracesNavi|bool|false|clear navi line when "Remove Copied Sorter Previews" shortcut is pressed|
+|enableNaviToEverywhere|bool|false|double-click (left and/or right click) on Planet View to display navigation to anywhere|
 
 TrafficLogic settings
 
@@ -199,6 +200,9 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 
 ## Release Notes
+
+### v
+- Added ability that double-click (left and/or right click) on Planet View to display navigation to anywhere (on/off in ConfigWindow or `enableNaviToEverywhere`. default is off) (this feature is basically unrelated to this mod, but I introduced it because it's easy to incorporate)
 
 ### v0.6.4
 - Filtering by star system with no item selected will display all remote items.

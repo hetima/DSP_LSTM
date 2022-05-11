@@ -111,7 +111,7 @@ namespace LSTMMod
             showStationInfoOnlyInPlanetView = Config.Bind("Interface", "showStationInfoOnlyInPlanetView", false,
                 "showStationInfo is only displayed in planet view");
             enableNaviToEverywhere = Config.Bind("Other", "enableNaviToEverywhere", false,
-                "Double-Click To Navi Everywhere On Planet View");
+                "double-click on Planet View to display navigation to anywhere");
 
             enableTLRemoteCluster = Config.Bind("TrafficLogic", "TLRemoteCluster", false,
                 "enable TrafficLogic:Remote Cluster");
