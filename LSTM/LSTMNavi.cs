@@ -135,6 +135,13 @@ namespace LSTMMod
             naviLine.endPoint = pos + (pos.normalized * 8);
         }
 
+        public void SetPointNavi(Vector3 pos, int planetId)
+        {
+            naviLine.planetId = planetId;
+            naviLine.entityId = 0;
+            naviLine.endPoint = pos;
+        }
+
         public void Disable()
         {
             naviLine.Disable(true);

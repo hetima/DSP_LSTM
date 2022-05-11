@@ -130,7 +130,7 @@ namespace LSTMMod
             rect = MyCheckBox.CreateCheckBox(LSTM.showStationInfoOnlyInPlanetView, "Only In Planet View");
             AddElement(rect, 26f);
             x_ -= 16;
-            rect = MyCheckBox.CreateCheckBox(LSTM.setConstructionPointToGround, "Set Construction Point To Ground");
+            rect = MyCheckBox.CreateCheckBox(LSTM.showStatInStatisticsWindow, "Show Stat On Statistics Window");
             AddElement(rect, 26f);
 
             x_ = 290f;
@@ -145,8 +145,18 @@ namespace LSTMMod
             rect = MyCheckBox.CreateCheckBox(LSTM.showButtonInStarmap, "Starmap Detail Panel");
             AddElement(rect, 36f);
             x_ -= 16;
-            rect = MyCheckBox.CreateCheckBox(LSTM.showStatInStatisticsWindow, "Show Stat On Statistics Window");
+            rect = MyCheckBox.CreateCheckBox(LSTM.setConstructionPointToGround, "Set Construction Point To Ground");
             AddElement(rect, 26f);
+            rect = MyCheckBox.CreateCheckBox(LSTM.enableNaviToEverywhere, "Double-Click To Navi Everywhere");
+            AddElement(rect, 22f);
+            x_ += 32;
+            txt = CreateText("On Planet View");
+            txt.fontSize = 17;
+            txt.color = new Color(0.698f, 0.698f, 0.698f, 0.6588f);
+            AddElement(txt.transform as RectTransform, 26f);
+            x_ -= 32;
+
+
 
             //Traffic Logic tab
             tab2 = AddTab("Traffic Logic", out tabBtn2);

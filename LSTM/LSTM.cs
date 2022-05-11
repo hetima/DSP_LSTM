@@ -53,6 +53,7 @@ namespace LSTMMod
         public static ConfigEntry<bool> setConstructionPointToGround;
         public static ConfigEntry<bool> showStationInfo;
         public static ConfigEntry<bool> showStationInfoOnlyInPlanetView;
+        public static ConfigEntry<bool> enableNaviToEverywhere;
 
         public static ConfigEntry<bool> enableTLRemoteCluster;
         public static ConfigEntry<bool> enableTLLocalCluster;
@@ -109,7 +110,9 @@ namespace LSTMMod
                 "Show station contents and empty slot count as icon. Also affected by in-game building icon display setting");
             showStationInfoOnlyInPlanetView = Config.Bind("Interface", "showStationInfoOnlyInPlanetView", false,
                 "showStationInfo is only displayed in planet view");
-            
+            enableNaviToEverywhere = Config.Bind("Other", "enableNaviToEverywhere", false,
+                "Double-Click To Navi Everywhere On Planet View");
+
             enableTLRemoteCluster = Config.Bind("TrafficLogic", "TLRemoteCluster", false,
                 "enable TrafficLogic:Remote Cluster");
             enableTLLocalCluster = Config.Bind("TrafficLogic", "TLLocalCluster", false,
@@ -572,6 +575,37 @@ namespace LSTMMod
                     stationSignRenderer.Draw(__instance.factory);
                 }
             }
+
+            private static float _lastClick;
+            [HarmonyPostfix, HarmonyPatch(typeof(RaycastLogic), "GameTick")]
+            public static void RaycastLogic_GameTick_Postfix()
+            {
+                if (UIGame.viewMode != EViewMode.Globe || !enableNaviToEverywhere.Value)
+                {
+                    return;
+                }
+
+                if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+                {
+                    float now = Time.time;
+                    if (_lastClick + 0.5f > now && GameMain.localPlanet != null)
+                    {
+                        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        if (Phys.RayCastSphere(ray.origin, ray.direction, 1600f, Vector3.zero, GameMain.localPlanet.realRadius, out RCHCPU rch))
+                        {
+                            navi.Disable();
+                            navi.SetPointNavi(rch.point + (rch.normal * 2), GameMain.localPlanet.id);
+                        }
+                        _lastClick = 0f;
+                    }
+                    else
+                    {
+                        _lastClick = now;
+                    }
+                }
+
+            }
+
         }
 
     }
