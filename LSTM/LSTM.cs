@@ -12,7 +12,7 @@ using UnityEngine.EventSystems;
 namespace LSTMMod
 {
 
-    [BepInPlugin(__GUID__, __NAME__, "0.6.4")]
+    [BepInPlugin(__GUID__, __NAME__, "0.6.5")]
     public class LSTM : BaseUnityPlugin
     {
         public const string __NAME__ = "LSTM";
