@@ -580,15 +580,14 @@ namespace LSTMMod
             [HarmonyPostfix, HarmonyPatch(typeof(RaycastLogic), "GameTick")]
             public static void RaycastLogic_GameTick_Postfix()
             {
-                if (UIGame.viewMode != EViewMode.Globe || !enableNaviToEverywhere.Value)
+                if (UIGame.viewMode != EViewMode.Globe || !enableNaviToEverywhere.Value || GameMain.localPlanet == null)
                 {
                     return;
                 }
-
                 if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
                 {
                     float now = Time.time;
-                    if (_lastClick + 0.5f > now && GameMain.localPlanet != null)
+                    if (_lastClick + 0.035f < now && _lastClick + 0.5f > now)
                     {
                         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                         if (Phys.RayCastSphere(ray.origin, ray.direction, 1600f, Vector3.zero, GameMain.localPlanet.realRadius, out RCHCPU rch))
