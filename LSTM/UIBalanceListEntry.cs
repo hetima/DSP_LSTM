@@ -123,6 +123,7 @@ namespace LSTMMod
             UIBalanceListEntry prefab = src.gameObject.AddComponent<UIBalanceListEntry>();
             prefab.leftBarLocal = src.leftBar;
             prefab.countValueText = src.countValueText;
+            prefab.countValueText.supportRichText = true;
             prefab.orderValueText = src.orderValueText;
             prefab.maxValueText = src.maxValueText;
             prefab.countBar = src.countBar;
@@ -247,7 +248,7 @@ namespace LSTMMod
             for (int i = go.transform.childCount - 1; i >= 0; --i)
             {
                 GameObject child = go.transform.GetChild(i).gameObject;
-                if (child.name.Contains("button") || child.name.Contains("popup") || child.name.Contains("empty"))
+                if (child.name.Contains("button") || child.name.Contains("popup") || child.name.Contains("empty") || child.name.Contains("keep-mode-lock"))
                 {
                     child.SetActive(false);
                     GameObject.Destroy(child);
@@ -554,6 +555,10 @@ namespace LSTMMod
             else
             {
                 countValueText.text = count.ToString();
+            }
+            if (GameMain.sandboxToolsEnabled && storeType == EStoreType.Normal && station.storage[index].keepMode > 0)
+            {
+                countValueText.text = "<color=#55ddcc99>" + countValueText.text + "</color>";
             }
 
             if (totalOrdered > 0)
