@@ -4,8 +4,8 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 
 ## Recent Changes
 
-### v0.6.5
-- Added ability that double-click (left and/or right click) on Planet View to display navigation to anywhere (on/off in ConfigWindow or `enableNaviToEverywhere`. default is off) (this feature is basically unrelated to this mod, but I introduced it because it's easy to incorporate)
+### v0.6.6
+- Storaged count is displayed in blue if keep locked on sandbox mode for game version 0.9.26
 
 ## About
 
@@ -198,6 +198,9 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 
 ## Release Notes
+
+### v0.6.6
+- Storaged count is displayed in blue if keep locked on sandbox mode for game version 0.9.26
 
 ### v0.6.5
 - Added ability that double-click (left and/or right click) on Planet View to display navigation to anywhere (on/off in ConfigWindow or `enableNaviToEverywhere`. default is off) (this feature is basically unrelated to this mod, but I introduced it because it's easy to incorporate)
