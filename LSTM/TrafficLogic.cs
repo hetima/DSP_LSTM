@@ -386,7 +386,7 @@ namespace LSTMMod
                             ins[i].opcode = OpCodes.Call;
                             ins[i].operand = m_TripRange;
                             patchCount++;
-                            CodeInstruction c = new CodeInstruction(OpCodes.Ldarg_S, 7);
+                            CodeInstruction c = new CodeInstruction(OpCodes.Ldarg_S, 6);
                             yield return c;
                             yield return ins[i];
                             continue;

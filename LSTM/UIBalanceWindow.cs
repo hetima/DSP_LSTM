@@ -1101,7 +1101,7 @@ namespace LSTMMod
             }
 
             //frame
-            Transform transform = UIRoot.instance.uiGame.inventory.rectTrans;
+            Transform transform = UIRoot.instance.uiGame.inventoryWindow.windowTrans;
             bg = transform.Find("content-bevel-bg");
             if (bg != null)
             {
