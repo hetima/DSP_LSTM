@@ -4,8 +4,8 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 
 ## Recent Changes
 
-### v0.6.6
-- Storaged count is displayed in blue if keep locked on sandbox mode for game version 0.9.26
+### v0.6.7
+- Support game version 0.9.27.14546 (it doesn't work on prior to this version)
 
 ## About
 
@@ -111,7 +111,7 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 |setConstructionPointToGround|bool|false|true: set the construction point of stations to ground level instead of top of the tower|
 |showStationInfo|bool|false|Show station contents and empty slot count as icon. Also affected by in-game building icon display setting|
 |showStationInfoOnlyInPlanetView|bool|false|showStationInfo is only displayed in planet view|
-|switchDisplayModeHotkey|shortcut|Tab|Hotkey to switch display mode of LSTM window|
+|switchDisplayModeHotkey|shortcut|Tab|Hotkey to switch between planet name and station name of LSTM window|
 |dropSorterKeyEracesNavi|bool|false|clear navi line when "Remove Copied Sorter Previews" shortcut is pressed|
 |enableNaviToEverywhere|bool|false|double-click (left and/or right click) on Planet View to display navigation to anywhere|
 
@@ -198,6 +198,10 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 
 ## Release Notes
+
+### v0.6.7
+- Support game version 0.9.27.14546 (it doesn't work on prior to this version)
+
 
 ### v0.6.6
 - Storaged count is displayed in blue if keep locked on sandbox mode for game version 0.9.26
