@@ -538,7 +538,6 @@ namespace LSTMMod
                 }
 
                 int gasMaxCount = LSTM.RemoteStationMaxItemCount() / 2;
-                LSTM.Log("gs:" +":"+ gasSupplyPlanets.Count.ToString());
                 foreach (int gas in gasSupplyPlanets)
                 {
                     AddStore(null, 0, gas / 10_000, gas % 10_000, gasMaxCount, EStoreType.GasStubSupply);
