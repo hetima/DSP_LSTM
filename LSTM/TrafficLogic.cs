@@ -35,10 +35,10 @@ namespace LSTMMod
             double supplyRange = supplyCmp.tripRangeShips;
             int itemId = supplyCmp.storage[supplyDemandPair.supplyIndex].itemId;
 
-            //
+            //OneTimeDemand
             if (OneTimeDemand.inOneTimeDemand && OneTimeDemand.oneTimeSupplyGid == supplyCmp.gid)
             {
-                return 2400000.0 * 9999.0; //9999LY
+                return supplyRange; //2400000.0 * 9999.0; //9999LY
             }
 
             //Remote Demand Delay
@@ -319,7 +319,7 @@ namespace LSTMMod
                 {
                     if (!OneTimeDemand.inOneTimeDemand && OneTimeDemand.hasOneTimeDemand && __instance.gid == OneTimeDemand.oneTimeSupplyGid)
                     {
-                        if (OneTimeDemand.PrepareCallOneTimeDemand(__instance))
+                        if (OneTimeDemand.PreOneTimeDemand(__instance))
                         {
                             shipCarries = OneTimeDemand.oneTimeCount;
                             OneTimeDemand.inOneTimeDemand = true;
@@ -339,9 +339,9 @@ namespace LSTMMod
             [HarmonyPostfix, HarmonyPatch(typeof(StationComponent), "InternalTickRemote")]
             public static void StationComponent_InternalTickRemote_Postfix(StationComponent __instance)
             {
-                if (OneTimeDemand.inOneTimeDemand)
+                if (OneTimeDemand.inOneTimeDemand && __instance == OneTimeDemand.oneTimeSupplyStation)
                 {
-                    OneTimeDemand.ResetOneTimeDemandTraffic();
+                    OneTimeDemand.PostOneTimeDemand();
                 }
             }
 

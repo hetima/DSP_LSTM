@@ -85,7 +85,10 @@ namespace LSTMMod
         private void OneShotBtnClick()
         {
             uiStorage.popupBoxRect.gameObject.SetActive(false);
-            OneTimeDemand.AddOneTimeDemand(uiStorage.station, uiStorage.index);
+            if(!OneTimeDemand.AddOneTimeDemand(uiStorage.station, uiStorage.index))
+            {
+                UIRealtimeTip.Popup("Supplier not found", false, 0);
+            }
 
         }
 
@@ -94,7 +97,7 @@ namespace LSTMMod
             oneShotBtn = GameObject.Instantiate<Button>(uiStorage.optionButton0, uiStorage.optionButton0.transform.parent);
             RectTransform rect = oneShotBtn.gameObject.transform as RectTransform;
             rect.localPosition = new Vector2(rect.localPosition.x, rect.localPosition.y - 18);
-            rect.Find("button-text").GetComponent<Text>().text = "one-time Dmd";
+            rect.Find("button-text").GetComponent<Text>().text = "1-time Dmd";
             rect.GetComponent<Image>().color = new Color(0.8f, 0.3f, 0f, 1f);
             oneShotBtn.onClick.RemoveAllListeners();
             oneShotBtn.onClick.AddListener(new UnityAction(this.OneShotBtnClick));

@@ -12,18 +12,23 @@ namespace LSTMMod
         public static int oneTimeIndex;
         public static int oneTimeSupplyGid;
         public static int oneTimeSupplyIndex;
+        public static SupplyDemandPair[] remotePairs;
+        public static int remotePairCount;
+        public static int remotePairProcess;
+        public static StationComponent oneTimeSupplyStation;
 
         public static void ResetOneTimeDemandState()
         {
             hasOneTimeDemand = false;
             inOneTimeDemand = false;
+            oneTimeSupplyStation = null;
         }
 
         public static bool AddOneTimeDemand(StationComponent sc, int index)
         {
             if (inOneTimeDemand)
             {
-                return false;
+                return true;
             }
 
             hasOneTimeDemand = false;
@@ -70,6 +75,10 @@ namespace LSTMMod
                     {
                         continue;
                     }
+                    if (distance > 0.1 && galacticTransport.stationPool[i].warperCount <= 2)
+                    {
+                        continue;
+                    }
                     if (nearestValue == -1f || distance < nearestValue)
                     {
                         nearestGid = i;
@@ -94,28 +103,38 @@ namespace LSTMMod
             //ss.itemId;
         }
 
-        public static bool PrepareCallOneTimeDemand(StationComponent sc)
+        public static bool PreOneTimeDemand(StationComponent sc)
         {
             if (sc.storage[oneTimeSupplyIndex].itemId != oneTimeItemId || sc.gid != oneTimeSupplyGid)
             {
-                //UIRealtimeTip.Popup("" + (sc.storage[oneTimeSupplyIndex].itemId != oneTimeItemId) + "/" + (sc.gid != oneTimeSupplyGid), false, 0);
-
                 return false;
             }
             StationStore[] obj = sc.storage;
             lock (obj)
             {
-                sc.ClearRemotePairs();
+                oneTimeSupplyStation = sc;
+                remotePairs = sc.remotePairs;
+                remotePairCount = sc.remotePairCount;
+                remotePairProcess = sc.remotePairProcess;
+
                 sc.remotePairProcess = 0;
+                sc.remotePairs = new SupplyDemandPair[4];
+                sc.remotePairCount = 0;
                 sc.AddRemotePair(oneTimeSupplyGid, oneTimeSupplyIndex, oneTimeGid, oneTimeIndex);
             }
             return true;
         }
 
-        public static void ResetOneTimeDemandTraffic()
+        public static void PostOneTimeDemand()
         {
+            if (oneTimeSupplyStation != null)
+            {
+                oneTimeSupplyStation.remotePairs = remotePairs;
+                oneTimeSupplyStation.remotePairCount = remotePairCount;
+                oneTimeSupplyStation.remotePairProcess = remotePairProcess;
+            }
             ResetOneTimeDemandState();
-            UIRoot.instance.uiGame.gameData.galacticTransport.RefreshTraffic(0);
+            //UIRoot.instance.uiGame.gameData.galacticTransport.RefreshTraffic(0);
         }
     }
 }
