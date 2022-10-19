@@ -1,7 +1,12 @@
 ﻿//using System;
 //using System.Text;
+using HarmonyLib;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
+using static System.Collections.Specialized.BitVector32;
 
 namespace LSTMMod
 {
@@ -9,7 +14,9 @@ namespace LSTMMod
     {
         public static List<UIStationStorageAgent> agents = new List<UIStationStorageAgent>();
         public UIStationStorage uiStorage;
-        
+        public Button oneShotBtn = null;
+
+
         [SerializeField]
         public UIButton localBtn;
         [SerializeField]
@@ -74,6 +81,78 @@ namespace LSTMMod
             LSTM.OpenBalanceWindow(cmp, index, isLocal, stationWindow.factory);
         }
 
+
+        private void OneShotBtnClick()
+        {
+            uiStorage.popupBoxRect.gameObject.SetActive(false);
+            OneTimeDemand.AddOneTimeDemand(uiStorage.station, uiStorage.index);
+
+        }
+
+        private void MakeOneShotBtn()
+        {
+            oneShotBtn = GameObject.Instantiate<Button>(uiStorage.optionButton0, uiStorage.optionButton0.transform.parent);
+            RectTransform rect = oneShotBtn.gameObject.transform as RectTransform;
+            rect.localPosition = new Vector2(rect.localPosition.x, rect.localPosition.y - 18);
+            rect.Find("button-text").GetComponent<Text>().text = "one-time Dmd";
+            rect.GetComponent<Image>().color = new Color(0.8f, 0.3f, 0f, 1f);
+            oneShotBtn.onClick.RemoveAllListeners();
+            oneShotBtn.onClick.AddListener(new UnityAction(this.OneShotBtnClick));
+            oneShotBtn.gameObject.SetActive(false);
+        }
+
+        private void ShowOneShotBtn()
+        {
+            if (oneShotBtn == null)
+            {
+                MakeOneShotBtn();
+            }
+            if (!oneShotBtn.gameObject.activeSelf)
+            {
+                RectTransform rectTransform = uiStorage.popupBoxRect;
+                rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, rectTransform.sizeDelta.y + 30f);
+                oneShotBtn.gameObject.SetActive(true);
+
+                RectTransform rect = (uiStorage.optionButton0.gameObject.transform as RectTransform);
+                rect.localPosition = new Vector2(rect.localPosition.x, rect.localPosition.y + 20);
+                rect = (uiStorage.optionButton1.gameObject.transform as RectTransform);
+                rect.localPosition = new Vector2(rect.localPosition.x, rect.localPosition.y + 20);
+            }
+
+        }
+        private void HideOneShotBtn()
+        {
+            if (oneShotBtn != null && oneShotBtn.gameObject.activeSelf)
+            {
+                RectTransform rectTransform = uiStorage.popupBoxRect;
+                rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, rectTransform.sizeDelta.y - 30f);
+                oneShotBtn.gameObject.SetActive(false);
+
+                RectTransform rect = (uiStorage.optionButton0.gameObject.transform as RectTransform);
+                rect.localPosition = new Vector2(rect.localPosition.x, rect.localPosition.y - 20);
+                rect = (uiStorage.optionButton1.gameObject.transform as RectTransform);
+                rect.localPosition = new Vector2(rect.localPosition.x, rect.localPosition.y - 20);
+            }
+
+        }
+        public void OnRemoteSdButtonClick()
+        {
+            StationComponent cmp = uiStorage.station;
+            if (cmp.storage[uiStorage.index].remoteDemandCount > 0)
+            {
+                RectTransform rectTransform = uiStorage.popupBoxRect;
+                ShowOneShotBtn();
+            }
+            else
+            {
+                HideOneShotBtn();
+            }
+        }
+        public void OnLocalSdButtonClick()
+        {
+            HideOneShotBtn();
+        }
+
         public static UIStationStorageAgent MakeUIStationStorageAgent(UIStationStorage stationStorage)
         {
             GameObject parent = stationStorage.gameObject;
@@ -106,6 +185,35 @@ namespace LSTMMod
             }
             agents.Add(agent);
             return agent;
+        }
+
+        public static class Patch
+        {
+            [HarmonyPostfix, HarmonyPatch(typeof(UIStationStorage), "RefreshValues")]
+            public static void UIStationStorage_RefreshValues_Postfix(UIStationStorage __instance)
+            {
+                if (LSTM.showButtonInStationWindow.Value)
+                {
+                    __instance.GetComponent<UIStationStorageAgent>()?.RefreshValues();
+                }
+            }
+
+            [HarmonyPostfix, HarmonyPatch(typeof(UIStationStorage), "OnRemoteSdButtonClick")]
+            public static void UIStationStorage_OnRemoteSdButtonClick_Postfix(UIStationStorage __instance)
+            {
+                if (LSTM.showButtonInStationWindow.Value)
+                {
+                    __instance.GetComponent<UIStationStorageAgent>()?.OnRemoteSdButtonClick();
+                }
+            }
+            [HarmonyPostfix, HarmonyPatch(typeof(UIStationStorage), "OnLocalSdButtonClick")]
+            public static void UIStationStorage_OnLocalSdButtonClick_Postfix(UIStationStorage __instance)
+            {
+                if (LSTM.showButtonInStationWindow.Value)
+                {
+                    __instance.GetComponent<UIStationStorageAgent>()?.OnLocalSdButtonClick();
+                }
+            }
         }
     }
 }

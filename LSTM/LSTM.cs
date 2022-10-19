@@ -144,6 +144,7 @@ namespace LSTMMod
             harmony.PatchAll(typeof(TrafficLogic.Patch));
             harmony.PatchAll(typeof(UIStatisticsWindowAgent.Patch));
             harmony.PatchAll(typeof(ConstructionPoint.Patch));
+            harmony.PatchAll(typeof(UIStationStorageAgent.Patch));
             
         }
 
@@ -532,14 +533,6 @@ namespace LSTMMod
                 }
             }
 
-            [HarmonyPostfix, HarmonyPatch(typeof(UIStationStorage), "RefreshValues")]
-            public static void UIStationStorage_RefreshValues_Postfix(UIStationStorage __instance)
-            {
-                if (LSTM.showButtonInStationWindow.Value)
-                {
-                    __instance.GetComponent<UIStationStorageAgent>()?.RefreshValues();
-                }
-            }
 
             //ここへ来るまでの判定
             //GameMain: FixedUpdate(): if (!this._paused) 

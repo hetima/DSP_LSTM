@@ -659,6 +659,10 @@ namespace LSTMMod
         {
             window.Filter(itemId, 0);
         }
+        private void OnOneTimeDemandButtonClick(int obj)
+        {
+            OneTimeDemand.AddOneTimeDemand(station, index);
+        }
 
         public void OnPointerEnter(PointerEventData _eventData)
         {
