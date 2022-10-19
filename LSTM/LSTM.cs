@@ -478,7 +478,7 @@ namespace LSTMMod
             public static void GameMain_Begin_Prefix()
             {
                 //reset
-                TrafficLogic.ResetOneTimeDemmandState();
+                TrafficLogic.ResetOneTimeDemandState();
             }
 
             //[HarmonyPrefix, HarmonyPatch(typeof(GameMain), "End")]
