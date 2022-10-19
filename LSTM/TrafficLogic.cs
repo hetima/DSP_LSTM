@@ -3,12 +3,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Collections.Generic;
 using System.Linq;
-using BepInEx;
-using BepInEx.Logging;
-using BepInEx.Configuration;
 using HarmonyLib;
-using System;
-using System.Diagnostics;
 
 /*
  GalacticTransport.RefreshTraffic -> StationComponent.RematchRemotePairs -> AddRemotePair
@@ -23,99 +18,8 @@ using System.Diagnostics;
 namespace LSTMMod
 {
 
-
     public class TrafficLogic
     {
-        public static bool hasOneTimeDemand = false;
-        public static bool inOneTimeDemand = false;
-        public static int oneTimeItemId;
-        public static int oneTimeCount;
-        public static int oneTimeGid;
-        public static int oneTimeIndex;
-        public static int oneTimeSupplyGid;
-        public static int oneTimeSupplyIndex;
-
-        public static void ResetOneTimeDemandState()
-        {
-            hasOneTimeDemand = false;
-            inOneTimeDemand = false;
-        }
-
-        public static bool AddOneTimeDemand(StationComponent sc, int index)
-        {
-            if (inOneTimeDemand)
-            {
-                return false;
-            }
-
-            hasOneTimeDemand = false;
-
-            if (!sc.isStellar)
-            {
-                return false;
-            }
-            StationStore ss = sc.storage[index];
-            if (ss.remoteLogic == ELogisticStorage.Demand)
-            {
-                return false;
-            }
-
-            int itemId = ss.itemId;
-            int logisticShipCarries = GameMain.history.logisticShipCarries;
-            int count = ss.remoteDemandCount;
-            if (count <= 0)
-            {
-                return false;
-            }
-            if (count > logisticShipCarries)
-            {
-                count = logisticShipCarries;
-            }
-            GalacticTransport galacticTransport = UIRoot.instance.uiGame.gameData.galacticTransport;
-            for (int i = 0; i < galacticTransport.stationCursor; i++)
-            {
-                if (galacticTransport.stationPool[i] == null || sc.gid == i)
-                {
-                    continue;
-                }
-                oneTimeSupplyIndex = galacticTransport.stationPool[i].HasRemoteSupply(itemId, count);
-                if (oneTimeSupplyIndex >= 0 && galacticTransport.stationPool[i].idleShipCount > 0 && galacticTransport.stationPool[i].energy > 6000000L)
-                {
-                    oneTimeItemId = itemId;
-                    oneTimeCount = count;
-                    oneTimeGid = sc.gid;
-                    oneTimeIndex = index;
-                    oneTimeSupplyGid = i;
-                    hasOneTimeDemand = true;
-                    break;
-                }
-            }
-
-            return hasOneTimeDemand;
-            //ss.itemId;
-        }
-
-        public static bool PrepareCallOneTimeDemand(StationComponent sc)
-        {
-            if (sc.storage[oneTimeSupplyIndex].itemId != oneTimeItemId || sc.gid != oneTimeSupplyGid)
-            {
-                return false;
-            }
-            StationStore[] obj = sc.storage;
-            lock (obj) {
-                sc.ClearRemotePairs();
-                sc.remotePairProcess = 0;
-                sc.AddRemotePair(oneTimeSupplyGid, oneTimeSupplyIndex, oneTimeGid, oneTimeIndex);
-            }
-            return true;
-        }
-
-        public static void ResetOneTimeDemandTraffic()
-        {
-            ResetOneTimeDemandState();
-            UIRoot.instance.uiGame.gameData.galacticTransport.RefreshTraffic(0);
-        }
-
 
         //StationComponent.tripRangeShips 
         //0を返すとすべてのステーションが対象外になり輸送を開始しない
@@ -132,7 +36,7 @@ namespace LSTMMod
             int itemId = supplyCmp.storage[supplyDemandPair.supplyIndex].itemId;
 
             //
-            if (inOneTimeDemand && oneTimeSupplyGid == supplyCmp.gid)
+            if (OneTimeDemand.inOneTimeDemand && OneTimeDemand.oneTimeSupplyGid == supplyCmp.gid)
             {
                 UIRealtimeTip.Popup("inOneTimeDemand", false, 0);
 
@@ -415,12 +319,12 @@ namespace LSTMMod
                 
                 if (timeGene == __instance.gene)
                 {
-                    if (!inOneTimeDemand && hasOneTimeDemand && __instance.gid == oneTimeSupplyGid)
+                    if (!OneTimeDemand.inOneTimeDemand && OneTimeDemand.hasOneTimeDemand && __instance.gid == OneTimeDemand.oneTimeSupplyGid)
                     {
-                        if (PrepareCallOneTimeDemand(__instance))
+                        if (OneTimeDemand.PrepareCallOneTimeDemand(__instance))
                         {
-                            shipCarries = oneTimeCount;
-                            inOneTimeDemand = true;
+                            shipCarries = OneTimeDemand.oneTimeCount;
+                            OneTimeDemand.inOneTimeDemand = true;
                         }
                     }
                     else if (LSTM.enableTLSmartTransport.Value)
@@ -433,9 +337,9 @@ namespace LSTMMod
             [HarmonyPostfix, HarmonyPatch(typeof(StationComponent), "InternalTickRemote")]
             public static void StationComponent_InternalTickRemote_Postfix(StationComponent __instance)
             {
-                if (inOneTimeDemand)
+                if (OneTimeDemand.inOneTimeDemand)
                 {
-                    ResetOneTimeDemandTraffic();
+                    OneTimeDemand.ResetOneTimeDemandTraffic();
                 }
             }
 
