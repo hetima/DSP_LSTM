@@ -27,6 +27,7 @@ namespace LSTMMod
     public class TrafficLogic
     {
         public static bool hasOneTimeDemand = false;
+        public static bool inOneTimeDemand = false;
         public static int oneTimeItemId;
         public static int oneTimeCount;
         public static int oneTimeGid;
@@ -37,10 +38,16 @@ namespace LSTMMod
         public static void ResetOneTimeDemandState()
         {
             hasOneTimeDemand = false;
+            inOneTimeDemand = false;
         }
 
         public static bool AddOneTimeDemand(StationComponent sc, int index)
         {
+            if (inOneTimeDemand)
+            {
+                return false;
+            }
+
             hasOneTimeDemand = false;
 
             if (!sc.isStellar)
@@ -90,13 +97,16 @@ namespace LSTMMod
 
         public static bool PrepareCallOneTimeDemand(StationComponent sc)
         {
-            if (sc.storage[oneTimeSupplyIndex].itemId != oneTimeItemId)
+            if (sc.storage[oneTimeSupplyIndex].itemId != oneTimeItemId || sc.gid != oneTimeSupplyGid)
             {
                 return false;
             }
-            sc.ClearRemotePairs();
-            sc.remotePairProcess = 0;
-            sc.AddRemotePair(oneTimeSupplyGid, oneTimeSupplyIndex, oneTimeGid, oneTimeIndex);
+            StationStore[] obj = sc.storage;
+            lock (obj) {
+                sc.ClearRemotePairs();
+                sc.remotePairProcess = 0;
+                sc.AddRemotePair(oneTimeSupplyGid, oneTimeSupplyIndex, oneTimeGid, oneTimeIndex);
+            }
             return true;
         }
 
@@ -122,9 +132,11 @@ namespace LSTMMod
             int itemId = supplyCmp.storage[supplyDemandPair.supplyIndex].itemId;
 
             //
-            if (hasOneTimeDemand && oneTimeSupplyGid == supplyCmp.gid)
+            if (inOneTimeDemand && oneTimeSupplyGid == supplyCmp.gid)
             {
-                return 0;
+                UIRealtimeTip.Popup("inOneTimeDemand", false, 0);
+
+                return supplyRange;
             }
 
             //Remote Demand Delay
@@ -398,17 +410,17 @@ namespace LSTMMod
         public static class Patch
         {
             [HarmonyPrefix, HarmonyPatch(typeof(StationComponent), "InternalTickRemote"), HarmonyAfter("dsp.nebula-multiplayer")]
-            public static void StationComponent_InternalTickRemote_Prefix(StationComponent __instance, int timeGene, ref int shipCarries, out bool __state)
+            public static void StationComponent_InternalTickRemote_Prefix(StationComponent __instance, int timeGene, ref int shipCarries)
             {
-                __state = false;
+                
                 if (timeGene == __instance.gene)
                 {
-                    if (hasOneTimeDemand && __instance.gid == oneTimeSupplyGid)
+                    if (!inOneTimeDemand && hasOneTimeDemand && __instance.gid == oneTimeSupplyGid)
                     {
                         if (PrepareCallOneTimeDemand(__instance))
                         {
                             shipCarries = oneTimeCount;
-                            __state = true;
+                            inOneTimeDemand = true;
                         }
                     }
                     else if (LSTM.enableTLSmartTransport.Value)
@@ -419,9 +431,9 @@ namespace LSTMMod
             }
 
             [HarmonyPostfix, HarmonyPatch(typeof(StationComponent), "InternalTickRemote")]
-            public static void StationComponent_InternalTickRemote_Postfix(StationComponent __instance, bool __state)
+            public static void StationComponent_InternalTickRemote_Postfix(StationComponent __instance)
             {
-                if (__state)
+                if (inOneTimeDemand)
                 {
                     ResetOneTimeDemandTraffic();
                 }
