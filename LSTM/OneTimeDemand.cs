@@ -35,7 +35,7 @@ namespace LSTMMod
             StationStore ss = sc.storage[index];
             if (ss.remoteLogic == ELogisticStorage.Demand)
             {
-                return false;
+                //return false;
             }
 
             int itemId = ss.itemId;
@@ -49,6 +49,11 @@ namespace LSTMMod
             {
                 count = logisticShipCarries;
             }
+
+            int demandStarId = sc.planetId / 100;
+            int nearestGid = -1;
+            int nearestIndex = -1;
+            float nearestValue = -1f;
             GalacticTransport galacticTransport = UIRoot.instance.uiGame.gameData.galacticTransport;
             for (int i = 0; i < galacticTransport.stationCursor; i++)
             {
@@ -56,17 +61,33 @@ namespace LSTMMod
                 {
                     continue;
                 }
-                oneTimeSupplyIndex = galacticTransport.stationPool[i].HasRemoteSupply(itemId, count);
-                if (oneTimeSupplyIndex >= 0 && galacticTransport.stationPool[i].idleShipCount > 0 && galacticTransport.stationPool[i].energy > 6000000L)
+                int supplyIndex = galacticTransport.stationPool[i].HasRemoteSupply(itemId, count);
+                if (supplyIndex >= 0 && galacticTransport.stationPool[i].idleShipCount > 0 && galacticTransport.stationPool[i].energy > 6000000L)
                 {
-                    oneTimeItemId = itemId;
-                    oneTimeCount = count;
-                    oneTimeGid = sc.gid;
-                    oneTimeIndex = index;
-                    oneTimeSupplyGid = i;
-                    hasOneTimeDemand = true;
-                    break;
+                    int supplyStarId = galacticTransport.stationPool[i].planetId / 100;
+                    float distance = LSTMStarDistance.StarDistance(demandStarId, supplyStarId);
+                    if (distance < 0)
+                    {
+                        continue;
+                    }
+                    if (nearestValue == -1f || distance < nearestValue)
+                    {
+                        nearestGid = i;
+                        nearestIndex = supplyIndex;
+                        nearestValue = distance;
+                    }
                 }
+            }
+
+            if (nearestGid > 0)
+            {
+                oneTimeItemId = itemId;
+                oneTimeCount = count;
+                oneTimeGid = sc.gid;
+                oneTimeIndex = index;
+                oneTimeSupplyGid = nearestGid;
+                oneTimeSupplyIndex = nearestIndex;
+                hasOneTimeDemand = true;
             }
 
             return hasOneTimeDemand;
@@ -77,6 +98,8 @@ namespace LSTMMod
         {
             if (sc.storage[oneTimeSupplyIndex].itemId != oneTimeItemId || sc.gid != oneTimeSupplyGid)
             {
+                //UIRealtimeTip.Popup("" + (sc.storage[oneTimeSupplyIndex].itemId != oneTimeItemId) + "/" + (sc.gid != oneTimeSupplyGid), false, 0);
+
                 return false;
             }
             StationStore[] obj = sc.storage;

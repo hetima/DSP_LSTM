@@ -38,9 +38,7 @@ namespace LSTMMod
             //
             if (OneTimeDemand.inOneTimeDemand && OneTimeDemand.oneTimeSupplyGid == supplyCmp.gid)
             {
-                UIRealtimeTip.Popup("inOneTimeDemand", false, 0);
-
-                return supplyRange;
+                return 2400000.0 * 9999.0; //9999LY
             }
 
             //Remote Demand Delay
@@ -325,6 +323,10 @@ namespace LSTMMod
                         {
                             shipCarries = OneTimeDemand.oneTimeCount;
                             OneTimeDemand.inOneTimeDemand = true;
+                        }
+                        else
+                        {
+                            OneTimeDemand.ResetOneTimeDemandState();
                         }
                     }
                     else if (LSTM.enableTLSmartTransport.Value)
