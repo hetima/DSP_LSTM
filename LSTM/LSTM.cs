@@ -474,10 +474,12 @@ namespace LSTMMod
                 }
             }
 
-            //[HarmonyPrefix, HarmonyPatch(typeof(GameMain), "Begin")]
-            //public static void GameMain_Begin_Prefix()
-            //{
-            //}
+            [HarmonyPrefix, HarmonyPatch(typeof(GameMain), "Begin")]
+            public static void GameMain_Begin_Prefix()
+            {
+                //reset
+                TrafficLogic.ResetOneTimeDemmandState();
+            }
 
             //[HarmonyPrefix, HarmonyPatch(typeof(GameMain), "End")]
             //public static void GameMain_End_Prefix()
