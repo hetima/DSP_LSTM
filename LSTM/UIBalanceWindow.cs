@@ -1316,6 +1316,11 @@ namespace LSTMMod
                 return;
             }
 
+            if (item.storeType != EStoreType.Normal || item.station.isCollector || !item.station.isStellar)
+            {
+                return;
+            }
+
             RectTransform rect = menuComboBox.m_DropDownList;
             //anchorMax = new Vector2(1f, 0f);
             //anchorMin = new Vector2(0f, 0f);
