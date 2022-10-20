@@ -4,8 +4,11 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 
 ## Recent Changes
 
+### v0.7.1
+- Minor bug fix
+
 ### v0.7.0
-- Added [One-time Demand](#one-time-demand)
+- Added One-time Demand
 
 ## About
 
@@ -225,6 +228,9 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 
 ## Release Notes
+
+### v0.7.1
+- Minor bug fix
 
 ### v0.7.0
 - Added One-time Demand
