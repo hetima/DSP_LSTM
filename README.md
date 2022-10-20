@@ -48,13 +48,13 @@ Icon Info
 A one-time remote transport can be activated.  
 Enabling One-time Demand in the configuration adds functionality to the right-click menu in the LSTM window and to the remote status toggle button in the station window. It is executed from the requesting station.
 
-![screenshot3](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen4.jpg)
+![screenshot4](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen4.jpg)
 
-![screenshot3](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen5.jpg)
+![screenshot5](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen5.jpg)
 
 When One-time Demand is executed, transportation is performed from the nearest station available for supply to the target station. If it is farther than the maximum supply range, it will be excluded, but if Ignore Supply Range is turned on, it will be included.The quantity transported is the available capacity on the demand side or the maximum loading capacity of the carrier.For example, if you run this function with capacity set to 100, then 100 supplies will be delivered. The receiver can execute this function in any demand/supply/storage state.
 
-![screenshot3](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen6.jpg)
+![screenshot6](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen6.jpg)
 
 
 ## TrafficLogic
@@ -171,13 +171,13 @@ TrafficLogic settings
 一回限りの輸送を発動させることができます。  
 設定でOne-time Demandを有効にすると、LSTMウィンドウの右クリックメニューとステーションウィンドウのリモート状態切り替えボタンに機能が追加されます。要求する側のステーションから実行します。
 
-![screenshot3](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen4.jpg)
+![screenshot4](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen4.jpg)
 
-![screenshot3](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen5.jpg)
+![screenshot5](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen5.jpg)
 
 One-time Demandを実行するといちばん近い供給可能なステーションから対象のステーションへ輸送が行われます。最大輸送距離より遠い場合は除外されますが、 Ignore Supply Range をオンにしておくと、それを無視して輸送実行します。輸送される量は要求側の空き容量、もしくは輸送船の最大積載量です。例えばキャパシティを100にして実行すると100個の物資が運ばれてきます。受け取る側は demand/supply/storage どの状態でもこの機能を実行することができます。
 
-![screenshot3](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen6.jpg)
+![screenshot6](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen6.jpg)
 
 
 ## TrafficLogic
