@@ -4,8 +4,8 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 
 ## Recent Changes
 
-### v0.6.7
-- Support game version 0.9.27.14546 (it doesn't work on prior to this version)
+### v0.7.0
+- Added [One-time Demand](#one-time-demand)
 
 ## About
 
@@ -44,8 +44,21 @@ Icon Info
 
 ![screenshot3](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen3.jpg)
 
+## One-time Demand
+A one-time remote transport can be activated.  
+Enabling One-time Demand in the configuration adds functionality to the right-click menu in the LSTM window and to the remote status toggle button in the station window. It is executed from the requesting station.
+
+![screenshot3](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen4.jpg)
+
+![screenshot3](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen5.jpg)
+
+When One-time Demand is executed, transportation is performed from the nearest station available for supply to the target station. If it is farther than the maximum supply range, it will be excluded, but if Ignore Supply Range is turned on, it will be included.The quantity transported is the available capacity on the demand side or the maximum loading capacity of the carrier.For example, if you run this function with capacity set to 100, then 100 supplies will be delivered. The receiver can execute this function in any demand/supply/storage state.
+
+![screenshot3](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen6.jpg)
+
+
 ## TrafficLogic
-Change transport behavior. Can be turned on and off individually. Default is all off. It must be turned on in the configuration file to be used.  
+Change transport behavior. Can be turned on and off individually. Default is all off. It must be turned on in the configuration to be used.  
 
 __Incompatible__ with some mods (GalacticScale, StationRangeLimiter, etc.). TrafficLogic will not work if you use these mods.
 
@@ -114,6 +127,8 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 |switchDisplayModeHotkey|shortcut|Tab|Hotkey to switch between planet name and station name of LSTM window|
 |dropSorterKeyEracesNavi|bool|false|clear navi line when "Remove Copied Sorter Previews" shortcut is pressed|
 |enableNaviToEverywhere|bool|false|double-click (left and/or right click) on Planet View to display navigation to anywhere|
+|enableOneTimeDemand|bool|false|enable One-Time Demand|
+|oneTimeDemandIgnoreSupplyRange|bool|false|One-Time Demand ignores supply range|
 
 TrafficLogic settings
 
@@ -152,9 +167,21 @@ TrafficLogic settings
 
 キーボードショートカットで開くときに、マウスポインタ上にアイテム情報を見つけたらそのアイテムでフィルタ表示します（インベントリ、ストレージ、合成機、統計パネル、その他のアイコンが表示されている場所）
 
+## One-time Demand
+一回限りの輸送を発動させることができます。  
+設定でOne-time Demandを有効にすると、LSTMウィンドウの右クリックメニューとステーションウィンドウのリモート状態切り替えボタンに機能が追加されます。要求する側のステーションから実行します。
+
+![screenshot3](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen4.jpg)
+
+![screenshot3](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen5.jpg)
+
+One-time Demandを実行するといちばん近い供給可能なステーションから対象のステーションへ輸送が行われます。最大輸送距離より遠い場合は除外されますが、 Ignore Supply Range をオンにしておくと、それを無視して輸送実行します。輸送される量は要求側の空き容量、もしくは輸送船の最大積載量です。例えばキャパシティを100にして実行すると100個の物資が運ばれてきます。受け取る側は demand/supply/storage どの状態でもこの機能を実行することができます。
+
+![screenshot3](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen6.jpg)
+
 
 ## TrafficLogic
-輸送の挙動を変更します。個別に設定でオンオフできます。デフォルトはすべてオフです。使用するには設定ファイルでオンにする必要があります。  
+輸送の挙動を変更します。個別に設定でオンオフできます。デフォルトはすべてオフです。使用するには設定ウィンドウでオンにする必要があります。  
 
 一部のmod(GalacticScale, StationRangeLimiter 等)とは互換性がありません。これらのmodを使用している場合 TrafficLogic は機能しません。  
 
@@ -198,6 +225,9 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 
 ## Release Notes
+
+### v0.7.0
+- Added One-time Demand
 
 ### v0.6.7
 - Support game version 0.9.27.14546 (it doesn't work on prior to this version)
