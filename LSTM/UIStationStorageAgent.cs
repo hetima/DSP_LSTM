@@ -14,7 +14,7 @@ namespace LSTMMod
     {
         public static List<UIStationStorageAgent> agents = new List<UIStationStorageAgent>();
         public UIStationStorage uiStorage;
-        public Button oneShotBtn = null;
+        public Button oneTimeBtn = null;
 
 
         [SerializeField]
@@ -82,7 +82,7 @@ namespace LSTMMod
         }
 
 
-        private void OneShotBtnClick()
+        private void OneTimeBtnClick()
         {
             uiStorage.popupBoxRect.gameObject.SetActive(false);
             if(!OneTimeDemand.AddOneTimeDemand(uiStorage.station, uiStorage.index))
@@ -92,29 +92,29 @@ namespace LSTMMod
 
         }
 
-        private void MakeOneShotBtn()
+        private void MakeOneTimeBtn()
         {
-            oneShotBtn = GameObject.Instantiate<Button>(uiStorage.optionButton0, uiStorage.optionButton0.transform.parent);
-            RectTransform rect = oneShotBtn.gameObject.transform as RectTransform;
+            oneTimeBtn = GameObject.Instantiate<Button>(uiStorage.optionButton0, uiStorage.optionButton0.transform.parent);
+            RectTransform rect = oneTimeBtn.gameObject.transform as RectTransform;
             rect.localPosition = new Vector2(rect.localPosition.x, rect.localPosition.y - 18);
             rect.Find("button-text").GetComponent<Text>().text = "1-time Dmd";
             rect.GetComponent<Image>().color = new Color(0.8f, 0.3f, 0f, 1f);
-            oneShotBtn.onClick.RemoveAllListeners();
-            oneShotBtn.onClick.AddListener(new UnityAction(this.OneShotBtnClick));
-            oneShotBtn.gameObject.SetActive(false);
+            oneTimeBtn.onClick.RemoveAllListeners();
+            oneTimeBtn.onClick.AddListener(new UnityAction(this.OneTimeBtnClick));
+            oneTimeBtn.gameObject.SetActive(false);
         }
 
-        private void ShowOneShotBtn()
+        private void ShowOneTimeBtn()
         {
-            if (oneShotBtn == null)
+            if (oneTimeBtn == null)
             {
-                MakeOneShotBtn();
+                MakeOneTimeBtn();
             }
-            if (!oneShotBtn.gameObject.activeSelf)
+            if (!oneTimeBtn.gameObject.activeSelf)
             {
                 RectTransform rectTransform = uiStorage.popupBoxRect;
                 rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, rectTransform.sizeDelta.y + 30f);
-                oneShotBtn.gameObject.SetActive(true);
+                oneTimeBtn.gameObject.SetActive(true);
 
                 RectTransform rect = (uiStorage.optionButton0.gameObject.transform as RectTransform);
                 rect.localPosition = new Vector2(rect.localPosition.x, rect.localPosition.y + 20);
@@ -123,13 +123,13 @@ namespace LSTMMod
             }
 
         }
-        private void HideOneShotBtn()
+        private void HideOneTimeBtn()
         {
-            if (oneShotBtn != null && oneShotBtn.gameObject.activeSelf)
+            if (oneTimeBtn != null && oneTimeBtn.gameObject.activeSelf)
             {
                 RectTransform rectTransform = uiStorage.popupBoxRect;
                 rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, rectTransform.sizeDelta.y - 30f);
-                oneShotBtn.gameObject.SetActive(false);
+                oneTimeBtn.gameObject.SetActive(false);
 
                 RectTransform rect = (uiStorage.optionButton0.gameObject.transform as RectTransform);
                 rect.localPosition = new Vector2(rect.localPosition.x, rect.localPosition.y - 20);
@@ -144,16 +144,16 @@ namespace LSTMMod
             if (cmp.storage[uiStorage.index].remoteDemandCount > 0)
             {
                 RectTransform rectTransform = uiStorage.popupBoxRect;
-                ShowOneShotBtn();
+                ShowOneTimeBtn();
             }
             else
             {
-                HideOneShotBtn();
+                HideOneTimeBtn();
             }
         }
         public void OnLocalSdButtonClick()
         {
-            HideOneShotBtn();
+            HideOneTimeBtn();
         }
 
         public static UIStationStorageAgent MakeUIStationStorageAgent(UIStationStorage stationStorage)
