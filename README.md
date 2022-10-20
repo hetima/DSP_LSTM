@@ -117,18 +117,16 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 |---|---|---|---|
 |mainWindowHotkey|shortcut|LCtrl+T|Hotkey to open/close LSTM window|
 |showMaterialPicker|bool|true|Add Material Picker for quick item switching to LSTM window|
+|indicatesWarperSign|bool|false|true: show sign on the list if station has warper|
+|reactClosePanelKeyE|bool|true|true: close window when close panel key(E) is pressed|
+|actAsStandardPanel|bool|true|true: close with other panels by esc key. false: one more esc needed|
+|showStationInfo|bool|false|Show station contents and empty slot count as icon. Also affected by in-game building icon display *setting|
+|showStationInfoOnlyInPlanetView|bool|false|showStationInfo is only displayed in planet view|
+|showStatInStatisticsWindow|bool|true|Add station stat to statistics panel|
 |showButtonInStationWindow|bool|true|Add open LSTM button to Station Window|
 |showButtonInStatisticsWindow|bool|false|Add open LSTM button to statistics panel|
 |showButtonInStarmap|bool|true|Add open LSTM button to detail panel on starmap|
-|showStatInStatisticsWindow|bool|true|Add station stat to statistics panel|
-|actAsStandardPanel|bool|true|true: close with other panels by esc key. false: one more esc needed|
-|indicatesWarperSign|bool|false|true: show sign on the list if station has warper|
-|reactClosePanelKeyE|bool|true|true: close window when close panel key(E) is pressed|
 |setConstructionPointToGround|bool|false|true: set the construction point of stations to ground level instead of top of the tower|
-|showStationInfo|bool|false|Show station contents and empty slot count as icon. Also affected by in-game building icon display setting|
-|showStationInfoOnlyInPlanetView|bool|false|showStationInfo is only displayed in planet view|
-|switchDisplayModeHotkey|shortcut|Tab|Hotkey to switch between planet name and station name of LSTM window|
-|dropSorterKeyEracesNavi|bool|false|clear navi line when "Remove Copied Sorter Previews" shortcut is pressed|
 |enableNaviToEverywhere|bool|false|double-click (left and/or right click) on Planet View to display navigation to anywhere|
 |enableOneTimeDemand|bool|false|enable One-Time Demand|
 |oneTimeDemandIgnoreSupplyRange|bool|false|One-Time Demand ignores supply range|
@@ -147,6 +145,15 @@ TrafficLogic settings
 |TLDCSupplyDenominator|float|1.0|Denominator for Remote Supply Distance/Capacity Balance (1-100)|
 |TLRemoteDemandDelay|bool|false|enable TrafficLogic:Remote Demand Delay|
 |TLLocalDemandDelay|bool|false|enable TrafficLogic:Local Demand Delay|
+
+Hidden settings  
+The following settings cannot be edited from config window. You need to edit the file directly.
+
+|Key|Type|Default|Description|
+|---|---|---|---|
+|switchDisplayModeHotkey|shortcut|Tab|Hotkey to switch between planet name and station name on LSTM window|
+|dropSorterKeyEracesNavi|bool|false|clear navi line when "Remove Copied Sorter Previews" shortcut is pressed|
+
 
 ## 説明
 
