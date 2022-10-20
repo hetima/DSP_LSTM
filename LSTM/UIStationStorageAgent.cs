@@ -106,6 +106,14 @@ namespace LSTMMod
 
         private void ShowOneTimeBtn()
         {
+            if (!LSTM.enableOneTimeDemand.Value)
+            {
+                if (oneTimeBtn != null && oneTimeBtn.gameObject.activeSelf)
+                {
+                    HideOneTimeBtn();
+                }
+                return;
+            }
             if (oneTimeBtn == null)
             {
                 MakeOneTimeBtn();
@@ -143,7 +151,6 @@ namespace LSTMMod
             StationComponent cmp = uiStorage.station;
             if (cmp.storage[uiStorage.index].remoteDemandCount > 0)
             {
-                RectTransform rectTransform = uiStorage.popupBoxRect;
                 ShowOneTimeBtn();
             }
             else
@@ -204,18 +211,13 @@ namespace LSTMMod
             [HarmonyPostfix, HarmonyPatch(typeof(UIStationStorage), "OnRemoteSdButtonClick")]
             public static void UIStationStorage_OnRemoteSdButtonClick_Postfix(UIStationStorage __instance)
             {
-                if (LSTM.showButtonInStationWindow.Value)
-                {
-                    __instance.GetComponent<UIStationStorageAgent>()?.OnRemoteSdButtonClick();
-                }
+                __instance.GetComponent<UIStationStorageAgent>()?.OnRemoteSdButtonClick();
+
             }
             [HarmonyPostfix, HarmonyPatch(typeof(UIStationStorage), "OnLocalSdButtonClick")]
             public static void UIStationStorage_OnLocalSdButtonClick_Postfix(UIStationStorage __instance)
             {
-                if (LSTM.showButtonInStationWindow.Value)
-                {
-                    __instance.GetComponent<UIStationStorageAgent>()?.OnLocalSdButtonClick();
-                }
+                __instance.GetComponent<UIStationStorageAgent>()?.OnLocalSdButtonClick();
             }
         }
     }

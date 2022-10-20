@@ -66,6 +66,8 @@ namespace LSTMMod
         public static ConfigEntry<bool> enableTLLocalDemandDelay;
         
         public static ConfigEntry<bool> enableTLSmartTransport;
+        public static ConfigEntry<bool> enableOneTimeDemand;
+        public static ConfigEntry<bool> oneTimeDemandIgnoreSupplyRange;
         
         public static ConfigEntry<bool> _showStatInStatisticsWindow;
 
@@ -133,7 +135,10 @@ namespace LSTMMod
                 "enable TrafficLogic:Local Demand Delay");
             enableTLSmartTransport = Config.Bind("TrafficLogic", "TLSmartTransport", false,
                 "enable TrafficLogic:Smart Transport");
-
+            enableOneTimeDemand = Config.Bind("TrafficLogic", "enableOneTimeDemand", false,
+                "enable One-Time Demand");
+            oneTimeDemandIgnoreSupplyRange = Config.Bind("TrafficLogic", "oneTimeDemandIgnoreSupplyRange", false,
+                "One-Time Demand ignores supply range");
             _showStatInStatisticsWindow = Config.Bind("Z", "_showStatInStatisticsWindow", true,
                 "Internal setting. Do not change directly");
 

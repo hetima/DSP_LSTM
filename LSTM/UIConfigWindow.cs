@@ -163,6 +163,13 @@ namespace LSTMMod
             base_ = tab2;
             y_ = 0f;
             x_ = 0f;
+            rect = MyCheckBox.CreateCheckBox(LSTM.enableOneTimeDemand, "One-time demand");
+            AddElement(rect, 26f);
+            x_ += 16;
+            rect = MyCheckBox.CreateCheckBox(LSTM.oneTimeDemandIgnoreSupplyRange, "Ignore Supply Range");
+            AddElement(rect, 36f);
+            x_ -= 16;
+
             rect = MyCheckBox.CreateCheckBox(LSTM.enableTLSmartTransport, "Smart Transport");
             AddElement(rect, 26f);
             rect = MyCheckBox.CreateCheckBox(LSTM.enableTLConsiderOppositeRange, "Consider Opposite Range");

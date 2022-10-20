@@ -38,7 +38,11 @@ namespace LSTMMod
             //OneTimeDemand
             if (OneTimeDemand.inOneTimeDemand && OneTimeDemand.oneTimeSupplyGid == supplyCmp.gid)
             {
-                return supplyRange; //2400000.0 * 9999.0; //9999LY
+                if (LSTM.oneTimeDemandIgnoreSupplyRange.Value)
+                {
+                    return 2400000.0 * 9999.0; //9999LY
+                }
+                return supplyRange;
             }
 
             //Remote Demand Delay
