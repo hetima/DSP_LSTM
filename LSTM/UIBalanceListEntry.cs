@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 
 namespace LSTMMod
 {
-    public class UIBalanceListEntry : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public class UIBalanceListEntry : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
         public StationComponent station;
         public int index;
@@ -662,6 +662,14 @@ namespace LSTMMod
         private void OnOneTimeDemandButtonClick(int obj)
         {
             OneTimeDemand.AddOneTimeDemand(station, index);
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (eventData.button == PointerEventData.InputButton.Right)
+            {
+                window.ShowMenu(this);
+            }
         }
 
         public void OnPointerEnter(PointerEventData _eventData)
