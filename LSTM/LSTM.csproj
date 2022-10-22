@@ -82,6 +82,7 @@
     <Compile Include="NaviLine.cs" />
     <Compile Include="OneTimeDemand.cs" />
     <Compile Include="StationSignRenderer.cs" />
+    <Compile Include="TrafficLog.cs" />
     <Compile Include="UIConfigWindow.cs" />
     <Compile Include="UIStationStorageAgent.cs" />
     <Compile Include="UIStatisticsWindowAgent.cs" />

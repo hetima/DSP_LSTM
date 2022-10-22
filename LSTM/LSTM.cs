@@ -150,6 +150,7 @@ namespace LSTMMod
             harmony.PatchAll(typeof(UIStatisticsWindowAgent.Patch));
             harmony.PatchAll(typeof(ConstructionPoint.Patch));
             harmony.PatchAll(typeof(UIStationStorageAgent.Patch));
+            //harmony.PatchAll(typeof(TrafficLog.Patch));
             
         }
 
