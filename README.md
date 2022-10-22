@@ -130,6 +130,7 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 |enableNaviToEverywhere|bool|false|double-click (left and/or right click) on Planet View to display navigation to anywhere|
 |enableOneTimeDemand|bool|false|enable One-Time Demand|
 |oneTimeDemandIgnoreSupplyRange|bool|false|One-Time Demand ignores supply range|
+|suppressOpenInventory|bool|false|Suppress open inventory when opening station window|
 
 TrafficLogic settings
 
@@ -235,6 +236,9 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 
 ## Release Notes
+
+### v0.7.2
+- Added option "Suppress Open Inventory Window (when opening station window)" to config window (default is off)
 
 ### v0.7.1
 - Minor bug fix
