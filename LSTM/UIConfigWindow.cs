@@ -40,7 +40,7 @@ namespace LSTMMod
         protected override void _OnCreate()
         {
             windowTrans = MyWindowCtl.GetRectTransform(this);
-            windowTrans.sizeDelta = new Vector2(640f, 400f);
+            windowTrans.sizeDelta = new Vector2(640f, 428f);
 
             CreateUI();
         }
@@ -123,7 +123,10 @@ namespace LSTMMod
             rect = MyCheckBox.CreateCheckBox(LSTM.reactClosePanelKeyE, "Close Panel With E Key");
             AddElement(rect, 26f);
             rect = MyCheckBox.CreateCheckBox(LSTM.actAsStandardPanel, "Act As Standard Panel");
+            AddElement(rect, 26f);
+            rect = MyCheckBox.CreateCheckBox(LSTM.suppressOpenInventory, "Suppress Open Inventory Window");
             AddElement(rect, 36f);
+
             rect = MyCheckBox.CreateCheckBox(LSTM.showStationInfo, "Show Station Info Icon");
             AddElement(rect, 26f);
             x_ += 16;
@@ -204,7 +207,7 @@ namespace LSTMMod
             x_ -= 32f;
 
             x_ = 0f;
-            y_ = 264f;
+            y_ = 292f;
             txt = CreateText("* Distance/Capacity Balance will be forced off when Smart Transport is on");
             txt.fontSize = 15;
             AddElement(txt.transform as RectTransform, 26f);

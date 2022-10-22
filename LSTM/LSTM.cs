@@ -8,6 +8,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Linq;
+using System.Reflection.Emit;
+using System.Reflection;
 
 namespace LSTMMod
 {
@@ -68,6 +71,7 @@ namespace LSTMMod
         public static ConfigEntry<bool> enableTLSmartTransport;
         public static ConfigEntry<bool> enableOneTimeDemand;
         public static ConfigEntry<bool> oneTimeDemandIgnoreSupplyRange;
+        public static ConfigEntry<bool> suppressOpenInventory;
         
         public static ConfigEntry<bool> _showStatInStatisticsWindow;
 
@@ -141,6 +145,8 @@ namespace LSTMMod
                 "One-Time Demand ignores supply range");
             _showStatInStatisticsWindow = Config.Bind("Z", "_showStatInStatisticsWindow", true,
                 "Internal setting. Do not change directly");
+            suppressOpenInventory = Config.Bind("Other", "suppressOpenInventory", false,
+                "Suppress open inventory when opening station window");
 
             Harmony harmony = new Harmony(__GUID__);
             harmony.PatchAll(typeof(Patch));
@@ -605,6 +611,62 @@ namespace LSTMMod
                 }
 
             }
+
+            public static void SuppressOrOpenInventory(UIGame uiGame)
+            {
+                if (LSTM.suppressOpenInventory.Value)
+                {
+                    return;
+                }
+                else
+                {
+                    uiGame.OpenPlayerInventory();
+                }
+            }
+
+            [HarmonyTranspiler, HarmonyPatch(typeof(UIGame), "OnPlayerInspecteeChange")]
+            public static IEnumerable<CodeInstruction> UIGame_OnPlayerInspecteeChange_Transpiler(IEnumerable<CodeInstruction> instructions)
+            {
+                List<CodeInstruction> ins = instructions.ToList();
+
+                MethodInfo m_OpenStationWindow = typeof(UIGame).GetMethod(nameof(UIGame.OpenStationWindow));
+                MethodInfo m_OpenPlayerInventory = typeof(UIGame).GetMethod(nameof(UIGame.OpenPlayerInventory));
+                MethodInfo m_SuppressOrOpenInventory = typeof(LSTM.Patch).GetMethod(nameof(SuppressOrOpenInventory));
+
+                //IL_06a6: ldarg.0      // this
+                //IL_06a7: call instance void UIGame::ShutAllFunctionWindow()
+                //// [1452 13 - 1452 39]
+                //IL_06ac: ldarg.0      // this
+                //IL_06ad: call instance void UIGame::OpenPlayerInventory()
+                //// [1453 13 - 1453 37]
+                //IL_06b2: ldarg.0      // this
+                //IL_06b3: call instance void UIGame::OpenStationWindow()
+
+                int patchCount = 0;
+                for (int i = ins.Count - 10; i > 10; i--)
+                {
+                    if (ins[i].opcode == OpCodes.Call && ins[i].operand is MethodInfo o && o == m_OpenStationWindow)
+                    {
+                        if (ins[i - 2].opcode == OpCodes.Call && ins[i - 2].operand is MethodInfo o2 && o2 == m_OpenPlayerInventory)
+                        {
+                            ins[i - 2].opcode = OpCodes.Call;
+                            ins[i - 2].operand = m_SuppressOrOpenInventory;
+                            patchCount++;
+                            break;
+                        }
+                    }
+                }
+                if (patchCount != 1)
+                {
+                    LSTM.Log("UIGame_OnPlayerInspecteeChange_Transpiler (OpenStationWindow) seems wrong");
+                }
+
+                return ins.AsEnumerable();
+            }
+
+
+
+
 
         }
 
