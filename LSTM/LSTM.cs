@@ -401,7 +401,7 @@ namespace LSTMMod
         ////ホイールでズームしないように
         private void FixedUpdate()
         {
-            if (_win != null && _win.isPointEnter)
+            if ((_win != null && _win.isPointEnter) || (_logWindow != null && _logWindow.isPointEnter))
             {
                 VFInput.inScrollView = true;
             }
