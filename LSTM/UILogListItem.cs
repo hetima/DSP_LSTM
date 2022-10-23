@@ -96,8 +96,8 @@ namespace LSTMMod
             item.distText = GameObject.Instantiate<Text>(item.supplyText, item.supplyText.transform.parent);
             item.distText.gameObject.name = "distText";
             item.distText.alignment = TextAnchor.MiddleCenter;
-            rect = Util.NormalizeRectWithTopLeft(item.distText, 250f + leftPadding, 2f);
-            rect.sizeDelta = new Vector2(48f, 24f);
+            rect = Util.NormalizeRectWithTopLeft(item.distText, 234f + leftPadding, 2f);
+            rect.sizeDelta = new Vector2(50f, 24f);
 
             //labelIcon
             item.labelIcon = src.iconImage;
