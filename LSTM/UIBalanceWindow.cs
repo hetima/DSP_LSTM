@@ -1353,7 +1353,7 @@ namespace LSTMMod
                 menuComboBox.DropDownCount = 0;
                 return;
             }
-            if (item.station.isStellar)
+            if (LSTM.enableTrafficLog.Value && item.station.isStellar)
             {
                 items.Add("Traffic Log");
                 itemsData.Add((int)EMenuCommand.StationSlotLog);
