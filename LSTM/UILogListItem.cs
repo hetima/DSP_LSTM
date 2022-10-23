@@ -89,15 +89,15 @@ namespace LSTMMod
             item.supplyText.supportRichText = false;
             item.supplyText.fontSize = 14;
             item.supplyText.alignment = TextAnchor.MiddleLeft;
-            rect = Util.NormalizeRectWithTopLeft(item.supplyText, 300f + leftPadding, 2f);
+            rect = Util.NormalizeRectWithTopLeft(item.supplyText, 310f + leftPadding, 2f);
             rect.sizeDelta = new Vector2(180f, 24f);
 
             //distText
             item.distText = GameObject.Instantiate<Text>(item.supplyText, item.supplyText.transform.parent);
             item.distText.gameObject.name = "distText";
             item.distText.alignment = TextAnchor.MiddleCenter;
-            rect = Util.NormalizeRectWithTopLeft(item.distText, 264f + leftPadding, 2f);
-            rect.sizeDelta = new Vector2(24f, 24f);
+            rect = Util.NormalizeRectWithTopLeft(item.distText, 250f + leftPadding, 2f);
+            rect.sizeDelta = new Vector2(48f, 24f);
 
             //labelIcon
             item.labelIcon = src.iconImage;
@@ -153,14 +153,14 @@ namespace LSTMMod
             {
                 demandText.text = DisplayNameForPlanet(d.fromPlanetData);
                 supplyText.text = DisplayNameForPlanet(d.toPlanetData);
-                distText.text = "-> " + logData.distance + " ->";
+                distText.text = "-> " + logData.distanceString + " ->";
 
             }
             else
             {
                 demandText.text = DisplayNameForPlanet(d.toPlanetData);
                 supplyText.text = DisplayNameForPlanet(d.fromPlanetData);
-                distText.text = "<- " + logData.distance + " <-";
+                distText.text = "<- " + logData.distanceString + " <-";
 
             }
         }

@@ -52,14 +52,14 @@ namespace LSTMMod
             }
         }
 
-        public string distance
+        public string distanceString
         {
             get
             {
                 float d = LSTMStarDistance.StarDistance(fromPlanet / 100, toPlanet / 100);
                 if (d <= 0)
                 {
-                    return "0ly";
+                    return " ";
                 }
                 return d.ToString("F1") + "ly";
             }
