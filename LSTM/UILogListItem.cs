@@ -149,9 +149,20 @@ namespace LSTMMod
             logData = d;
             itemId = d.itemId;
             //DisplayNameForPlanet()
-            demandText.text = DisplayNameForPlanet(d.fromPlanetData);
-            supplyText.text = DisplayNameForPlanet(d.toPlanetData);
-            distText.text = logData.distance;
+            if (d.isFromDemand)
+            {
+                demandText.text = DisplayNameForPlanet(d.fromPlanetData);
+                supplyText.text = DisplayNameForPlanet(d.toPlanetData);
+                distText.text = "-> " + logData.distance + " ->";
+
+            }
+            else
+            {
+                demandText.text = DisplayNameForPlanet(d.toPlanetData);
+                supplyText.text = DisplayNameForPlanet(d.fromPlanetData);
+                distText.text = "<- " + logData.distance + " <-";
+
+            }
         }
         private void OnLocateButtonClick(int obj)
         {

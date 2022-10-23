@@ -18,6 +18,7 @@ namespace LSTMMod
         public int toIndex;
         public int itemId;
         public float realtimeSinceStartup;
+        public bool isFromDemand;
 
         public PlanetData fromPlanetData
         {
@@ -213,6 +214,7 @@ namespace LSTMMod
             data.toStationGid = sc.workShipDatas[index].otherGId;
             data.itemId = sc.workShipDatas[index].itemId;
             data.realtimeSinceStartup = Time.realtimeSinceStartup;
+            data.isFromDemand = (sc.workShipOrders[index].thisOrdered != 0);
             AddLog(data);
         }
 
