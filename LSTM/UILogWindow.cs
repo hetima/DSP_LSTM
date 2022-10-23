@@ -319,6 +319,8 @@ namespace LSTMMod
         {
             int count = 0;
             countText.text = "";
+            float newest = 0f;
+            float oldest = Time.realtimeSinceStartup;
 
             if (targetStationGid!=0)
             {
@@ -328,10 +330,17 @@ namespace LSTMMod
                     {
                         break;
                     }
+                    if (newest < item.realtimeSinceStartup)
+                    {
+                        newest = item.realtimeSinceStartup;
+                    }
+                    if (oldest > item.realtimeSinceStartup)
+                    {
+                        oldest = item.realtimeSinceStartup;
+                    }
                     AddStore(item);
                     count++;
                 }
-                countText.text = "Result: " + count.ToString();
 
             }
             else if (targetItemId != 0)
@@ -342,12 +351,31 @@ namespace LSTMMod
                     {
                         break;
                     }
+                    if (newest < item.realtimeSinceStartup)
+                    {
+                        newest = item.realtimeSinceStartup;
+                    }
+                    if (oldest > item.realtimeSinceStartup)
+                    {
+                        oldest = item.realtimeSinceStartup;
+                    }
                     AddStore(item);
                     count++;
                 }
-                countText.text = "Result: " + count.ToString();
 
             }
+            string tpmString = "";
+            if (count > 1)
+            {
+                float duration = newest - oldest;
+                if (duration > 30)
+                {
+                    float tpm = (float)count / (duration / 60f);
+                    tpmString = "    (" + tpm.ToString("F1") + " per min)";
+                }
+
+            }
+            countText.text = "Result: " + count.ToString() + tpmString;
 
         }
 
