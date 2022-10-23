@@ -192,10 +192,10 @@ namespace LSTMMod
                     itemCircle.color = Util.DSPBlue;
                     itemImage = btn.GetComponent<Image>();
                     itemImage.sprite = defaultItemSprite;
-                    rect = Util.NormalizeRectC(go);
+                    rect = Util.NormalizeRectD(go);
                     //rect.localScale = new Vector3(1f, 1f, 1f);
                     rect.SetParent(windowTrans, false);
-                    rect.anchoredPosition = new Vector2(-266f, 224f);
+                    rect.anchoredPosition = new Vector2(30f, -54f);
                     go.name = "item-button";
                     go.SetActive(true);
                 }
@@ -536,7 +536,7 @@ namespace LSTMMod
                 UIItemPicker.Close();
                 return;
             }
-            UIItemPicker.Popup(windowTrans.anchoredPosition + new Vector2(-360f, 180f), new Action<ItemProto>(this.OnItemPickerReturn));
+            UIItemPicker.Popup(windowTrans.anchoredPosition + new Vector2(-220f, 180f), new Action<ItemProto>(this.OnItemPickerReturn));
         }
 
         private void OnItemPickerReturn(ItemProto itemProto)
