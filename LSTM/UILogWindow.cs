@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -22,6 +23,13 @@ namespace LSTMMod
         internal bool _eventLock;
         public bool isPointEnter;
         private bool focusPointEnter;
+
+        //public Text itemText;
+        public UIButton itemButton;
+        public UIButton itemResetButton;
+        public Image itemImage;
+        public Image itemCircle;
+        public static Sprite defaultItemSprite = null;
 
         public static UILogWindow CreateInstance()
         {
@@ -91,12 +99,12 @@ namespace LSTMMod
             Util.NormalizeRectWithMargin(contentTrans, 60f, 28f, 20f, 28f, windowTrans);
 
             //listview
-            Image bg = Util.CreateGameObject<Image>("list-bg", 100f, 100f);
-            bg.color = new Color(0f, 0f, 0f, 0.56f);
-            Util.NormalizeRectWithMargin(bg, 70f, 0f, 20f, 16f, contentTrans);
+            Image bgImage = Util.CreateGameObject<Image>("list-bg", 100f, 100f);
+            bgImage.color = new Color(0f, 0f, 0f, 0.56f);
+            Util.NormalizeRectWithMargin(bgImage, 70f, 0f, 20f, 16f, contentTrans);
 
             planetListView = Util.CreateListView(UILogListItem.CreateListViewPrefab, "list-view", null, 16f);
-            Util.NormalizeRectWithMargin(planetListView.transform, 0f, 0f, 0f, 0f, bg.transform);
+            Util.NormalizeRectWithMargin(planetListView.transform, 0f, 0f, 0f, 0f, bgImage.transform);
             //ここでサイズ調整…
             //(planetListView.m_ItemRes.com_data.transform as RectTransform).sizeDelta = new Vector2(600f, 24f);
 
@@ -151,6 +159,52 @@ namespace LSTMMod
             countText = Util.CreateText("", 14, "result-count");
             Util.NormalizeRectWithBottomLeft(countText, 2f, 0f, contentTrans);
 
+            if (defaultItemSprite == null)
+            {
+                defaultItemSprite = Util.LoadSpriteResource("Icons/Tech/1414");
+            }
+
+            Transform bgTrans;
+            RectTransform rect;
+            UIAssemblerWindow assemblerWindow = UIRoot.instance.uiGame.assemblerWindow;
+
+            //icon
+            bgTrans = assemblerWindow.resetButton.transform.parent; //circle-back
+            if (bgTrans != null)
+            {
+                go = GameObject.Instantiate(bgTrans.gameObject);
+                Transform btn = go.transform.Find("product-icon");
+                if (btn != null)
+                {
+                    itemResetButton = go.transform.Find("stop-btn")?.GetComponent<UIButton>();
+                    go.transform.Find("cnt-text")?.gameObject.SetActive(false);
+                    //GameObject.Destroy(go.GetComponent<EventTrigger>());
+                    GameObject.Destroy(go.transform.Find("circle-fg-1")?.gameObject);
+                    GameObject.Destroy(go.transform.Find("product-icon-1")?.gameObject);
+                    GameObject.Destroy(go.transform.Find("cnt-text-1")?.gameObject);
+
+                    itemButton = btn.GetComponent<UIButton>();
+                    itemButton.tips.tipTitle = "Select Item".Translate();
+                    itemButton.tips.tipText = "Select item to display".Translate();
+                    itemButton.tips.corner = 3;
+                    itemButton.tips.offset = new Vector2(16, 16);
+                    itemCircle = go.transform.Find("circle-fg")?.GetComponent<Image>();
+                    itemCircle.color = Util.DSPBlue;
+                    itemImage = btn.GetComponent<Image>();
+                    itemImage.sprite = defaultItemSprite;
+                    rect = Util.NormalizeRectC(go);
+                    //rect.localScale = new Vector3(1f, 1f, 1f);
+                    rect.SetParent(windowTrans, false);
+                    rect.anchoredPosition = new Vector2(-266f, 224f);
+                    go.name = "item-button";
+                    go.SetActive(true);
+                }
+
+            }
+
+
+
+
 
             //menu
             //CreateMenuBox();
@@ -191,11 +245,16 @@ namespace LSTMMod
 
         protected override void _OnRegEvent()
         {
+            itemButton.onClick += OnSelectItemButtonClick;
+            itemResetButton.onClick += OnItemResetButtonClick;
             planetListView.m_ScrollRect.onValueChanged.AddListener(OnScrollRectChanged);
+
         }
 
         protected override void _OnUnregEvent()
         {
+            itemButton.onClick -= OnSelectItemButtonClick;
+            itemResetButton.onClick -= OnItemResetButtonClick;
             planetListView.m_ScrollRect.onValueChanged.RemoveListener(OnScrollRectChanged);
         }
 
@@ -306,6 +365,7 @@ namespace LSTMMod
             //targetItemId = itemSelection.lastSelectedItemId;
 
             SetUpItemList();
+            SetUpItemUI();
             //_logList.Sort((a, b) => a.distanceForSort - b.distanceForSort);
 
             _eventLock = false;
@@ -315,6 +375,29 @@ namespace LSTMMod
             }
             RefreshListView(planetListView);
 
+        }
+
+        internal void SetUpItemUI()
+        {
+            int itemId = targetItemId;
+            if (itemId <= 0)
+            {
+                itemCircle.fillAmount = 0f;
+                itemResetButton.gameObject.SetActive(false);
+                itemImage.sprite = defaultItemSprite;
+                //itemText.text = "";
+            }
+            else
+            {
+                itemCircle.fillAmount = 1f;
+                itemResetButton.gameObject.SetActive(true);
+                ItemProto itemProto = LDB.items.Select(itemId);
+                if (itemProto != null)
+                {
+                    itemImage.sprite = itemProto.iconSprite;
+                    //itemText.text = itemProto.name;
+                }
+            }
         }
 
         public void SetUpItemList()
@@ -440,7 +523,33 @@ namespace LSTMMod
             return true;
         }
 
+        private void OnItemResetButtonClick(int obj)
+        {
+            targetItemId = 0;
+            SetUpData();
+        }
 
+        private void OnSelectItemButtonClick(int obj)
+        {
+            if (UIItemPicker.isOpened)
+            {
+                UIItemPicker.Close();
+                return;
+            }
+            UIItemPicker.Popup(windowTrans.anchoredPosition + new Vector2(-360f, 180f), new Action<ItemProto>(this.OnItemPickerReturn));
+        }
+
+        private void OnItemPickerReturn(ItemProto itemProto)
+        {
+            if (itemProto == null)
+            {
+                return;
+            }
+
+            targetItemId = itemProto.ID;
+            targetStationGid = 0;
+            SetUpData();
+        }
 
     }
 }
