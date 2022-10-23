@@ -63,7 +63,7 @@ When One-time Demand is executed, transportation is performed from the nearest s
 ## TrafficLogic
 Change transport behavior. Can be turned on and off individually. Default is all off. It must be turned on in the configuration to be used.  
 
-__Incompatible__ with some mods (GalacticScale, StationRangeLimiter, etc.). TrafficLogic will not work if you use these mods.
+__Incompatible__ with some mods (StationRangeLimiter, etc.). TrafficLogic will not work if you use these mods.
 
 ### Smart Transport `TLSmartTransport` (experimental)
 Priority will be given to nearby stations as much as possible. For now, only remote transports is supported.  
@@ -194,7 +194,7 @@ One-time Demandを実行するといちばん近い供給可能なステーシ�
 ## TrafficLogic
 輸送の挙動を変更します。個別に設定でオンオフできます。デフォルトはすべてオフです。使用するには設定ウィンドウでオンにする必要があります。  
 
-一部のmod(GalacticScale, StationRangeLimiter 等)とは互換性がありません。これらのmodを使用している場合 TrafficLogic は機能しません。  
+一部のmod(StationRangeLimiter 等)とは互換性がありません。これらのmodを使用している場合 TrafficLogic は機能しません。  
 
 ### Smart Transport `TLSmartTransport` (experimental)
 なるべく近くのステーションを優先して輸送します。いまのところリモートのみ対応です。  
