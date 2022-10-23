@@ -391,6 +391,14 @@ namespace LSTMMod
             }
         }
 
+        ////ホイールでズームしないように
+        private void FixedUpdate()
+        {
+            if (_win != null && _win.isPointEnter)
+            {
+                VFInput.inScrollView = true;
+            }
+        }
 
         static class Patch
         {
@@ -553,25 +561,6 @@ namespace LSTMMod
             public static void PlayerControlGizmo_GameTick_Postfix()
             {
                 navi.naviLine.GameTick();
-            }
-
-
-            //ホイールでズームしないように
-            [HarmonyPostfix, HarmonyPatch(typeof(VFInput), "get__cameraZoomIn")]
-            public static void VFInput__cameraZoomIn_Postfix(ref float __result)
-            {
-                if (_win.isPointEnter)
-                {
-                    __result = 0f;
-                }
-            }
-            [HarmonyPostfix, HarmonyPatch(typeof(VFInput), "get__cameraZoomOut")]
-            public static void VFInput__cameraZoomOut_Postfix(ref float __result)
-            {
-                if (_win.isPointEnter)
-                {
-                    __result = 0f;
-                }
             }
 
             [HarmonyPostfix, HarmonyPatch(typeof(EntitySignRenderer), "Draw")]
