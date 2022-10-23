@@ -4,8 +4,8 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 
 ## Recent Changes
 
-### v0.7.1
-- Minor bug fix
+### v0.7.2
+- Added option "Suppress Open Inventory Window (when opening station window)" to config window (default is off)
 
 ### v0.7.0
 - Added One-time Demand
