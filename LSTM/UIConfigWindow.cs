@@ -158,8 +158,9 @@ namespace LSTMMod
             txt.color = new Color(0.698f, 0.698f, 0.698f, 0.6588f);
             AddElement(txt.transform as RectTransform, 26f);
             x_ -= 32;
-
-
+            
+            rect = MyCheckBox.CreateCheckBox(LSTM.enableTrafficLog, "Enable Traffic Log (needs restart game)");
+            AddElement(rect, 26f);
 
             //Traffic Logic tab
             tab2 = AddTab("Traffic Logic", out tabBtn2);

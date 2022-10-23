@@ -37,6 +37,7 @@ namespace LSTMMod
         
         public static LSTMNavi navi = null;
         public static UIBalanceWindow _win;
+        public static UILogWindow _logWindow;
         public static UIConfigWindow _configWin;
         public static StationSignRenderer stationSignRenderer;
 
@@ -72,6 +73,7 @@ namespace LSTMMod
         public static ConfigEntry<bool> enableOneTimeDemand;
         public static ConfigEntry<bool> oneTimeDemandIgnoreSupplyRange;
         public static ConfigEntry<bool> suppressOpenInventory;
+        public static ConfigEntry<bool> enableTrafficLog;
         
         public static ConfigEntry<bool> _showStatInStatisticsWindow;
 
@@ -147,7 +149,8 @@ namespace LSTMMod
                 "Internal setting. Do not change directly");
             suppressOpenInventory = Config.Bind("Other", "suppressOpenInventory", false,
                 "Suppress open inventory when opening station window");
-
+            enableTrafficLog = Config.Bind("Other", "enableTrafficLog", false,
+                "Enable traffic log window (needs restart game)");
             Harmony harmony = new Harmony(__GUID__);
             harmony.PatchAll(typeof(Patch));
             harmony.PatchAll(typeof(LSTMStarDistance.Patch));
@@ -156,7 +159,11 @@ namespace LSTMMod
             harmony.PatchAll(typeof(UIStatisticsWindowAgent.Patch));
             harmony.PatchAll(typeof(ConstructionPoint.Patch));
             harmony.PatchAll(typeof(UIStationStorageAgent.Patch));
-            //harmony.PatchAll(typeof(TrafficLog.Patch));
+
+            if (enableTrafficLog.Value)
+            {
+                harmony.PatchAll(typeof(TrafficLog.Patch));
+            }
             
         }
 
@@ -391,6 +398,14 @@ namespace LSTMMod
             }
         }
 
+        ////ホイールでズームしないように
+        private void FixedUpdate()
+        {
+            if (_win != null && _win.isPointEnter)
+            {
+                VFInput.inScrollView = true;
+            }
+        }
 
         static class Patch
         {
@@ -479,6 +494,7 @@ namespace LSTMMod
                     _initialized = true;
                     _configWin = UIConfigWindow.CreateWindow();
                     _win = MyWindowCtl.CreateWindow<UIBalanceWindow>("LSTMBalanceWindow", "LSTM");
+                    _logWindow = UILogWindow.CreateInstance();
                     AddButtonToStarmap();
                     AddButtonToStationWindow();
                     UIStatisticsWindowAgent.PostCreate();
@@ -553,25 +569,6 @@ namespace LSTMMod
             public static void PlayerControlGizmo_GameTick_Postfix()
             {
                 navi.naviLine.GameTick();
-            }
-
-
-            //ホイールでズームしないように
-            [HarmonyPostfix, HarmonyPatch(typeof(VFInput), "get__cameraZoomIn")]
-            public static void VFInput__cameraZoomIn_Postfix(ref float __result)
-            {
-                if (_win.isPointEnter)
-                {
-                    __result = 0f;
-                }
-            }
-            [HarmonyPostfix, HarmonyPatch(typeof(VFInput), "get__cameraZoomOut")]
-            public static void VFInput__cameraZoomOut_Postfix(ref float __result)
-            {
-                if (_win.isPointEnter)
-                {
-                    __result = 0f;
-                }
             }
 
             [HarmonyPostfix, HarmonyPatch(typeof(EntitySignRenderer), "Draw")]
