@@ -61,7 +61,8 @@ namespace LSTMMod
         public static ConfigEntry<bool> oneTimeDemandIgnoreSupplyRange;
         public static ConfigEntry<bool> suppressOpenInventory;
         public static ConfigEntry<bool> enableTrafficLog;
-        
+        public static bool enableTrafficLogInThisSession;
+
         public static ConfigEntry<bool> _showStatInStatisticsWindow;
 
         new internal static ManualLogSource Logger;
@@ -138,6 +139,7 @@ namespace LSTMMod
                 "Suppress open inventory when opening station window");
             enableTrafficLog = Config.Bind("Other", "enableTrafficLog", false,
                 "Enable traffic log window (needs restart game)");
+            enableTrafficLogInThisSession = enableTrafficLog.Value;
             Harmony harmony = new Harmony(__GUID__);
             harmony.PatchAll(typeof(Patch));
             harmony.PatchAll(typeof(LSTMStarDistance.Patch));
@@ -147,7 +149,7 @@ namespace LSTMMod
             harmony.PatchAll(typeof(ConstructionPoint.Patch));
             harmony.PatchAll(typeof(UIStationStorageAgent.Patch));
 
-            if (enableTrafficLog.Value)
+            if (enableTrafficLogInThisSession)
             {
                 harmony.PatchAll(typeof(TrafficLog.Patch));
             }
