@@ -15,7 +15,7 @@ namespace LSTMMod
         public UIButton tabBtn1;
         public UIButton tabBtn2;
 
-        public static UIConfigWindow CreateWindow()
+        public static UIConfigWindow CreateInstance()
         {
             UIConfigWindow win = MyWindowCtl.CreateWindow<UIConfigWindow>("LSTMConfigWindow", "LSTM Config");
             return win;

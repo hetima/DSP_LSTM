@@ -22,19 +22,6 @@ namespace LSTMMod
         public const string __GUID__ = "com.hetima.dsp." + __NAME__;
 
         public static LSTM instance = null;
-
-        public static Sprite astroIndicator {
-            get {
-                if (_astroIndicator == null)
-                {
-                    UIStarmap starmap = UIRoot.instance.uiGame.starmap;
-                    _astroIndicator = starmap.cursorFunctionButton3.transform.Find("icon")?.GetComponent<Image>()?.sprite;
-                }
-                return _astroIndicator;
-            } 
-        }
-        internal static Sprite _astroIndicator;
-        
         public static LSTMNavi navi = null;
         public static UIBalanceWindow _win;
         public static UILogWindow _logWindow;
@@ -418,7 +405,7 @@ namespace LSTMMod
                 UIStationWindow stationWindow = UIRoot.instance.uiGame.stationWindow;
 
                 //navi btn
-                UIButton btn = Util.MakeIconButtonB(astroIndicator, 22);
+                UIButton btn = Util.MakeIconButtonB(Util.astroIndicatorIcon, 22);
                 if (btn != null)
                 {
                     btn.gameObject.name = "lstm-locate-btn";
@@ -492,8 +479,8 @@ namespace LSTMMod
                 if (!_initialized)
                 {
                     _initialized = true;
-                    _configWin = UIConfigWindow.CreateWindow();
-                    _win = MyWindowCtl.CreateWindow<UIBalanceWindow>("LSTMBalanceWindow", "LSTM");
+                    _configWin = UIConfigWindow.CreateInstance();
+                    _win = UIBalanceWindow.CreateInstance();
                     _logWindow = UILogWindow.CreateInstance();
                     AddButtonToStarmap();
                     AddButtonToStationWindow();

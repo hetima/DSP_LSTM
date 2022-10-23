@@ -177,7 +177,7 @@ namespace LSTMMod
             }
 
             //locate button
-            UIButton btn = Util.MakeIconButtonB(LSTM.astroIndicator, 22);
+            UIButton btn = Util.MakeIconButtonB(Util.astroIndicatorIcon, 22);
             if (btn != null)
             {
                 btn.gameObject.name = "lstm-locate-btn";

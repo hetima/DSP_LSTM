@@ -43,6 +43,7 @@ namespace LSTMMod
         public void SetUpAndOpenItem(int _itemId)
         {
             targetItemId = _itemId;
+            targetStationGid = 0;
             SetUpData();
             //UIRoot.instance.uiGame.ShutPlayerInventory();
             MyWindowCtl.OpenWindow(this);
@@ -52,6 +53,7 @@ namespace LSTMMod
         {
             targetStationGid = stationGid;
             targetIndex = stationIndex;
+            targetItemId = 0;
             SetUpData();
             //UIRoot.instance.uiGame.ShutPlayerInventory();
             MyWindowCtl.OpenWindow(this);

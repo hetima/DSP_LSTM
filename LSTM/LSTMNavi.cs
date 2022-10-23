@@ -35,7 +35,7 @@ namespace LSTMMod
             }
 
             Image img = btn.transform.Find("icon")?.GetComponent<Image>();
-            if(img != null) img.sprite = LSTM.astroIndicator;
+            if(img != null) img.sprite = Util.astroIndicatorIcon;
 
 
 

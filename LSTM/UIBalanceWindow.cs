@@ -104,6 +104,12 @@ namespace LSTMMod
 
         private bool focusPointEnter;
 
+        public static UIBalanceWindow CreateInstance()
+        {
+            UIBalanceWindow win = MyWindowCtl.CreateWindow<UIBalanceWindow>("LSTMBalanceWindow", "LSTM");
+            return win;
+        }
+
         public bool isFunctionWindow()
         {
             return true;
