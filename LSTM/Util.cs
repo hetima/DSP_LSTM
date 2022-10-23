@@ -36,6 +36,20 @@ namespace LSTMMod
 
             return "";
         }
+        public static Sprite astroIndicatorIcon
+        {
+            get
+            {
+                if (_astroIndicatorIcon == null)
+                {
+                    UIStarmap starmap = UIRoot.instance.uiGame.starmap;
+                    _astroIndicatorIcon = starmap.cursorFunctionButton3.transform.Find("icon")?.GetComponent<Image>()?.sprite;
+                }
+                return _astroIndicatorIcon;
+            }
+        }
+        internal static Sprite _astroIndicatorIcon;
+
 
         public static Color DSPBlue => new Color(0.3821f, 0.8455f, 1f, 0.7059f);
         public static Color DSPOrange => new Color(0.9906f, 0.5897f, 0.3691f, 0.7059f);
@@ -49,6 +63,95 @@ namespace LSTMMod
                 GameObject.DestroyImmediate(oldbutton);
                 btn.button = go.AddComponent<Button>();
             }
+        }
+        public static T CreateGameObject<T>(string name, float width = 0f, float height = 0f) where T : Component
+        {
+            GameObject go = new GameObject(name);
+            RectTransform rect = go.AddComponent<RectTransform>();
+            rect.localScale = Vector3.one;
+            if (width > 0f || height > 0)
+            {
+                rect.sizeDelta = new Vector2(width, height);
+            }
+            T item = go.AddComponent<T>();
+
+            return item;
+        }
+        public static Text CreateText(string label, int fontSize = 14, string objectName = "text")
+        {
+            Text txt_;
+            Text stateText = UIRoot.instance.uiGame.assemblerWindow.stateText;
+            txt_ = GameObject.Instantiate<Text>(stateText);
+            txt_.gameObject.name = objectName;
+            txt_.text = label;
+            txt_.color = new Color(1f, 1f, 1f, 0.4f);
+            txt_.alignment = TextAnchor.MiddleLeft;
+            //txt_.supportRichText = false;
+            txt_.fontSize = fontSize;
+            return txt_;
+        }
+
+        public static UIListView CreateListView(Action<UIData> dataFunc, string goName = "", Transform parent = null, float vsWidth = 10f)
+        {
+            UIListView result;
+            UIListView src = UIRoot.instance.uiGame.tutorialWindow.entryList;
+            GameObject go = GameObject.Instantiate(src.gameObject);
+            if (parent != null)
+            {
+                go.transform.SetParent(parent, false);
+            }
+            if (!string.IsNullOrEmpty(goName))
+            {
+                go.name = goName;
+            }
+
+            result = go.GetComponent<UIListView>();
+            if (dataFunc != null)
+            {
+                RectTransform itemResTrans = result.m_ItemRes.gameObject.transform as RectTransform;
+
+                //transform.anchorMin = new Vector2(0f, 1f);
+                //transform.anchorMax = new Vector2(0f, 1f);
+                //transform.localScale = new Vector2(0f, 1f);
+                //itemResTrans.sizeDelta = transform.sizeDelta;
+
+                //result.m_ItemRes.transform.DetachChildren
+                for (int i = itemResTrans.childCount - 1; i >= 0; i--)
+                {
+                    GameObject.Destroy(itemResTrans.GetChild(i).gameObject);
+                }
+                itemResTrans.DetachChildren();
+                GameObject.Destroy(itemResTrans.GetComponent<UITutorialListEntry>());
+                //GameObject.Destroy(itemResTrans.GetComponent<Image>());//
+                //GameObject.Destroy(itemResTrans.GetComponent<Button>());//
+
+                dataFunc(result.m_ItemRes);
+
+                result.RowHeight = (int)itemResTrans.sizeDelta.y;
+                result.m_ItemRes.sel_highlight = null;
+
+                result.m_ContentPanel.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+                result.m_ContentPanel.constraintCount = 1;
+                result.ColumnWidth = (int)itemResTrans.sizeDelta.x;
+                result.RowHeight = (int)itemResTrans.sizeDelta.y;
+            }
+            result.HorzScroll = false;
+            result.VertScroll = true;
+            result.CullOutsideItems = false;
+            result.ColumnSpacing = 0;
+            result.RowSpacing = 4;
+
+            Image barBg = result.m_ScrollRect.verticalScrollbar.GetComponent<Image>();
+            if (barBg != null)
+            {
+                barBg.color = new Color(0f, 0f, 0f, 0.62f);
+            }
+
+            //あんまり上手くはないけどとりあえず変わる
+            RectTransform vsRect = result.m_ScrollRect.verticalScrollbar.transform as RectTransform;
+            vsRect.sizeDelta = new Vector2(vsWidth, vsRect.sizeDelta.y);
+
+            return result;
         }
 
         //parent 左上原点, cmp 左上基準 Y軸も正の数で渡す
@@ -65,6 +168,21 @@ namespace LSTMMod
             rect.anchoredPosition3D = new Vector3(left, -top, 0f);
             return rect;
         }
+
+        public static RectTransform NormalizeRectWithBottomLeft(Component cmp, float left, float bottom, Transform parent = null)
+        {
+            RectTransform rect = cmp.transform as RectTransform;
+            if (parent != null)
+            {
+                rect.SetParent(parent, false);
+            }
+            rect.anchorMax = new Vector2(0f, 0f);
+            rect.anchorMin = new Vector2(0f, 0f);
+            rect.pivot = new Vector2(0f, 0f);
+            rect.anchoredPosition3D = new Vector3(left, bottom, 0f);
+            return rect;
+        }
+
         public static RectTransform NormalizeRectWithMargin(Component cmp, float top, float left, float bottom, float right, Transform parent = null)
         {
             RectTransform rect = cmp.transform as RectTransform;

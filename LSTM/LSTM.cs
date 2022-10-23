@@ -37,6 +37,7 @@ namespace LSTMMod
         
         public static LSTMNavi navi = null;
         public static UIBalanceWindow _win;
+        public static UILogWindow _logWindow;
         public static UIConfigWindow _configWin;
         public static StationSignRenderer stationSignRenderer;
 
@@ -487,6 +488,7 @@ namespace LSTMMod
                     _initialized = true;
                     _configWin = UIConfigWindow.CreateWindow();
                     _win = MyWindowCtl.CreateWindow<UIBalanceWindow>("LSTMBalanceWindow", "LSTM");
+                    _logWindow = UILogWindow.CreateInstance();
                     AddButtonToStarmap();
                     AddButtonToStationWindow();
                     UIStatisticsWindowAgent.PostCreate();

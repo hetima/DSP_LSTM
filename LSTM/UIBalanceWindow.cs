@@ -1306,6 +1306,7 @@ namespace LSTMMod
         public enum EMenuCommand
         {
             OneTimeDemand = 0,
+            StationSlotLog,
         }
 
         public void ShowMenu(UIBalanceListEntry item)
@@ -1316,7 +1317,7 @@ namespace LSTMMod
                 return;
             }
 
-            if (item.storeType != EStoreType.Normal || item.station.isCollector || !item.station.isStellar)
+            if (item.storeType != EStoreType.Normal || !item.station.isStellar)
             {
                 return;
             }
@@ -1333,28 +1334,41 @@ namespace LSTMMod
 
             menuTarget = item;
             //menuTarget.LockAppearance();
-            RefreshMenuBox();
+            RefreshMenuBox(item);
             if (menuComboBox.DropDownCount > 0)
             {
                 menuComboBox.OnPopButtonClick();
             }
         }
 
-        internal void RefreshMenuBox()
+        internal void RefreshMenuBox(UIBalanceListEntry item)
         {
             List<string> items = menuComboBox.Items;
             List<int> itemsData = menuComboBox.ItemsData;
             items.Clear();
             itemsData.Clear();
-
             int itemCount = 0;
-            if (LSTM.enableOneTimeDemand.Value && menuTarget.station.storage[menuTarget.index].remoteDemandCount > 0)
+            if (item == null)
             {
-                items.Add("One-time Demand");
-                itemsData.Add((int)EMenuCommand.OneTimeDemand);
+                menuComboBox.DropDownCount = 0;
+                return;
+            }
+            if (item.station.isStellar)
+            {
+                items.Add("Traffic Log");
+                itemsData.Add((int)EMenuCommand.StationSlotLog);
                 itemCount++;
             }
 
+            if (!item.station.isCollector)
+            {
+                if (LSTM.enableOneTimeDemand.Value && menuTarget.station.storage[menuTarget.index].remoteDemandCount > 0)
+                {
+                    items.Add("One-time Demand");
+                    itemsData.Add((int)EMenuCommand.OneTimeDemand);
+                    itemCount++;
+                }
+            }
             //if ()
             //{
             //    items.Add("label");
@@ -1388,6 +1402,10 @@ namespace LSTMMod
                         {
                             UIRealtimeTip.Popup("Supplier not found", false, 0);
                         }
+                        break;
+                    case EMenuCommand.StationSlotLog:
+                        UIRealtimeTip.Popup("" + TrafficLog.trafficLogsCursor, false, 0);
+                        LSTM._logWindow.SetUpAndOpenStationSlot(menuTarget.station.gid, menuTarget.index);
                         break;
                     default:
                         break;
@@ -1435,7 +1453,7 @@ namespace LSTMMod
             RectTransform vsRect = menuComboBox.m_Scrollbar.transform as RectTransform;
             vsRect.sizeDelta = new Vector2(0, vsRect.sizeDelta.y);
 
-            RefreshMenuBox();
+            RefreshMenuBox(null);
         }
     }
 }
