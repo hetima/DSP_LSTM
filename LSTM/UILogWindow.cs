@@ -328,7 +328,6 @@ namespace LSTMMod
                     {
                         break;
                     }
-                    LSTM.Log(item.Info());
                     AddStore(item);
                     count++;
                 }

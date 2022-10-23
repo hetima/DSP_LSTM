@@ -14,25 +14,17 @@ namespace LSTMMod
         public int itemId;
 
         [SerializeField]
-        public Text nameText;
+        public Text demandText;
 
         [SerializeField]
-        public Text valueText;
+        public Text supplyText;
 
         [SerializeField]
-        public Text valueSketchText;
+        public Text distText;
 
         [SerializeField]
         public Image labelIcon;
 
-        [SerializeField]
-        public Image veinIcon;
-
-        [SerializeField]
-        public Sprite iconHide;
-
-        [SerializeField]
-        public UIButton iconButton;
 
         [SerializeField]
         public UIButton locateBtn;
@@ -75,38 +67,44 @@ namespace LSTMMod
                 btn.tips.offset = new Vector2(18f, -20f);
                 item.locateBtn = btn;
             }
+            src.labelText.text = "";
+            //demandText
+            //item.demandText = src.labelText;
+            item.demandText = GameObject.Instantiate<Text>(src.valueText, src.valueText.transform.parent);
+            item.demandText.gameObject.name = "demandText";
 
-            //nameText
-            item.nameText = src.labelText;
-            item.nameText.text = "";
-            item.nameText.fontSize = 16;
-            item.nameText.rectTransform.anchoredPosition = new Vector2(8f + leftPadding, 0f);
+            item.demandText.text = "";
+            item.demandText.supportRichText = true;
+            item.demandText.supportRichText = false;
+            item.demandText.fontSize = 14;
+            item.demandText.alignment = TextAnchor.MiddleLeft;
+            //item.demandText.rectTransform.anchoredPosition = new Vector2(8f + leftPadding, 0f);
+            rect = Util.NormalizeRectWithTopLeft(item.demandText, 8f + leftPadding, 2f);
+            rect.sizeDelta = new Vector2(180f, 24f);
 
-            //valueText
-            item.valueText = src.valueText;
-            item.valueText.text = "";
-            item.valueText.color = item.nameText.color;
-            item.valueText.supportRichText = true;
-            rect = Util.NormalizeRectWithTopLeft(item.valueText, 380f - rightPadding - leftPadding, 2f);
-            rect.sizeDelta = new Vector2(100f, 24f);
+            //supplyText
+            item.supplyText = src.valueText;
+            item.supplyText.text = "";
+            item.supplyText.color = item.demandText.color;
+            item.supplyText.supportRichText = false;
+            item.supplyText.fontSize = 14;
+            item.supplyText.alignment = TextAnchor.MiddleLeft;
+            rect = Util.NormalizeRectWithTopLeft(item.supplyText, 300f + leftPadding, 2f);
+            rect.sizeDelta = new Vector2(180f, 24f);
 
-            //valueSketchText
-            item.valueSketchText = GameObject.Instantiate<Text>(item.valueText, item.valueText.transform.parent);
-            item.valueSketchText.gameObject.name = "valueSketchText";
-            item.valueSketchText.alignment = TextAnchor.UpperLeft;
-            rect = Util.NormalizeRectWithTopLeft(item.valueSketchText, 504f - rightPadding - leftPadding, 2f);
+            //distText
+            item.distText = GameObject.Instantiate<Text>(item.supplyText, item.supplyText.transform.parent);
+            item.distText.gameObject.name = "distText";
+            item.distText.alignment = TextAnchor.MiddleCenter;
+            rect = Util.NormalizeRectWithTopLeft(item.distText, 264f + leftPadding, 2f);
             rect.sizeDelta = new Vector2(24f, 24f);
 
-            //veinIcon
-            item.veinIcon = src.iconImage;
-            if (item.veinIcon != null)
+            //labelIcon
+            item.labelIcon = src.iconImage;
+            if (item.labelIcon != null)
             {
-                rect = Util.NormalizeRectWithTopLeft(item.veinIcon, 482f - rightPadding - leftPadding, 2f);
-                item.veinIcon.enabled = true;
-
-                //labelIcon
-                item.labelIcon = GameObject.Instantiate<Image>(item.veinIcon, baseTrans);
                 item.labelIcon.gameObject.name = "labelIcon";
+                item.labelIcon.enabled = true;
                 rect = Util.NormalizeRectWithTopLeft(item.labelIcon, 16f, 12f);
                 rect.pivot = new Vector2(0.5f, 0.5f);
                 rect.sizeDelta = new Vector2(24f, 24f);
@@ -118,8 +116,9 @@ namespace LSTMMod
                 item.labelIcon.sprite = circleSprite;
             }
 
-            item.iconHide = src.iconHide;
-            item.iconButton = src.iconButton;
+            GameObject.Destroy(src.iconHide);
+            GameObject.Destroy(src.iconButton);
+            //item.iconButton = src.iconButton;
             //GameObject.Destroy(src.valueText.gameObject);
             GameObject.Destroy(src);
 
@@ -141,7 +140,7 @@ namespace LSTMMod
                 }
             }
             return planetData.displayName;
-            
+
         }
 
         public void Init(in TrafficLogData d, UILogWindow window_)
@@ -150,8 +149,9 @@ namespace LSTMMod
             logData = d;
             itemId = d.itemId;
             //DisplayNameForPlanet()
-            nameText.text = DisplayNameForPlanet(d.fromPlanetData);
-            valueText.text = DisplayNameForPlanet(d.toPlanetData);
+            demandText.text = DisplayNameForPlanet(d.fromPlanetData);
+            supplyText.text = DisplayNameForPlanet(d.toPlanetData);
+            distText.text = logData.distance;
         }
         private void OnLocateButtonClick(int obj)
         {
@@ -179,7 +179,7 @@ namespace LSTMMod
             else
             {
             }
-            valueSketchText.text = logData.time;
+            //distText.text = logData.time;
             return true;
         }
 
@@ -193,12 +193,12 @@ namespace LSTMMod
 
         public void OnPointerEnter(PointerEventData _eventData)
         {
-            locateBtn.gameObject.SetActive(true);
+            //locateBtn.gameObject.SetActive(true);
         }
 
         public void OnPointerExit(PointerEventData _eventData)
         {
-            locateBtn.gameObject.SetActive(false);
+            //locateBtn.gameObject.SetActive(false);
         }
 
         public void LockAppearance()
