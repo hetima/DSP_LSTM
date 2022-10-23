@@ -108,7 +108,7 @@ namespace LSTMMod
         }
 
         //新しい順
-        public static IEnumerable<TrafficLogData> AllTrafficLogData(int filterStationGid = 0, int filterIndex = 0)
+        public static IEnumerable<TrafficLogData> AllTrafficLogData()
         {
             int i = trafficLogsCursor - 1;
 
@@ -124,24 +124,36 @@ namespace LSTMMod
                 }
                 if (trafficLogs[i] != null)
                 {
-                    if (filterStationGid > 0)
-                    {
-                        if ((trafficLogs[i].toStationGid == filterStationGid && trafficLogs[i].toIndex == filterIndex) 
-                         || (trafficLogs[i].fromStationGid == filterStationGid && trafficLogs[i].fromIndex == filterIndex))
-                        {
-                            yield return trafficLogs[i];
-                        }
-                    }
-                    else
-                    {
-                        yield return trafficLogs[i];
-                    }
+                    yield return trafficLogs[i];
                 }
                 else
                 {
                     break;
                 }
                 i--;
+            }
+        }
+
+        public static IEnumerable<TrafficLogData> TrafficLogDataForPlanet(int planetId)
+        {
+            foreach (TrafficLogData item in AllTrafficLogData())
+            {
+                if ((item.fromPlanet == planetId) || (item.toPlanet == planetId))
+                {
+                    yield return item;
+                }
+            }
+        }
+
+        public static IEnumerable<TrafficLogData> TrafficLogDataForStationSlot(int filterStationGid, int filterIndex)
+        {
+            foreach (TrafficLogData item in AllTrafficLogData())
+            {
+                if ((item.toStationGid == filterStationGid && item.toIndex == filterIndex)
+                 || (item.fromStationGid == filterStationGid && item.fromIndex == filterIndex))
+                {
+                    yield return item;
+                }
             }
         }
 
