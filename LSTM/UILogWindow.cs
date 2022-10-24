@@ -8,6 +8,7 @@ using Steamworks;
 using static UnityEngine.EventSystems.EventTrigger;
 using System.Security.Policy;
 using static System.Collections.Specialized.BitVector32;
+using Compressions;
 
 
 namespace LSTMMod
@@ -612,6 +613,10 @@ namespace LSTMMod
             //    AddToListView(item);
             //}
             //_logList.Clear();
+            if (logListView.ItemCount > entryMax + 300)
+            {
+                logListView.RemoveRange(entryMax, logListView.ItemCount);
+            }
 
             for (int i = 0; i < logListView.ItemCount; i++)
             {
@@ -638,6 +643,8 @@ namespace LSTMMod
                     item.gameObject.SetActive(false);
                 }
             }
+
+
             logListView.AvoidInertia(1f);
             base.Invoke("MyResizeContentPanel", 0.01f);
             //logListView.RepositionContentPanel();
