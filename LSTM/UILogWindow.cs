@@ -430,7 +430,7 @@ namespace LSTMMod
         {
             _eventLock = true;
             logListView.Clear();
-            _logList.Clear();
+            //_logList.Clear();
             _eventLock = false;
         }
         public void TrafficLogAdded(TrafficLogData logData)
@@ -484,18 +484,19 @@ namespace LSTMMod
             newest = 0f;
             oldest = Time.realtimeSinceStartup;
 
-            if (_logList.Count >= entryMax)
-            {
-                logListView.Clear();
-            }
-            else
-            {
-                int total = _logList.Count + logListView.ItemCount;
-                if (total > entryMax)
-                {
-                    logListView.RemoveRange(total - entryMax, logListView.ItemCount);
-                }
-            }
+            //if (_logList.Count >= entryMax)
+            //{
+            //    logListView.Clear();
+            //}
+            //else
+            //{
+            //    int total = _logList.Count + logListView.ItemCount;
+            //    if (total > entryMax)
+            //    {
+            //        logListView.RemoveRange(total - entryMax, logListView.ItemCount);
+            //    }
+            //}
+
             //foreach (TrafficLogData item in _logList)
             //{
             //    AddToListView(item);
@@ -574,7 +575,7 @@ namespace LSTMMod
 
         int displayMax = 1000;
         int entryMax = 9999;
-        internal List<TrafficLogData> _logList = new List<TrafficLogData>(9999);
+        //internal List<TrafficLogData> _logList = new List<TrafficLogData>(9999);
         internal void AddStore(TrafficLogData logData, int sortIndex = -1)
         {
             //if (_logList.Count >= entryMax)
