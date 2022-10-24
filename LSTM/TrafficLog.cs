@@ -25,7 +25,7 @@ namespace LSTMMod
         public int toIndex;
         public int itemId;
         public float realtimeSinceStartup;
-        public string timeString;
+        //public string timeString;
         public bool isFromDemand;
 
         public PlanetData fromPlanetData
@@ -77,23 +77,23 @@ namespace LSTMMod
         {
             get
             {
-                return timeString;
-                //float dur = Time.realtimeSinceStartup - realtimeSinceStartup;
-                //if (dur < 60.0)
-                //{
-                //    return dur.ToString("F0") + "s";
-                //}
-                //else if (dur < 3600.0)
-                //{
-                //    return (dur/60.0).ToString("F0") + "m";
-                //}
-                //return (dur / 3600.0).ToString("F1") + "h";
+                //return timeString;
+                float dur = Time.realtimeSinceStartup - realtimeSinceStartup;
+                if (dur < 60.0)
+                {
+                    return dur.ToString("F0") + "s";
+                }
+                else if (dur < 3600.0)
+                {
+                    return (dur / 60.0).ToString("F0") + "m";
+                }
+                return (dur / 3600.0).ToString("F1") + "h";
             }
         }
 
         public string Info()
         {
-            return "[" + timeString + "]" + fromPlanet + "/" + fromIndex + "->" + toPlanet + "/" + toIndex + ":" + itemId; 
+            return "[" + time + "]" + fromPlanet + "/" + fromIndex + "->" + toPlanet + "/" + toIndex + ":" + itemId; 
         }
     }
 
@@ -251,8 +251,8 @@ namespace LSTMMod
             data.itemId = sc.workShipDatas[index].itemId;
             data.realtimeSinceStartup = Time.realtimeSinceStartup;
             data.isFromDemand = (sc.workShipOrders[index].thisOrdered != 0);
-            DateTime dt = DateTime.Now;
-            data.timeString = dt.Hour.ToString("D2") + ":" + dt.Minute.ToString("D2");
+            //DateTime dt = DateTime.Now;
+            //data.timeString = dt.Hour.ToString("D2") + ":" + dt.Minute.ToString("D2");
             AddLog(data);
         }
 
