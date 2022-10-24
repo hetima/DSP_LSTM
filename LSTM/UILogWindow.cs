@@ -253,19 +253,19 @@ namespace LSTMMod
             if (titleText != null)
             {
                 go = GameObject.Instantiate(titleText.gameObject);
-                go.name = "item-name";
+                go.name = "station-name";
                 stationText = go.GetComponent<Text>();
                 stationText.fontSize = 20;
                 stationText.alignment = TextAnchor.MiddleCenter;
 
                 rect = Util.NormalizeRectC(go);
                 rect.SetParent(windowTrans, false);
-                rect.sizeDelta = new Vector2(200f, rect.sizeDelta.y);
-                rect.anchoredPosition = new Vector2(0f, 210f); //planetText
+                rect.sizeDelta = new Vector2(240f, rect.sizeDelta.y);
+                rect.anchoredPosition = new Vector2(0f, 130f); //planetText
                 go.SetActive(true);
 
                 go = GameObject.Instantiate(go, windowTrans);
-                rect.anchoredPosition = new Vector2(0f, 240f); //itemText
+                rect.anchoredPosition = new Vector2(0f, 100f); //stationText
                 go.name = "planet-name";
                 planetText = go.GetComponent<Text>();
                 //ContentSizeFitter?
@@ -279,7 +279,7 @@ namespace LSTMMod
                 planetResetButton.gameObject.name = "planet-reset-btn";
                 rect = Util.NormalizeRectC(planetResetButton.gameObject);
                 rect.SetParent(windowTrans, false);
-                rect.anchoredPosition = new Vector2(150f, 210f);
+                rect.anchoredPosition = new Vector2(150f, 130f);
             }
             stationResetButton = Util.MakeIconButtonB(s, 22);
             if (stationResetButton != null)
@@ -287,7 +287,7 @@ namespace LSTMMod
                 stationResetButton.gameObject.name = "station-reset-btn";
                 rect = Util.NormalizeRectC(stationResetButton.gameObject);
                 rect.SetParent(windowTrans, false);
-                rect.anchoredPosition = new Vector2(180f, 210f);
+                rect.anchoredPosition = new Vector2(180f, 100f);
             }
 
             //menu
@@ -532,26 +532,7 @@ namespace LSTMMod
                 }
             }
 
-            string AppropriatePlanetName()
-            {
-                if (targetPlanetId <= 0)
-                {
-                    planetResetButton.gameObject.SetActive(false);
-                    if (targetStationGid > 0)
-                    {
-                        return "(" + GameMain.galaxy.PlanetById(targetPlanetId).displayName + ")";
-                    }
-                    else
-                    {
-                        return "";
-                    }
-                }
-                else
-                {
-                    planetResetButton.gameObject.SetActive(true);
-                    return GameMain.galaxy.PlanetById(targetPlanetId).displayName;
-                }
-            }
+
             string planetName = "";
             string stationName = "";
 
@@ -563,7 +544,16 @@ namespace LSTMMod
             }
             else
             {
-                planetName = AppropriatePlanetName();
+                if (targetPlanetId <= 0)
+                {
+                    planetResetButton.gameObject.SetActive(false);
+                    planetName = "";
+                }
+                else
+                {
+                    planetResetButton.gameObject.SetActive(true);
+                    planetName = GameMain.galaxy.PlanetById(targetPlanetId).displayName;
+                }
             }
             if (targetStationGid != 0)
             {
@@ -572,8 +562,15 @@ namespace LSTMMod
                 if (station.gid == targetStationGid)
                 {
                     stationName = string.IsNullOrEmpty(station.name) ? (station.isStellar ? ("星际站点号".Translate() + station.gid.ToString()) : ("本地站点号".Translate() + station.id.ToString())) : station.name;
+                    planetName = "(" + GameMain.galaxy.PlanetById(station.planetId).displayName + ")";
+                    stationResetButton.gameObject.SetActive(true);
                 }
             }
+            else
+            {
+                stationResetButton.gameObject.SetActive(false);
+            }
+
             if (planetText != null)
             {
                 planetText.text = planetName;
