@@ -228,11 +228,11 @@ namespace LSTMMod
             rect = btn.transform as RectTransform;
             rect.anchorMax = new Vector2(0f, 1f);
             rect.anchorMin = new Vector2(0f, 1f);
-            rect.anchoredPosition = new Vector2(580f, -46f);
+            rect.anchoredPosition = new Vector2(580f, -40f);
             btn.gameObject.SetActive(true);
 
             //LSTM btn
-            btn = Util.MakeSmallTextButton("LSTM", 40f, 20f);
+            btn = Util.MakeSmallTextButton("LSTM", 580f, 0f);
             btn.gameObject.name = "lstm-btn";
             btn.transform.SetParent(contentTrans, false);
             btn.onClick += OnLSTMButtonClick;
