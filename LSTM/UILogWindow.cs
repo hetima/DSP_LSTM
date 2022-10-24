@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using Steamworks;
 using static UnityEngine.EventSystems.EventTrigger;
+using System.Security.Policy;
 
 
 namespace LSTMMod
@@ -183,8 +184,8 @@ namespace LSTMMod
             if (bgTrans != null)
             {
                 go = GameObject.Instantiate(bgTrans.gameObject);
-                Transform btn = go.transform.Find("product-icon");
-                if (btn != null)
+                Transform btnTrans = go.transform.Find("product-icon");
+                if (btnTrans != null)
                 {
                     itemResetButton = go.transform.Find("stop-btn")?.GetComponent<UIButton>();
                     go.transform.Find("cnt-text")?.gameObject.SetActive(false);
@@ -193,14 +194,14 @@ namespace LSTMMod
                     GameObject.Destroy(go.transform.Find("product-icon-1")?.gameObject);
                     GameObject.Destroy(go.transform.Find("cnt-text-1")?.gameObject);
 
-                    itemButton = btn.GetComponent<UIButton>();
+                    itemButton = btnTrans.GetComponent<UIButton>();
                     itemButton.tips.tipTitle = "Select Item".Translate();
                     itemButton.tips.tipText = "Select item to display".Translate();
                     itemButton.tips.corner = 3;
                     itemButton.tips.offset = new Vector2(16, 16);
                     itemCircle = go.transform.Find("circle-fg")?.GetComponent<Image>();
                     itemCircle.color = Util.DSPBlue;
-                    itemImage = btn.GetComponent<Image>();
+                    itemImage = btnTrans.GetComponent<Image>();
                     itemImage.sprite = defaultItemSprite;
                     rect = Util.NormalizeRectD(go);
                     //rect.localScale = new Vector3(1f, 1f, 1f);
@@ -212,7 +213,20 @@ namespace LSTMMod
 
             }
 
-
+            //reload btn
+            UIButton btn = Util.MakeSmallTextButton("Reload", 44f, 20f);
+            btn.transform.SetParent(contentTrans, false);
+            btn.onClick += OnReloadButtonClick;
+            btn.tips.delay = 0.8f;
+            btn.tips.tipTitle = "Reload".Translate();
+            btn.tips.tipText = "Click to reload data".Translate();
+            btn.tips.corner = 3;
+            btn.tips.offset = new Vector2(6, 38);
+            rect = btn.transform as RectTransform;
+            rect.anchorMax = new Vector2(0f, 1f);
+            rect.anchorMin = new Vector2(0f, 1f);
+            rect.anchoredPosition = new Vector2(580f, -46f);
+            btn.gameObject.SetActive(true);
 
 
 
