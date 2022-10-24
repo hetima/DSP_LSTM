@@ -556,21 +556,23 @@ namespace LSTMMod
         public void RefleshCountText()
         {
             string tpmString = "";
-            if (entryCount > 1)
+            int dosplayCount = entryCount;
+            if (dosplayCount > 1)
             {
                 float duration = newest - oldest;
                 if (duration > 30)
                 {
-                    float tpm = (float)entryCount / (duration / 60f);
+                    float tpm = (float)dosplayCount / (duration / 60f);
                     tpmString = "    (" + tpm.ToString("F1") + " per min)";
                 }
 
             }
-            if (displayMax < entryCount)
+            if (displayMax < dosplayCount)
             {
                 tpmString = "+" + tpmString;
+                dosplayCount--;
             }
-            countText.text = "Result: " + entryCount.ToString() + tpmString;
+            countText.text = "Result: " + dosplayCount.ToString() + tpmString;
         }
 
         int displayMax = 1000;
