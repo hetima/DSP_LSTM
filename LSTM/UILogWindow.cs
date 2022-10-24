@@ -481,11 +481,11 @@ namespace LSTMMod
                     logListView.RemoveRange(total - entryMax, logListView.ItemCount);
                 }
             }
-            foreach (TrafficLogData item in _logList)
-            {
-                AddToListView(item);
-            }
-            _logList.Clear();
+            //foreach (TrafficLogData item in _logList)
+            //{
+            //    AddToListView(item);
+            //}
+            //_logList.Clear();
 
             for (int i = 0; i < logListView.ItemCount; i++)
             {
@@ -512,6 +512,16 @@ namespace LSTMMod
                     item.gameObject.SetActive(false);
                 }
             }
+
+            //private void ResizeContentPanel()
+            {
+                logListView.ColumnCount = Mathf.Clamp(logListView.ColumnCount, 1, 32);
+                int num = entryCount;
+                num = (num - 1) / logListView.ColumnCount + 1;
+                RectTransform rectTransform = logListView.m_ContentPanel.transform as RectTransform;
+                rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, (float)(logListView.Padding.top + logListView.Padding.bottom + (logListView.RowHeight + logListView.RowSpacing) * num - logListView.RowSpacing));
+                rectTransform.anchoredPosition = new Vector2(0f, 0f);
+            }
             RefleshCountText();
         }
 
@@ -533,16 +543,24 @@ namespace LSTMMod
 
         int entryMax = 9999;
         internal List<TrafficLogData> _logList = new List<TrafficLogData>(9999);
-        internal void AddStore(TrafficLogData data, int sortIndex = -1)
+        internal void AddStore(TrafficLogData logData, int sortIndex = -1)
         {
-            if (_logList.Count >= entryMax)
-            {
-                _logList.RemoveAt(0);
-            }
-            _logList.Add(data);
+            //if (_logList.Count >= entryMax)
+            //{
+            //    _logList.RemoveAt(0);
+            //}
+            //_logList.Add(logData);
+
+            RectTransform rectTransform = logListView.m_ContentPanel.transform as RectTransform;
+            Vector2 size = rectTransform.sizeDelta;
+            Vector2 anchoredPosition = rectTransform.anchoredPosition;
+            UILogListItem item = AddToListView(logData);
+            item.gameObject.SetActive(false);
+            rectTransform.sizeDelta = size;
+            rectTransform.anchoredPosition = anchoredPosition;
         }
 
-        internal void AddToListView(TrafficLogData logData)
+        internal UILogListItem AddToListView(TrafficLogData logData)
         {
             //RectTransform contentRect = (RectTransform)logListView.m_ContentPanel.transform;
 
@@ -563,6 +581,8 @@ namespace LSTMMod
             //}
             //newest = item.logData.realtimeSinceStartup;
             //RefleshCountText();
+
+            return item;
         }
 
         internal bool RefreshListView(UIListView listView, bool onlyNewlyEmerged = false)
