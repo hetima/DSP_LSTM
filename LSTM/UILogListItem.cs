@@ -170,35 +170,15 @@ namespace LSTMMod
                 labelIcon.rectTransform.localScale = Vector3.one;
                 labelIcon.color = Color.white;
             }
-            timeText.text = d.time;
         }
         private void OnLocateButtonClick(int obj)
         {
             //LSTM.LocatePlanet(planetData.id);
         }
 
-        public bool RefreshValues(bool shown, bool onlyNewlyEmerged = false)
+        public void RefreshValues()
         {
-            //このSetActive特に不要か
-            if (shown != baseObj.activeSelf)
-            {
-                baseObj.SetActive(shown);
-            }
-            else if (onlyNewlyEmerged)
-            {
-                return true;
-            }
-            if (!shown)
-            {
-                return true;
-            }
-            if (itemId != 0)
-            {
-            }
-            else
-            {
-            }
-            return true;
+            timeText.text = logData.time;
         }
 
         public void OnPointerClick(PointerEventData eventData)

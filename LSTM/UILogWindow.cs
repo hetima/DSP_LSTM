@@ -625,6 +625,7 @@ namespace LSTMMod
                 if (sholdShowLogData(item) && displayMax >= entryCount)
                 {
                     item.gameObject.SetActive(true);
+                    item.RefreshValues();
                     entryCount++;
                     if (newest < item.logData.realtimeSinceStartup)
                     {
