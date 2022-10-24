@@ -7,6 +7,7 @@ using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using Steamworks;
 using static UnityEngine.EventSystems.EventTrigger;
 using System.Security.Policy;
+using static System.Collections.Specialized.BitVector32;
 
 
 namespace LSTMMod
@@ -245,6 +246,49 @@ namespace LSTMMod
             rect.anchoredPosition = new Vector2(120f, -30f);
             btn.gameObject.SetActive(true);
 
+
+            //
+            Text titleText = MyWindowCtl.GetTitleText(this);
+            if (titleText != null)
+            {
+                go = GameObject.Instantiate(titleText.gameObject);
+                go.name = "item-name";
+                stationText = go.GetComponent<Text>();
+                stationText.fontSize = 20;
+                stationText.alignment = TextAnchor.MiddleCenter;
+
+                rect = Util.NormalizeRectC(go);
+                rect.SetParent(windowTrans, false);
+                rect.sizeDelta = new Vector2(200f, rect.sizeDelta.y);
+                rect.anchoredPosition = new Vector2(0f, 210f); //planetText
+                go.SetActive(true);
+
+                go = GameObject.Instantiate(go, windowTrans);
+                rect.anchoredPosition = new Vector2(0f, 240f); //itemText
+                go.name = "planet-name";
+                planetText = go.GetComponent<Text>();
+                //ContentSizeFitter?
+
+            }
+
+            Sprite s = itemResetButton.transform.Find("x")?.GetComponent<Image>()?.sprite;
+            planetResetButton = Util.MakeIconButtonB(s, 22);
+            if (planetResetButton != null)
+            {
+                planetResetButton.gameObject.name = "planet-reset-btn";
+                rect = Util.NormalizeRectC(planetResetButton.gameObject);
+                rect.SetParent(windowTrans, false);
+                rect.anchoredPosition = new Vector2(150f, 210f);
+            }
+            stationResetButton = Util.MakeIconButtonB(s, 22);
+            if (stationResetButton != null)
+            {
+                stationResetButton.gameObject.name = "station-reset-btn";
+                rect = Util.NormalizeRectC(stationResetButton.gameObject);
+                rect.SetParent(windowTrans, false);
+                rect.anchoredPosition = new Vector2(180f, 210f);
+            }
+
             //menu
             //CreateMenuBox();
 
@@ -286,14 +330,22 @@ namespace LSTMMod
         {
             itemButton.onClick += OnSelectItemButtonClick;
             itemResetButton.onClick += OnItemResetButtonClick;
+            planetResetButton.onClick += OnPlanetResetButtonClick;
+            stationResetButton.onClick += OnStationResetButtonClick;
+
             logListView.m_ScrollRect.onValueChanged.AddListener(OnScrollRectChanged);
 
         }
+
+
 
         protected override void _OnUnregEvent()
         {
             itemButton.onClick -= OnSelectItemButtonClick;
             itemResetButton.onClick -= OnItemResetButtonClick;
+            planetResetButton.onClick -= OnPlanetResetButtonClick;
+            stationResetButton.onClick -= OnStationResetButtonClick;
+
             logListView.m_ScrollRect.onValueChanged.RemoveListener(OnScrollRectChanged);
         }
 
@@ -452,6 +504,10 @@ namespace LSTMMod
             //RefreshListView(logListView);
 
         }
+        public Text planetText;
+        public UIButton planetResetButton;
+        public Text stationText;
+        public UIButton stationResetButton;
 
         internal void SetUpItemUI()
         {
@@ -474,8 +530,62 @@ namespace LSTMMod
                     //itemText.text = itemProto.name;
                 }
             }
-        }
 
+            string AppropriatePlanetName()
+            {
+                if (targetPlanetId <= 0)
+                {
+                    planetResetButton.gameObject.SetActive(false);
+                    if (targetStationGid > 0)
+                    {
+                        return "(" + GameMain.galaxy.PlanetById(targetPlanetId).displayName + ")";
+                    }
+                    else
+                    {
+                        return "";
+                    }
+                }
+                else
+                {
+                    planetResetButton.gameObject.SetActive(true);
+                    return GameMain.galaxy.PlanetById(targetPlanetId).displayName;
+                }
+            }
+            string planetName = "";
+            string stationName = "";
+
+            planetResetButton.gameObject.SetActive(false);
+            if (targetStarId != 0)
+            {
+                planetName = GameMain.galaxy.StarById(targetStarId).displayName + "空格行星系".Translate();
+                planetResetButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                planetName = AppropriatePlanetName();
+            }
+            if (targetStationGid != 0)
+            {
+                GalacticTransport galacticTransport = UIRoot.instance.uiGame.gameData.galacticTransport;
+                StationComponent station = galacticTransport.stationPool[targetStationGid];
+                if (station.gid == targetStationGid)
+                {
+                    stationName = string.IsNullOrEmpty(station.name) ? (station.isStellar ? ("星际站点号".Translate() + station.gid.ToString()) : ("本地站点号".Translate() + station.id.ToString())) : station.name;
+                }
+            }
+            if (planetText != null)
+            {
+                planetText.text = planetName;
+                RectTransform rect = (RectTransform)planetResetButton.gameObject.transform;
+                rect.anchoredPosition = new Vector2(planetText.preferredWidth / 2 + 18f, rect.anchoredPosition.y);
+            }
+            if (stationText != null)
+            {
+                stationText.text = stationName;
+                RectTransform rect = (RectTransform)stationResetButton.gameObject.transform;
+                rect.anchoredPosition = new Vector2(stationText.preferredWidth / 2 + 18f, rect.anchoredPosition.y);
+            }
+        }
         public void SetUpItemList()
         {
             
@@ -672,12 +782,14 @@ namespace LSTMMod
             targetStationGid = 0;
             SetUpData();
         }
+
         private void OnPlanetResetButtonClick(int obj)
         {
             targetPlanetId = 0;
             targetStationGid = 0;
             SetUpData();
         }
+
 
         private void OnStationResetButtonClick(int obj)
         {
