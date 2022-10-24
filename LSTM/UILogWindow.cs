@@ -463,7 +463,7 @@ namespace LSTMMod
 
         public void SetUpItemList()
         {
-            int entryMax = 9999;
+            
             entryCount = 0;
             countText.text = "";
             newest = 0f;
@@ -531,9 +531,14 @@ namespace LSTMMod
             countText.text = "Result: " + entryCount.ToString() + tpmString;
         }
 
-        internal List<TrafficLogData> _logList = new List<TrafficLogData>(2000);
+        int entryMax = 9999;
+        internal List<TrafficLogData> _logList = new List<TrafficLogData>(9999);
         internal void AddStore(TrafficLogData data, int sortIndex = -1)
         {
+            if (_logList.Count >= entryMax)
+            {
+                _logList.RemoveAt(0);
+            }
             _logList.Add(data);
         }
 
