@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
+using Steamworks;
 
 
 namespace LSTMMod
 {
-    public class UILogWindow : ManualBehaviour, IPointerEnterHandler, IPointerExitHandler, IEventSystemHandler, MyWindow
+    public class UILogWindow : ManualBehaviour, IPointerEnterHandler, IPointerExitHandler, IEventSystemHandler, MyWindow, TrafficLogDelegate
     {
 
         public RectTransform windowTrans;
         public RectTransform contentTrans;
 
-        public UIListView planetListView;
+        public UIListView logListView;
         public Text countText;
         public int entryCount;
         public float newest;
@@ -110,10 +112,10 @@ namespace LSTMMod
             bgImage.color = new Color(0f, 0f, 0f, 0.56f);
             Util.NormalizeRectWithMargin(bgImage, 70f, 0f, 20f, 16f, contentTrans);
 
-            planetListView = Util.CreateListView(UILogListItem.CreateListViewPrefab, "list-view", null, 16f);
-            Util.NormalizeRectWithMargin(planetListView.transform, 0f, 0f, 0f, 0f, bgImage.transform);
+            logListView = Util.CreateListView(UILogListItem.CreateListViewPrefab, "list-view", null, 16f);
+            Util.NormalizeRectWithMargin(logListView.transform, 0f, 0f, 0f, 0f, bgImage.transform);
             //ここでサイズ調整…
-            //(planetListView.m_ItemRes.com_data.transform as RectTransform).sizeDelta = new Vector2(600f, 24f);
+            //(logListView.m_ItemRes.com_data.transform as RectTransform).sizeDelta = new Vector2(600f, 24f);
 
             ////scope buttons
             //float scopex_ = 4f;
@@ -221,13 +223,13 @@ namespace LSTMMod
 
         private void OnScrollRectChanged(Vector2 val)
         {
-            if (planetListView.m_ScrollRect.verticalScrollbar.size < 0.1f)
+            if (logListView.m_ScrollRect.verticalScrollbar.size < 0.1f)
             {
-                planetListView.m_ScrollRect.verticalScrollbar.size = 0.1f;
+                logListView.m_ScrollRect.verticalScrollbar.size = 0.1f;
             }
-            else if (planetListView.m_ScrollRect.verticalScrollbar.size >= 0.99f)
+            else if (logListView.m_ScrollRect.verticalScrollbar.size >= 0.99f)
             {
-                planetListView.m_ScrollRect.verticalScrollbar.size = 0.001f;
+                logListView.m_ScrollRect.verticalScrollbar.size = 0.001f;
             }
         }
         protected override void _OnDestroy()
@@ -254,7 +256,7 @@ namespace LSTMMod
         {
             itemButton.onClick += OnSelectItemButtonClick;
             itemResetButton.onClick += OnItemResetButtonClick;
-            planetListView.m_ScrollRect.onValueChanged.AddListener(OnScrollRectChanged);
+            logListView.m_ScrollRect.onValueChanged.AddListener(OnScrollRectChanged);
 
         }
 
@@ -262,7 +264,7 @@ namespace LSTMMod
         {
             itemButton.onClick -= OnSelectItemButtonClick;
             itemResetButton.onClick -= OnItemResetButtonClick;
-            planetListView.m_ScrollRect.onValueChanged.RemoveListener(OnScrollRectChanged);
+            logListView.m_ScrollRect.onValueChanged.RemoveListener(OnScrollRectChanged);
         }
 
         protected override void _OnOpen()
@@ -271,7 +273,6 @@ namespace LSTMMod
         }
         protected override void _OnClose()
         {
-            planetListView.Clear();
             isPointEnter = false;
         }
         protected override void _OnUpdate()
@@ -297,11 +298,6 @@ namespace LSTMMod
                 return;
             }
 
-            if (_logList.Count > 0)
-            {
-                AddToListView(planetListView, 200, _logList);
-            }
-
             bool valid = true;
             int step = Time.frameCount % 30;
 
@@ -311,18 +307,18 @@ namespace LSTMMod
                 //targetItemId = itemSelection.NextTargetItemId(targetItemId, PLFN.showPowerState.Value);
                 //if (targetItemId != current)
                 //{
-                //    valid = RefreshListView(planetListView);
+                //    valid = RefreshListView(logListView);
                 //}
             }
             else if (step == 0)
             {
-                valid = RefreshListView(planetListView);
+                valid = RefreshListView(logListView);
                 //UIListViewのStart()で設定されるのでその後に呼ぶ必要がある
-                planetListView.m_ScrollRect.scrollSensitivity = 28f;
+                logListView.m_ScrollRect.scrollSensitivity = 28f;
             }
             else
             {
-                RefreshListView(planetListView, true);
+                RefreshListView(logListView, true);
             }
             if (!valid)
             {
@@ -363,12 +359,58 @@ namespace LSTMMod
             }
         }
 
-        internal List<TrafficLogData> _logList = new List<TrafficLogData>(2000);
+        //internal List<TrafficLogData> _logList = new List<TrafficLogData>(2000);
+
+        public bool sholdShowLogData(UILogListItem listItem)
+        {
+            TrafficLogData logData = listItem.logData;
+            if (targetStarId != 0)
+            {
+                if ((logData.fromPlanet / 100 != targetStarId) && (logData.toPlanet / 100 != targetStarId))
+                {
+                    return false;
+                }
+            }
+            if (targetPlanetId != 0)
+            {
+                if ((logData.fromPlanet != targetPlanetId) && (logData.toPlanet != targetPlanetId))
+                {
+                    return false;
+                }
+            }
+            if (targetItemId != 0)
+            {
+                if (logData.itemId != targetItemId)
+                {
+                    return false;
+                }
+            }
+            if (targetStationGid != 0)
+            {
+                if ((logData.toStationGid != targetStationGid)
+                    && (logData.fromStationGid != targetStationGid))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public void TrafficLogReseted()
+        {
+            _eventLock = true;
+            logListView.Clear();
+            _logList.Clear();
+            _eventLock = false;
+        }
+        public void TrafficLogAdded(TrafficLogData logData)
+        {
+            AddStore(logData);
+        }
+
         public void SetUpData()
         {
             _eventLock = true;
-            _logList.Clear();
-            planetListView.Clear();
             //targetItemId = itemSelection.lastSelectedItemId;
 
             SetUpItemList();
@@ -376,11 +418,8 @@ namespace LSTMMod
             //_logList.Sort((a, b) => a.distanceForSort - b.distanceForSort);
 
             _eventLock = false;
-            if (_logList.Count > 0)
-            {
-                AddToListView(planetListView, 20, _logList);
-            }
-            RefreshListView(planetListView);
+
+            RefreshListView(logListView);
 
         }
 
@@ -414,44 +453,35 @@ namespace LSTMMod
             newest = 0f;
             oldest = Time.realtimeSinceStartup;
 
-            if (targetPlanetId + targetItemId + targetStationGid + targetStarId !=0)
+            foreach (TrafficLogData item in _logList)
             {
-                foreach (var item in TrafficLog.GetTrafficLogData(targetStarId, targetPlanetId, targetItemId, targetStationGid))
-                {
-                    if (item == null)
-                    {
-                        break;
-                    }
-                    if (newest < item.realtimeSinceStartup)
-                    {
-                        newest = item.realtimeSinceStartup;
-                    }
-                    if (oldest > item.realtimeSinceStartup)
-                    {
-                        oldest = item.realtimeSinceStartup;
-                    }
-                    AddStore(item);
-                    entryCount++;
-                }
+                AddToListView(item);
             }
-            else
+            _logList.Clear();
+
+            for (int i = 0; i < logListView.ItemCount; i++)
             {
-                foreach (var item in TrafficLog.AllTrafficLogData())
+                UILogListItem item = logListView.GetItem<UILogListItem>(i);
+                if (item == null)
                 {
-                    if (item == null)
-                    {
-                        break;
-                    }
-                    if (newest < item.realtimeSinceStartup)
-                    {
-                        newest = item.realtimeSinceStartup;
-                    }
-                    if (oldest > item.realtimeSinceStartup)
-                    {
-                        oldest = item.realtimeSinceStartup;
-                    }
-                    AddStore(item);
+                    break;
+                }
+                if (sholdShowLogData(item))
+                {
+                    item.gameObject.SetActive(true);
                     entryCount++;
+                    if (newest < item.logData.realtimeSinceStartup)
+                    {
+                        newest = item.logData.realtimeSinceStartup;
+                    }
+                    if (oldest > item.logData.realtimeSinceStartup)
+                    {
+                        oldest = item.logData.realtimeSinceStartup;
+                    }
+                }
+                else
+                {
+                    item.gameObject.SetActive(false);
                 }
             }
             RefleshCountText();
@@ -473,30 +503,33 @@ namespace LSTMMod
             countText.text = "Result: " + entryCount.ToString() + tpmString;
         }
 
+        internal List<TrafficLogData> _logList = new List<TrafficLogData>(2000);
         internal void AddStore(TrafficLogData data, int sortIndex = -1)
         {
             _logList.Add(data);
         }
 
-        internal int AddToListView(UIListView listView, int count, List<TrafficLogData> list)
+        internal void AddToListView(TrafficLogData logData)
         {
-            if (list.Count < count)
-            {
-                count = list.Count;
-            }
-            if (count == 0)
-            {
-                return count;
-            }
+            //RectTransform contentRect = (RectTransform)logListView.m_ContentPanel.transform;
 
-            for (int i = 0; i < count; i++)
-            {
-                TrafficLogData d = list[0];
-                list.RemoveAt(0);
-                UILogListItem e = listView.AddItem<UILogListItem>();
-                e.Init(in d, this);
-            }
-            return count;
+            UILogListItem item = logListView.InsertItem<UILogListItem>(0);
+            item.Init(in logData, this);
+            //if (sholdShowLogData(item))
+            //{
+            //    item.gameObject.SetActive(true);
+            //    entryCount++;
+            //}
+            //else
+            //{
+            //    item.gameObject.SetActive(false);
+            //}
+            //if (contentRect.anchoredPosition.y != 0)
+            //{
+            //    contentRect.anchoredPosition = new Vector2(contentRect.anchoredPosition.x, contentRect.anchoredPosition.y + 28f);
+            //}
+            //newest = item.logData.realtimeSinceStartup;
+            //RefleshCountText();
         }
 
         internal bool RefreshListView(UIListView listView, bool onlyNewlyEmerged = false)
@@ -530,6 +563,10 @@ namespace LSTMMod
                 }
             }
             return true;
+        }
+        private void OnReloadButtonClick(int obj)
+        {
+            SetUpItemList();
         }
 
         private void OnStarResetButtonClick(int obj)

@@ -8,6 +8,13 @@ using UnityEngine;
 
 namespace LSTMMod
 {
+    public interface TrafficLogDelegate
+    {
+        //ShutAllFunctionWindow でなにかチェックしたい場合
+        void TrafficLogReseted();
+        void TrafficLogAdded(TrafficLogData logData);
+    }
+
     public class TrafficLogData
     {
         public int fromPlanet;
@@ -90,13 +97,17 @@ namespace LSTMMod
 
     public class TrafficLog
     {
-        public static int trafficLogsSize = 9999;
+        public static TrafficLogDelegate trafficLogDelegate;
         public static TrafficLogData[] trafficLogs = null;
         public static int trafficLogsCursor = 0;
+        public static bool keepLog = false;
+        public static int trafficLogsSize = 10;
+
         public static void ResetLog()
         {
             trafficLogs = new TrafficLogData[trafficLogsSize];
             trafficLogsCursor = 0;
+            trafficLogDelegate?.TrafficLogReseted();
         }
         public static void AddLog(TrafficLogData logData)
         {
@@ -105,12 +116,16 @@ namespace LSTMMod
                 {
                     ResetLog();
                 }
-                trafficLogs[trafficLogsCursor] = logData;
-                trafficLogsCursor++;
-                if (trafficLogsCursor >= trafficLogsSize)
+                if (keepLog)
                 {
-                    trafficLogsCursor = 0;
+                    trafficLogs[trafficLogsCursor] = logData;
+                    trafficLogsCursor++;
+                    if (trafficLogsCursor >= trafficLogsSize)
+                    {
+                        trafficLogsCursor = 0;
+                    }
                 }
+                trafficLogDelegate.TrafficLogAdded(logData);
             }
         }
 
@@ -125,7 +140,7 @@ namespace LSTMMod
         }
         public static IEnumerable<TrafficLogData> AllTrafficLogData()
         {
-            if (trafficLogs == null)
+            if (trafficLogs == null || !keepLog)
             {
                 yield break;
             }
@@ -158,7 +173,7 @@ namespace LSTMMod
 
         public static IEnumerable<TrafficLogData> GetTrafficLogData(int starId, int planetId, int itemId, int filterStationGid)
         {
-            if (trafficLogs == null)
+            if (trafficLogs == null || !keepLog)
             {
                 yield break;
             }
@@ -215,65 +230,7 @@ namespace LSTMMod
             }
         }
 
-        //新しい順
-        //public static IEnumerable<TrafficLogData> AllTrafficLogData(int planetId=0, int itemId=0, int filterStationGid=0, int filterIndex=0)
-        //{
-        //    if (trafficLogs == null)
-        //    {
-        //        yield break;
-        //    }
-        //    lock (trafficLogs)
-        //    {
-        //        int i = trafficLogsCursor - 1;
 
-        //        while (true)
-        //        {
-        //            if (i < 0)
-        //            {
-        //                i = trafficLogsSize - 1;
-        //            }
-        //            if (i == trafficLogsCursor)
-        //            {
-        //                break;
-        //            }
-        //            if (trafficLogs[i] != null)
-        //            {
-        //                TrafficLogData item = trafficLogs[i];
-        //                if (planetId != 0)
-        //                {
-        //                    if ((item.fromPlanet == planetId) || (item.toPlanet == planetId))
-        //                    {
-        //                        yield return item;
-        //                    }
-        //                }
-        //                else if (itemId != 0)
-        //                {
-        //                    if (item.itemId == itemId)
-        //                    {
-        //                        yield return item;
-        //                    }
-        //                }
-        //                else if (filterStationGid != 0)
-        //                {
-        //                    if ((item.toStationGid == filterStationGid && item.toIndex == filterIndex)
-        //                        || (item.fromStationGid == filterStationGid && item.fromIndex == filterIndex))
-        //                    {
-        //                        yield return item;
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    yield return trafficLogs[i];
-        //                }
-        //            }
-        //            else
-        //            {
-        //                break;
-        //            }
-        //            i--;
-        //        }
-        //    }
-        //}
 
 
         public static void TakeLog(StationComponent sc, int index)

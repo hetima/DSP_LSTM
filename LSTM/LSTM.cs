@@ -484,6 +484,7 @@ namespace LSTMMod
                     _configWin = UIConfigWindow.CreateInstance();
                     _win = UIBalanceWindow.CreateInstance();
                     _logWindow = UILogWindow.CreateInstance();
+                    TrafficLog.trafficLogDelegate = _logWindow;
                     AddButtonToStarmap();
                     AddButtonToStationWindow();
                     UIStatisticsWindowAgent.PostCreate();
