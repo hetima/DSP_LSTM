@@ -170,6 +170,7 @@ namespace LSTMMod
                 labelIcon.rectTransform.localScale = Vector3.one;
                 labelIcon.color = Color.white;
             }
+            timeText.text = d.time;
         }
         private void OnLocateButtonClick(int obj)
         {
@@ -197,7 +198,6 @@ namespace LSTMMod
             else
             {
             }
-            timeText.text = logData.time;
             return true;
         }
 

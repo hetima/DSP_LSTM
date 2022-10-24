@@ -342,13 +342,13 @@ namespace LSTMMod
             }
             else if (step == 0)
             {
-                valid = RefreshListView(logListView);
+                //valid = RefreshListView(logListView);
                 //UIListViewのStart()で設定されるのでその後に呼ぶ必要がある
                 logListView.m_ScrollRect.scrollSensitivity = 28f;
             }
             else
             {
-                RefreshListView(logListView, true);
+                //RefreshListView(logListView, true);
             }
             if (!valid)
             {
@@ -449,7 +449,7 @@ namespace LSTMMod
 
             _eventLock = false;
 
-            RefreshListView(logListView);
+            //RefreshListView(logListView);
 
         }
 
