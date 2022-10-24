@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using Steamworks;
+using static UnityEngine.EventSystems.EventTrigger;
 
 
 namespace LSTMMod
@@ -448,11 +449,24 @@ namespace LSTMMod
 
         public void SetUpItemList()
         {
+            int entryMax = 9999;
             entryCount = 0;
             countText.text = "";
             newest = 0f;
             oldest = Time.realtimeSinceStartup;
 
+            if (_logList.Count >= entryMax)
+            {
+                logListView.Clear();
+            }
+            else
+            {
+                int total = _logList.Count + logListView.ItemCount;
+                if (total > entryMax)
+                {
+                    logListView.RemoveRange(total - entryMax, logListView.ItemCount);
+                }
+            }
             foreach (TrafficLogData item in _logList)
             {
                 AddToListView(item);
@@ -566,7 +580,9 @@ namespace LSTMMod
         }
         private void OnReloadButtonClick(int obj)
         {
+            _eventLock = true;
             SetUpItemList();
+            _eventLock = false;
         }
 
         private void OnStarResetButtonClick(int obj)
