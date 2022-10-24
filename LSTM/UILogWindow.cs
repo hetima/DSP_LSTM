@@ -527,17 +527,29 @@ namespace LSTMMod
                     item.gameObject.SetActive(false);
                 }
             }
-
+            logListView.AvoidInertia(1f);
+            base.Invoke("MyResizeContentPanel", 0.01f);
+            //logListView.RepositionContentPanel();
             //private void ResizeContentPanel()
-            {
-                logListView.ColumnCount = Mathf.Clamp(logListView.ColumnCount, 1, 32);
-                int num = entryCount;
-                num = (num - 1) / logListView.ColumnCount + 1;
-                RectTransform rectTransform = logListView.m_ContentPanel.transform as RectTransform;
-                rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, (float)(logListView.Padding.top + logListView.Padding.bottom + (logListView.RowHeight + logListView.RowSpacing) * num - logListView.RowSpacing));
-                rectTransform.anchoredPosition = new Vector2(0f, 0f);
-            }
+            //{
+            //    logListView.ColumnCount = Mathf.Clamp(logListView.ColumnCount, 1, 32);
+            //    int num = entryCount;
+            //    num = (num - 1) / logListView.ColumnCount + 1;
+            //    RectTransform rectTransform = logListView.m_ContentPanel.transform as RectTransform;
+            //    rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, (float)(logListView.Padding.top + logListView.Padding.bottom + (logListView.RowHeight + logListView.RowSpacing) * num - logListView.RowSpacing));
+            //    rectTransform.anchoredPosition = new Vector2(0f, 0f);
+            //}
             RefleshCountText();
+        }
+
+        private void MyResizeContentPanel()
+        {
+            logListView.ColumnCount = Mathf.Clamp(logListView.ColumnCount, 1, 32);
+            int num = entryCount;
+            num = (num - 1) / logListView.ColumnCount + 1;
+            RectTransform rectTransform = logListView.m_ContentPanel.transform as RectTransform;
+            rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, (float)(logListView.Padding.top + logListView.Padding.bottom + (logListView.RowHeight + logListView.RowSpacing) * num - logListView.RowSpacing));
+            rectTransform.anchoredPosition = new Vector2(0f, 0f);
         }
 
         public void RefleshCountText()
