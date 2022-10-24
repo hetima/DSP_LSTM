@@ -215,6 +215,7 @@ namespace LSTMMod
 
             //reload btn
             UIButton btn = Util.MakeSmallTextButton("Reload", 44f, 20f);
+            btn.gameObject.name = "reload-btn";
             btn.transform.SetParent(contentTrans, false);
             btn.onClick += OnReloadButtonClick;
             btn.tips.delay = 0.8f;
@@ -228,7 +229,21 @@ namespace LSTMMod
             rect.anchoredPosition = new Vector2(580f, -46f);
             btn.gameObject.SetActive(true);
 
-
+            //LSTM btn
+            btn = Util.MakeSmallTextButton("LSTM", 40f, 20f);
+            btn.gameObject.name = "lstm-btn";
+            btn.transform.SetParent(contentTrans, false);
+            btn.onClick += OnLSTMButtonClick;
+            btn.tips.delay = 0.8f;
+            btn.tips.tipTitle = "LSTM".Translate();
+            btn.tips.tipText = "Open LSTM with current state".Translate();
+            btn.tips.corner = 3;
+            btn.tips.offset = new Vector2(6, 38);
+            rect = btn.transform as RectTransform;
+            rect.anchorMax = new Vector2(0f, 1f);
+            rect.anchorMin = new Vector2(0f, 1f);
+            rect.anchoredPosition = new Vector2(120f, -30f);
+            btn.gameObject.SetActive(true);
 
             //menu
             //CreateMenuBox();
@@ -617,6 +632,12 @@ namespace LSTMMod
             }
             return true;
         }
+
+        private void OnLSTMButtonClick(int obj)
+        {
+            LSTM.OpenBalanceWindow(targetItemId, targetPlanetId, targetStarId);
+        }
+
         private void OnReloadButtonClick(int obj)
         {
             _eventLock = true;
