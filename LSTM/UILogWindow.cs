@@ -536,18 +536,22 @@ namespace LSTMMod
                 planetName = GameMain.galaxy.StarById(targetStarId).displayName + "空格行星系".Translate();
                 planetResetButton.gameObject.SetActive(true);
             }
+            else if (targetPlanetId > 0)
+            {
+                planetResetButton.gameObject.SetActive(true);
+                planetName = GameMain.galaxy.PlanetById(targetPlanetId).displayName;
+            }
             else
             {
-                if (targetPlanetId <= 0)
+                if (targetItemId != 0)
                 {
-                    planetResetButton.gameObject.SetActive(false);
-                    planetName = "";
+                    planetName = LDB.items.Select(targetItemId).name;
                 }
                 else
                 {
-                    planetResetButton.gameObject.SetActive(true);
-                    planetName = GameMain.galaxy.PlanetById(targetPlanetId).displayName;
+                    planetName = "All Traffic Log";
                 }
+                planetResetButton.gameObject.SetActive(false);
             }
             if (targetStationGid != 0)
             {
