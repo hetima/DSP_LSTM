@@ -299,7 +299,7 @@ namespace LSTMMod
 
             if (_logList.Count > 0)
             {
-                AddToListView(planetListView, 10, _logList);
+                AddToListView(planetListView, 200, _logList);
             }
 
             bool valid = true;

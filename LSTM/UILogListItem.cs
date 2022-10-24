@@ -23,6 +23,9 @@ namespace LSTMMod
         public Text distText;
 
         [SerializeField]
+        public Text timeText;
+
+        [SerializeField]
         public Image labelIcon;
 
 
@@ -53,21 +56,9 @@ namespace LSTMMod
             float rightPadding = 0f;
             float leftPadding = 22f;
 
-            //locate button
-            UIButton btn = Util.MakeIconButtonB(Util.astroIndicatorIcon, 22);
-            if (btn != null)
-            {
-                btn.gameObject.name = "locate-btn";
-                rect = Util.NormalizeRectWithTopLeft(btn, 534f - rightPadding, 1f, baseTrans);
 
-                //btn.onClick +=
-                btn.tips.tipTitle = "Locate Planet".Translate();
-                btn.tips.tipText = "Show the planet on the starmap.".Translate();
-                btn.tips.corner = 3;
-                btn.tips.offset = new Vector2(18f, -20f);
-                item.locateBtn = btn;
-            }
             src.labelText.text = "";
+            src.labelText.enabled = false;
             //demandText
             //item.demandText = src.labelText;
             item.demandText = GameObject.Instantiate<Text>(src.valueText, src.valueText.transform.parent);
@@ -77,10 +68,10 @@ namespace LSTMMod
             item.demandText.supportRichText = true;
             item.demandText.supportRichText = false;
             item.demandText.fontSize = 14;
-            item.demandText.alignment = TextAnchor.MiddleLeft;
+            item.demandText.alignment = TextAnchor.MiddleRight;
             //item.demandText.rectTransform.anchoredPosition = new Vector2(8f + leftPadding, 0f);
-            rect = Util.NormalizeRectWithTopLeft(item.demandText, 8f + leftPadding, 2f);
-            rect.sizeDelta = new Vector2(180f, 24f);
+            rect = Util.NormalizeRectWithTopLeft(item.demandText, 28f + leftPadding, 2f);
+            rect.sizeDelta = new Vector2(190f, 22f);
 
             //supplyText
             item.supplyText = src.valueText;
@@ -89,15 +80,21 @@ namespace LSTMMod
             item.supplyText.supportRichText = false;
             item.supplyText.fontSize = 14;
             item.supplyText.alignment = TextAnchor.MiddleLeft;
-            rect = Util.NormalizeRectWithTopLeft(item.supplyText, 310f + leftPadding, 2f);
-            rect.sizeDelta = new Vector2(180f, 24f);
+            rect = Util.NormalizeRectWithTopLeft(item.supplyText, 300f + leftPadding, 2f);
+            rect.sizeDelta = new Vector2(190f, 22f);
 
             //distText
             item.distText = GameObject.Instantiate<Text>(item.supplyText, item.supplyText.transform.parent);
             item.distText.gameObject.name = "distText";
             item.distText.alignment = TextAnchor.MiddleCenter;
-            rect = Util.NormalizeRectWithTopLeft(item.distText, 234f + leftPadding, 2f);
-            rect.sizeDelta = new Vector2(50f, 24f);
+            rect = Util.NormalizeRectWithTopLeft(item.distText, 236f + leftPadding, 2f);
+            rect.sizeDelta = new Vector2(50f, 22f);
+
+            item.timeText = GameObject.Instantiate<Text>(item.supplyText, item.supplyText.transform.parent);
+            item.timeText.gameObject.name = "timeText";
+            item.timeText.alignment = TextAnchor.MiddleCenter;
+            rect = Util.NormalizeRectWithTopLeft(item.timeText, 495f + leftPadding, 2f);
+            rect.sizeDelta = new Vector2(42f, 22f);
 
             //labelIcon
             item.labelIcon = src.iconImage;
@@ -105,7 +102,7 @@ namespace LSTMMod
             {
                 item.labelIcon.gameObject.name = "labelIcon";
                 item.labelIcon.enabled = true;
-                rect = Util.NormalizeRectWithTopLeft(item.labelIcon, 16f, 12f);
+                rect = Util.NormalizeRectWithTopLeft(item.labelIcon, 8f, 12f);
                 rect.pivot = new Vector2(0.5f, 0.5f);
                 rect.sizeDelta = new Vector2(24f, 24f);
                 rect.localScale = new Vector3(0.3f, 0.3f, 1f);
@@ -116,6 +113,12 @@ namespace LSTMMod
                 item.labelIcon.sprite = circleSprite;
             }
 
+            item.demandText.color = Util.DSPOrange;
+            item.supplyText.color = Util.DSPBlue;
+            item.timeText.color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+
+            GameObject.Destroy(data.gameObject.GetComponent<Image>());
+            GameObject.Destroy(data.gameObject.GetComponent<Button>());
             GameObject.Destroy(src.iconHide);
             GameObject.Destroy(src.iconButton);
             //item.iconButton = src.iconButton;
@@ -125,9 +128,8 @@ namespace LSTMMod
         }
         void Start()
         {
-            locateBtn.onClick += OnLocateButtonClick;
-            locateBtn.gameObject.SetActive(false);
         }
+
         public string DisplayNameForPlanet(PlanetData planetData)
         {
             string prefix = "";
@@ -161,7 +163,12 @@ namespace LSTMMod
                 demandText.text = DisplayNameForPlanet(d.toPlanetData);
                 supplyText.text = DisplayNameForPlanet(d.fromPlanetData);
                 distText.text = "<- " + logData.distanceString + " <-";
-
+            }
+            if (itemId != 0)
+            {
+                labelIcon.sprite = LDB.signals.IconSprite(itemId);
+                labelIcon.rectTransform.localScale = Vector3.one;
+                labelIcon.color = Color.white;
             }
         }
         private void OnLocateButtonClick(int obj)
@@ -190,7 +197,7 @@ namespace LSTMMod
             else
             {
             }
-            //distText.text = logData.time;
+            timeText.text = logData.time;
             return true;
         }
 

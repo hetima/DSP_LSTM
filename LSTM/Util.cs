@@ -51,8 +51,8 @@ namespace LSTMMod
         internal static Sprite _astroIndicatorIcon;
 
 
-        public static Color DSPBlue => new Color(0.3821f, 0.8455f, 1f, 0.7059f);
-        public static Color DSPOrange => new Color(0.9906f, 0.5897f, 0.3691f, 0.7059f);
+        public static Color DSPBlue => new Color(0.3821f, 0.8455f, 1f, 0.68f);
+        public static Color DSPOrange => new Color(0.9906f, 0.5897f, 0.3691f, 0.68f);
 
         public static void RemovePersistentCalls(GameObject go)
         {
