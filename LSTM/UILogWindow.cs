@@ -218,6 +218,7 @@ namespace LSTMMod
             //reload btn
             UIButton btn = Util.MakeSmallTextButton("Reload", 44f, 20f);
             btn.gameObject.name = "reload-btn";
+            Util.NormalizeRectWithTopLeft(btn, 538f, 40f, contentTrans);
             btn.transform.SetParent(contentTrans, false);
             btn.onClick += OnReloadButtonClick;
             btn.tips.delay = 0.8f;
@@ -225,15 +226,12 @@ namespace LSTMMod
             btn.tips.tipText = "Click to reload data".Translate();
             btn.tips.corner = 3;
             btn.tips.offset = new Vector2(6, 38);
-            rect = btn.transform as RectTransform;
-            rect.anchorMax = new Vector2(0f, 1f);
-            rect.anchorMin = new Vector2(0f, 1f);
-            rect.anchoredPosition = new Vector2(580f, -40f);
             btn.gameObject.SetActive(true);
 
             //LSTM btn
             btn = Util.MakeSmallTextButton("LSTM", 44f, 20f);
             btn.gameObject.name = "lstm-btn";
+            Util.NormalizeRectWithTopLeft(btn, 538f, 0f, contentTrans);
             btn.transform.SetParent(contentTrans, false);
             btn.onClick += OnLSTMButtonClick;
             btn.tips.delay = 0.8f;
@@ -241,10 +239,6 @@ namespace LSTMMod
             btn.tips.tipText = "Open LSTM with current state".Translate();
             btn.tips.corner = 3;
             btn.tips.offset = new Vector2(6, 38);
-            rect = btn.transform as RectTransform;
-            rect.anchorMax = new Vector2(0f, 1f);
-            rect.anchorMin = new Vector2(0f, 1f);
-            rect.anchoredPosition = new Vector2(580f, 0f);
             btn.gameObject.SetActive(true);
 
 
