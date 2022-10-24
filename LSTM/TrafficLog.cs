@@ -123,9 +123,7 @@ namespace LSTMMod
                 LSTM.Log(item.Info());
             }
         }
-
-        //新しい順
-        public static IEnumerable<TrafficLogData> AllTrafficLogData(int planetId=0, int itemId=0, int filterStationGid=0, int filterIndex=0)
+        public static IEnumerable<TrafficLogData> AllTrafficLogData()
         {
             if (trafficLogs == null)
             {
@@ -147,57 +145,136 @@ namespace LSTMMod
                     }
                     if (trafficLogs[i] != null)
                     {
-                        TrafficLogData item = trafficLogs[i];
-                        if (planetId != 0)
-                        {
-                            if ((item.fromPlanet == planetId) || (item.toPlanet == planetId))
-                            {
-                                yield return item;
-                            }
-                        }
-                        else if (itemId != 0)
-                        {
-                            if (item.itemId == itemId)
-                            {
-                                yield return item;
-                            }
-                        }
-                        else if (filterStationGid != 0)
-                        {
-                            if ((item.toStationGid == filterStationGid && item.toIndex == filterIndex)
-                                || (item.fromStationGid == filterStationGid && item.fromIndex == filterIndex))
-                            {
-                                yield return item;
-                            }
-                        }
-                        else
-                        {
-                            yield return trafficLogs[i];
-                        }
+                        yield return trafficLogs[i];
+                        i--;
                     }
                     else
                     {
                         break;
                     }
-                    i--;
                 }
             }
         }
 
-        public static IEnumerable<TrafficLogData> TrafficLogDataForPlanet(int planetId)
+        public static IEnumerable<TrafficLogData> GetTrafficLogData(int starId, int planetId, int itemId, int filterStationGid)
         {
-            return AllTrafficLogData(planetId);
+            if (trafficLogs == null)
+            {
+                yield break;
+            }
+            lock (trafficLogs)
+            {
+                int i = trafficLogsCursor;
+
+                while (true)
+                {
+                    i--;
+                    if (i < 0)
+                    {
+                        i = trafficLogsSize - 1;
+                    }
+                    if (i == trafficLogsCursor || trafficLogs[i] == null)
+                    {
+                        break;
+                    }
+
+                    TrafficLogData item = trafficLogs[i];
+                    if (starId != 0)
+                    {
+                        if ((item.fromPlanet/100 != starId) && (item.toPlanet/100 != starId))
+                        {
+                            continue;
+                        }
+                    }
+                    if(planetId != 0)
+                    {
+                        if ((item.fromPlanet != planetId) && (item.toPlanet != planetId))
+                        {
+                            continue;
+                        }
+                    }
+                    if (itemId != 0)
+                    {
+                        if (item.itemId != itemId)
+                        {
+                            continue;
+                        }
+                    }
+                    if (filterStationGid != 0)
+                    {
+                        if ((item.toStationGid != filterStationGid)
+                            && (item.fromStationGid != filterStationGid))
+                        {
+                            continue;
+                        }
+                    }
+
+                    yield return item;
+
+                }
+            }
         }
 
-        public static IEnumerable<TrafficLogData> TrafficLogDataForItem(int itemId)
-        {
-            return AllTrafficLogData(0, itemId);
-        }
+        //新しい順
+        //public static IEnumerable<TrafficLogData> AllTrafficLogData(int planetId=0, int itemId=0, int filterStationGid=0, int filterIndex=0)
+        //{
+        //    if (trafficLogs == null)
+        //    {
+        //        yield break;
+        //    }
+        //    lock (trafficLogs)
+        //    {
+        //        int i = trafficLogsCursor - 1;
 
-        public static IEnumerable<TrafficLogData> TrafficLogDataForStationSlot(int filterStationGid, int filterIndex)
-        {
-            return AllTrafficLogData(0, 0, filterStationGid, filterIndex);
-        }
+        //        while (true)
+        //        {
+        //            if (i < 0)
+        //            {
+        //                i = trafficLogsSize - 1;
+        //            }
+        //            if (i == trafficLogsCursor)
+        //            {
+        //                break;
+        //            }
+        //            if (trafficLogs[i] != null)
+        //            {
+        //                TrafficLogData item = trafficLogs[i];
+        //                if (planetId != 0)
+        //                {
+        //                    if ((item.fromPlanet == planetId) || (item.toPlanet == planetId))
+        //                    {
+        //                        yield return item;
+        //                    }
+        //                }
+        //                else if (itemId != 0)
+        //                {
+        //                    if (item.itemId == itemId)
+        //                    {
+        //                        yield return item;
+        //                    }
+        //                }
+        //                else if (filterStationGid != 0)
+        //                {
+        //                    if ((item.toStationGid == filterStationGid && item.toIndex == filterIndex)
+        //                        || (item.fromStationGid == filterStationGid && item.fromIndex == filterIndex))
+        //                    {
+        //                        yield return item;
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    yield return trafficLogs[i];
+        //                }
+        //            }
+        //            else
+        //            {
+        //                break;
+        //            }
+        //            i--;
+        //        }
+        //    }
+        //}
+
 
         public static void TakeLog(StationComponent sc, int index)
         {

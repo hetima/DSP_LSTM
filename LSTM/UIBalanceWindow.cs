@@ -1410,8 +1410,7 @@ namespace LSTMMod
                         }
                         break;
                     case EMenuCommand.StationSlotLog:
-                        UIRealtimeTip.Popup("" + TrafficLog.trafficLogsCursor, false, 0);
-                        LSTM._logWindow.SetUpAndOpenStationSlot(menuTarget.station.gid, menuTarget.index);
+                        LSTM._logWindow.SetUpAndOpenStationSlot(menuTarget.itemId, menuTarget.station.gid);
                         break;
                     default:
                         break;

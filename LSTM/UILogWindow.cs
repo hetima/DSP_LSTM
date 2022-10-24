@@ -15,10 +15,15 @@ namespace LSTMMod
 
         public UIListView planetListView;
         public Text countText;
+        public int entryCount;
+        public float newest;
+        public float oldest;
 
         public int targetStationGid;
-        public int targetIndex;
+        //public int targetIndex;
         public int targetItemId;
+        public int targetPlanetId;
+        public int targetStarId;
 
         internal bool _eventLock;
         public bool isPointEnter;
@@ -48,20 +53,22 @@ namespace LSTMMod
             targetStationGid = 0;
         }
 
-        public void SetUpAndOpenItem(int _itemId)
-        {
-            targetItemId = _itemId;
-            targetStationGid = 0;
-            SetUpData();
-            //UIRoot.instance.uiGame.ShutPlayerInventory();
-            MyWindowCtl.OpenWindow(this);
-        }
+        //public void SetUpAndOpenItem(int _itemId)
+        //{
+        //    targetItemId = _itemId;
+        //    targetStationGid = 0;
+        //    SetUpData();
+        //    //UIRoot.instance.uiGame.ShutPlayerInventory();
+        //    MyWindowCtl.OpenWindow(this);
+        //}
 
-        public void SetUpAndOpenStationSlot(int stationGid, int stationIndex)
+        public void SetUpAndOpenStationSlot(int itemId, int stationGid = 0, int planetId = 0, int StarId = 0)
         {
+            targetItemId = itemId;
             targetStationGid = stationGid;
-            targetIndex = stationIndex;
-            targetItemId = 0;
+            //targetIndex = stationIndex;
+            targetPlanetId = planetId;
+            targetStarId = StarId;
             SetUpData();
             //UIRoot.instance.uiGame.ShutPlayerInventory();
             MyWindowCtl.OpenWindow(this);
@@ -292,7 +299,7 @@ namespace LSTMMod
 
             if (_logList.Count > 0)
             {
-                AddToListView(planetListView, 5, _logList);
+                AddToListView(planetListView, 10, _logList);
             }
 
             bool valid = true;
@@ -402,14 +409,14 @@ namespace LSTMMod
 
         public void SetUpItemList()
         {
-            int count = 0;
+            entryCount = 0;
             countText.text = "";
-            float newest = 0f;
-            float oldest = Time.realtimeSinceStartup;
+            newest = 0f;
+            oldest = Time.realtimeSinceStartup;
 
-            if (targetStationGid!=0)
+            if (targetPlanetId + targetItemId + targetStationGid + targetStarId !=0)
             {
-                foreach (var item in TrafficLog.TrafficLogDataForStationSlot(targetStationGid, targetIndex))
+                foreach (var item in TrafficLog.GetTrafficLogData(targetStarId, targetPlanetId, targetItemId, targetStationGid))
                 {
                     if (item == null)
                     {
@@ -424,13 +431,12 @@ namespace LSTMMod
                         oldest = item.realtimeSinceStartup;
                     }
                     AddStore(item);
-                    count++;
+                    entryCount++;
                 }
-
             }
-            else if (targetItemId != 0)
+            else
             {
-                foreach (var item in TrafficLog.TrafficLogDataForItem(targetItemId))
+                foreach (var item in TrafficLog.AllTrafficLogData())
                 {
                     if (item == null)
                     {
@@ -445,23 +451,26 @@ namespace LSTMMod
                         oldest = item.realtimeSinceStartup;
                     }
                     AddStore(item);
-                    count++;
+                    entryCount++;
                 }
-
             }
+            RefleshCountText();
+        }
+
+        public void RefleshCountText()
+        {
             string tpmString = "";
-            if (count > 1)
+            if (entryCount > 1)
             {
                 float duration = newest - oldest;
                 if (duration > 30)
                 {
-                    float tpm = (float)count / (duration / 60f);
+                    float tpm = (float)entryCount / (duration / 60f);
                     tpmString = "    (" + tpm.ToString("F1") + " per min)";
                 }
 
             }
-            countText.text = "Result: " + count.ToString() + tpmString;
-
+            countText.text = "Result: " + entryCount.ToString() + tpmString;
         }
 
         internal void AddStore(TrafficLogData data, int sortIndex = -1)
@@ -523,9 +532,30 @@ namespace LSTMMod
             return true;
         }
 
+        private void OnStarResetButtonClick(int obj)
+        {
+            targetStarId = 0;
+            targetPlanetId = 0;
+            targetStationGid = 0;
+            SetUpData();
+        }
+        private void OnPlanetResetButtonClick(int obj)
+        {
+            targetPlanetId = 0;
+            targetStationGid = 0;
+            SetUpData();
+        }
+
+        private void OnStationResetButtonClick(int obj)
+        {
+            targetStationGid = 0;
+            SetUpData();
+        }
+
         private void OnItemResetButtonClick(int obj)
         {
             targetItemId = 0;
+            targetStationGid = 0;
             SetUpData();
         }
 
