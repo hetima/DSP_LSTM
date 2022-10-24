@@ -509,7 +509,7 @@ namespace LSTMMod
                 {
                     break;
                 }
-                if (sholdShowLogData(item))
+                if (sholdShowLogData(item) && displayMax >= entryCount)
                 {
                     item.gameObject.SetActive(true);
                     entryCount++;
@@ -565,9 +565,14 @@ namespace LSTMMod
                 }
 
             }
+            if (displayMax < entryCount)
+            {
+                tpmString = "+" + tpmString;
+            }
             countText.text = "Result: " + entryCount.ToString() + tpmString;
         }
 
+        int displayMax = 1000;
         int entryMax = 9999;
         internal List<TrafficLogData> _logList = new List<TrafficLogData>(9999);
         internal void AddStore(TrafficLogData logData, int sortIndex = -1)
