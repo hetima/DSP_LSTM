@@ -1188,6 +1188,24 @@ namespace LSTMMod
                 configBtn.transitions[0].pressedColor = new Color(1f, 1f, 1f, 0.5f);
             }
 
+            if (LSTM.enableTrafficLogInThisSession)
+            {
+                //Log btn
+                UIButton btn = Util.MakeSmallTextButton("LOG", 44f, 20f);
+                btn.gameObject.name = "log-btn";
+                btn.transform.SetParent(windowTrans, false);
+                btn.onClick += OnLogButtonClick;
+                btn.tips.delay = 0.8f;
+                btn.tips.tipTitle = "Log".Translate();
+                btn.tips.tipText = "Open Log with current state".Translate();
+                btn.tips.corner = 3;
+                btn.tips.offset = new Vector2(6, 38);
+                rect = btn.transform as RectTransform;
+                rect.anchorMax = new Vector2(0f, 1f);
+                rect.anchorMin = new Vector2(0f, 1f);
+                rect.anchoredPosition = new Vector2(336f, -144f);
+                btn.gameObject.SetActive(true);
+            }
 
             CreateStarSystemBox();
             //menu
@@ -1219,6 +1237,19 @@ namespace LSTMMod
         private void OnConfigButtonClick()
         {
             LSTM._configWin.OpenWindow();
+        }
+
+        private void OnLogButtonClick(int obj)
+        {
+            if (LSTM.enableTrafficLogInThisSession)
+            {
+                int planetId = balanceData.planetId;
+                if (planetId == 0 && tmpPlanetId > 0 && balanceData.starId == 0)
+                {
+                    planetId = tmpPlanetId;
+                }
+                LSTM._logWindow.SetUpAndOpenStationSlot(balanceData.itemId, 0, balanceData.planetId, balanceData.starId);
+            }
         }
 
         private void OnLocalButtonClick(int obj)
