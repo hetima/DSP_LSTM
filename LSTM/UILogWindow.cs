@@ -42,7 +42,7 @@ namespace LSTMMod
         public Image itemCircle;
         public static Sprite defaultItemSprite = null;
 
-        int displayMax = 2000;
+
         int entryMax = 9999;
         List<TrafficLogData> _logList = new List<TrafficLogData>(2004);
 
@@ -606,6 +606,7 @@ namespace LSTMMod
 
             _logList.Clear();
             listView.Clear();
+            int displayMax = LSTM.trafficLogDisplayMax.Value;
             foreach (TrafficLogData item in TrafficLog.AllTrafficLogData()) 
             { 
                 if (item == null)
@@ -640,6 +641,8 @@ namespace LSTMMod
         {
             string tpmString = "";
             int dosplayCount = entryCount;
+            int displayMax = LSTM.trafficLogDisplayMax.Value;
+
             if (dosplayCount > 1)
             {
                 float duration = newest - oldest;

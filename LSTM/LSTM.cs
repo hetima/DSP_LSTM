@@ -62,6 +62,7 @@ namespace LSTMMod
         public static ConfigEntry<bool> suppressOpenInventory;
         public static ConfigEntry<bool> enableTrafficLog;
         public static bool enableTrafficLogInThisSession;
+        public static ConfigEntry<int> trafficLogDisplayMax;
 
         public static ConfigEntry<bool> _showStatInStatisticsWindow;
 
@@ -139,6 +140,10 @@ namespace LSTMMod
                 "Suppress open inventory when opening station window");
             enableTrafficLog = Config.Bind("Other", "enableTrafficLog", false,
                 "Enable traffic log window (needs restart game)");
+            trafficLogDisplayMax = Config.Bind("Other", "trafficLogDisplayMax", 2000,
+                new ConfigDescription("Maximum rows that can be displayed in the log window. min=100 max=9999. original behavior is 2000", new AcceptableValueRange<int>(100, 9999)));
+
+
             enableTrafficLogInThisSession = enableTrafficLog.Value;
             Harmony harmony = new Harmony(__GUID__);
             harmony.PatchAll(typeof(Patch));
