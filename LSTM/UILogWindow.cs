@@ -376,10 +376,10 @@ namespace LSTMMod
                 {
                     LSTM._configWin._Close();
                 }
-                //else if (menuComboBox.isDroppedDown)
-                //{
-                //    menuComboBox.isDroppedDown = false;
-                //}
+                else if (menuComboBox.isDroppedDown)
+                {
+                    menuComboBox.isDroppedDown = false;
+                }
                 else
                 {
                     base._Close();
