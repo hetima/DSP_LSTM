@@ -105,7 +105,7 @@ namespace LSTMMod
         public static TrafficLogData[] trafficLogs = null;
         public static int trafficLogsCursor = 0;
         public static bool keepLog = true;
-        public static int trafficLogsSize = 9999;
+        public static int trafficLogsSize = 10001;
 
         public static void ResetLog()
         {
