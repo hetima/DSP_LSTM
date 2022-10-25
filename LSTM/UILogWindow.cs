@@ -624,7 +624,7 @@ namespace LSTMMod
                     {
                         oldest = item.realtimeSinceStartup;
                     }
-                    item.fetchedTime = item.time + "(" + entryCount + ")";
+                    item.fetchedTime = item.time;
                     _logList.Add(item);
                 }
                 if (entryCount > entryMax)
