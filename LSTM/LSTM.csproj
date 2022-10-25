@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConstructionPoint.cs" />
+    <Compile Include="MyListView.cs" />
     <Compile Include="LSTM.cs" />
     <Compile Include="LSTMNavi.cs" />
     <Compile Include="MyCheckBox.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="MyWindowCtl.cs" />
     <Compile Include="NaviLine.cs" />
     <Compile Include="OneTimeDemand.cs" />
+    <Compile Include="RecyclingListView.cs" />
     <Compile Include="StationSignRenderer.cs" />
     <Compile Include="TrafficLog.cs" />
     <Compile Include="UIConfigWindow.cs" />

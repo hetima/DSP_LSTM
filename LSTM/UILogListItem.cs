@@ -11,7 +11,6 @@ namespace LSTMMod
         public static Sprite circleSprite;
         public UILogWindow window;
         public TrafficLogData logData;
-        public int itemId;
 
         [SerializeField]
         public Text demandText;
@@ -35,11 +34,11 @@ namespace LSTMMod
         [SerializeField]
         public GameObject baseObj;
 
-        public static void CreateListViewPrefab(UIData data)
+
+        public static UILogListItem CreateListViewPrefab()
         {
             RectTransform rect;
-            UILogListItem item = data.gameObject.AddComponent<UILogListItem>();
-            data.com_data = item;
+            UILogListItem item = Util.CreateGameObject<UILogListItem>("list-item", 600f, 24f);
             Image bg = Util.CreateGameObject<Image>("list-item", 600f, 24f);
             bg.gameObject.SetActive(true);
             RectTransform baseTrans = Util.NormalizeRectWithTopLeft(bg, 0f, 0f, item.transform);
@@ -102,7 +101,7 @@ namespace LSTMMod
             {
                 item.labelIcon.gameObject.name = "labelIcon";
                 item.labelIcon.enabled = true;
-                rect = Util.NormalizeRectWithTopLeft(item.labelIcon, 8f, 12f);
+                rect = Util.NormalizeRectWithTopLeft(item.labelIcon, 10f, 12f);
                 rect.pivot = new Vector2(0.5f, 0.5f);
                 rect.sizeDelta = new Vector2(24f, 24f);
                 rect.localScale = new Vector3(0.3f, 0.3f, 1f);
@@ -117,14 +116,15 @@ namespace LSTMMod
             item.supplyText.color = Util.DSPBlue;
             item.timeText.color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
 
-            GameObject.Destroy(data.gameObject.GetComponent<Image>());
-            GameObject.Destroy(data.gameObject.GetComponent<Button>());
             GameObject.Destroy(src.iconHide);
             GameObject.Destroy(src.iconButton);
             //item.iconButton = src.iconButton;
             //GameObject.Destroy(src.valueText.gameObject);
             GameObject.Destroy(src);
 
+            rect=Util.NormalizeRectWithTopLeft(item, 0f, 0f);
+            //rect.pivot = new Vector2(0.5f, 0.5f);
+            return item;
         }
         void Start()
         {
@@ -149,7 +149,6 @@ namespace LSTMMod
         {
             window = window_;
             logData = d;
-            itemId = d.itemId;
             //DisplayNameForPlanet()
             if (d.isFromDemand)
             {
@@ -164,12 +163,13 @@ namespace LSTMMod
                 supplyText.text = DisplayNameForPlanet(d.fromPlanetData);
                 distText.text = "<- " + logData.distanceString + " <-";
             }
-            if (itemId != 0)
+            if (logData.itemId != 0)
             {
-                labelIcon.sprite = LDB.signals.IconSprite(itemId);
+                labelIcon.sprite = LDB.signals.IconSprite(logData.itemId);
                 labelIcon.rectTransform.localScale = Vector3.one;
                 labelIcon.color = Color.white;
             }
+            timeText.text = logData.fetchedTime;
         }
         private void OnLocateButtonClick(int obj)
         {
@@ -178,7 +178,6 @@ namespace LSTMMod
 
         public void RefreshValues()
         {
-            timeText.text = logData.time;
         }
 
         public StationComponent DemandStation()

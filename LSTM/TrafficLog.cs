@@ -12,7 +12,7 @@ namespace LSTMMod
     {
         //ShutAllFunctionWindow でなにかチェックしたい場合
         void TrafficLogReseted();
-        void TrafficLogAdded(TrafficLogData logData);
+        //void TrafficLogAdded(TrafficLogData logData);
     }
 
     public class TrafficLogData
@@ -27,6 +27,8 @@ namespace LSTMMod
         public float realtimeSinceStartup;
         //public string timeString;
         public bool isFromDemand;
+
+        public string fetchedTime;
 
         public PlanetData fromPlanetData
         {
@@ -102,8 +104,8 @@ namespace LSTMMod
         public static TrafficLogDelegate trafficLogDelegate;
         public static TrafficLogData[] trafficLogs = null;
         public static int trafficLogsCursor = 0;
-        public static bool keepLog = false;
-        public static int trafficLogsSize = 10;
+        public static bool keepLog = true;
+        public static int trafficLogsSize = 9999;
 
         public static void ResetLog()
         {
@@ -127,7 +129,7 @@ namespace LSTMMod
                         trafficLogsCursor = 0;
                     }
                 }
-                trafficLogDelegate.TrafficLogAdded(logData);
+                //trafficLogDelegate.TrafficLogAdded(logData);
             }
         }
 
@@ -148,27 +150,21 @@ namespace LSTMMod
             }
             lock (trafficLogs)
             {
-                int i = trafficLogsCursor - 1;
+                int i = trafficLogsCursor;
 
                 while (true)
                 {
+                    i--;
                     if (i < 0)
                     {
                         i = trafficLogsSize - 1;
                     }
-                    if (i == trafficLogsCursor)
+                    if (i == trafficLogsCursor || trafficLogs[i] == null)
                     {
                         break;
                     }
-                    if (trafficLogs[i] != null)
-                    {
-                        yield return trafficLogs[i];
-                        i--;
-                    }
-                    else
-                    {
-                        break;
-                    }
+
+                    yield return trafficLogs[i];
                 }
             }
         }
