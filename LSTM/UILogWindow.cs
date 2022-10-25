@@ -270,11 +270,11 @@ namespace LSTMMod
                 rect = Util.NormalizeRectC(go);
                 rect.SetParent(windowTrans, false);
                 rect.sizeDelta = new Vector2(240f, rect.sizeDelta.y);
-                rect.anchoredPosition = new Vector2(0f, 130f); //planetText
+                rect.anchoredPosition = new Vector2(0f, 156f); //planetText
                 go.SetActive(true);
 
                 go = GameObject.Instantiate(go, windowTrans);
-                rect.anchoredPosition = new Vector2(0f, 100f); //stationText
+                rect.anchoredPosition = new Vector2(0f, 126f); //stationText
                 go.name = "planet-name";
                 planetText = go.GetComponent<Text>();
                 //ContentSizeFitter?
@@ -288,7 +288,7 @@ namespace LSTMMod
                 planetResetButton.gameObject.name = "planet-reset-btn";
                 rect = Util.NormalizeRectC(planetResetButton.gameObject);
                 rect.SetParent(windowTrans, false);
-                rect.anchoredPosition = new Vector2(150f, 130f);
+                rect.anchoredPosition = new Vector2(150f, 156f);
             }
             stationResetButton = Util.MakeIconButtonB(s, 22);
             if (stationResetButton != null)
@@ -296,7 +296,7 @@ namespace LSTMMod
                 stationResetButton.gameObject.name = "station-reset-btn";
                 rect = Util.NormalizeRectC(stationResetButton.gameObject);
                 rect.SetParent(windowTrans, false);
-                rect.anchoredPosition = new Vector2(180f, 100f);
+                rect.anchoredPosition = new Vector2(180f, 126f);
             }
 
             //menu
