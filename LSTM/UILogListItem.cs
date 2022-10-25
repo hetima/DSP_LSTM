@@ -181,11 +181,37 @@ namespace LSTMMod
             timeText.text = logData.time;
         }
 
+        public StationComponent DemandStation()
+        {
+            GalacticTransport galacticTransport = UIRoot.instance.uiGame.gameData.galacticTransport;
+            if (logData.isFromDemand)
+            {
+                return galacticTransport.stationPool[logData.fromStationGid];
+            }
+            else
+            {
+                return galacticTransport.stationPool[logData.toStationGid];
+            }
+        }
+
+        public StationComponent SupplyStation()
+        {
+            GalacticTransport galacticTransport = UIRoot.instance.uiGame.gameData.galacticTransport;
+            if (logData.isFromDemand)
+            {
+                return galacticTransport.stationPool[logData.toStationGid];
+            }
+            else
+            {
+                return galacticTransport.stationPool[logData.fromStationGid];
+            }
+        }
+
         public void OnPointerClick(PointerEventData eventData)
         {
             if (eventData.button == PointerEventData.InputButton.Right)
             {
-                //window.ShowMenu(this);
+                window.ShowMenu(this);
             }
         }
 

@@ -285,7 +285,7 @@ namespace LSTMMod
             }
 
             //menu
-            //CreateMenuBox();
+            CreateMenuBox();
 
             _eventLock = false;
         }
@@ -802,5 +802,158 @@ namespace LSTMMod
             SetUpData();
         }
 
+        //menu
+        public UIComboBox menuComboBox;
+        UILogListItem menuTarget;
+        public enum EMenuCommand
+        {
+            LocateDemand = 0,
+            LocateSupply,
+        }
+
+        public void ShowMenu(UILogListItem item)
+        {
+            if (menuComboBox.isDroppedDown)
+            {
+                menuComboBox.isDroppedDown = false;
+                return;
+            }
+
+            RectTransform rect = menuComboBox.m_DropDownList;
+
+            UIRoot.ScreenPointIntoRect(Input.mousePosition, rect.parent as RectTransform, out Vector2 pos);
+            pos.x = pos.x + 20f;
+            pos.y = pos.y + 30f;
+            menuComboBox.m_DropDownList.anchoredPosition = pos;
+
+            menuTarget = item;
+            //menuTarget.LockAppearance();
+            RefreshMenuBox(item);
+            if (menuComboBox.DropDownCount > 0)
+            {
+                menuComboBox.OnPopButtonClick();
+            }
+        }
+
+        internal void RefreshMenuBox(UILogListItem item)
+        {
+            List<string> items = menuComboBox.Items;
+            List<int> itemsData = menuComboBox.ItemsData;
+            items.Clear();
+            itemsData.Clear();
+            int itemCount = 0;
+            if (item == null)
+            {
+                menuComboBox.DropDownCount = 0;
+                return;
+            }
+
+            {
+                items.Add("Locate Demand Station");
+                itemsData.Add((int)EMenuCommand.LocateDemand);
+                itemCount++;
+                items.Add("Locate Supply Station");
+                itemsData.Add((int)EMenuCommand.LocateSupply);
+                itemCount++;
+            }
+
+
+            //if ()
+            //{
+            //    items.Add("label");
+            //    itemsData.Add((int)EMenuCommand.);
+            //    itemCount++;
+            //}
+
+            menuComboBox.DropDownCount = itemCount;
+
+        }
+
+
+        public void OnMenuBoxItemIndexChange()
+        {
+            if (_eventLock)
+            {
+                return;
+            }
+            int num = menuComboBox.itemIndex;
+            if (num < 0) //recursion
+            {
+                return;
+            }
+            if (menuTarget != null)
+            {
+                EMenuCommand itemData = (EMenuCommand)menuComboBox.ItemsData[num];
+                switch (itemData)
+                {
+                    case EMenuCommand.LocateDemand:
+                        {
+                            StationComponent sc = menuTarget.DemandStation();
+                            if (sc != null)
+                            {
+                                LSTM.LocateStation(sc, sc.planetId);
+                            }
+                        }
+                        break;
+                    case EMenuCommand.LocateSupply:
+                        {
+                            StationComponent sc = menuTarget.SupplyStation();
+                            if (true)
+                            {
+                                if (sc != null)
+                                {
+                                    LSTM.LocateStation(sc, sc.planetId);
+                                }
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+                //menuTarget.UnlockAppearance();
+                menuTarget = null;
+            }
+
+            menuComboBox.itemIndex = -1; //recursion
+        }
+
+        internal void CreateMenuBox()
+        {
+            // Main Button : Image,Button
+            // -Pop sign : Image
+            // -Text : Text
+            // Dropdown List ScrollBox : ScrollRect
+
+            UIStatisticsWindow statisticsWindow = UIRoot.instance.uiGame.statWindow;
+            UIComboBox src = statisticsWindow.productAstroBox;
+            UIComboBox box = GameObject.Instantiate<UIComboBox>(src, windowTrans);
+            box.gameObject.name = "menu-box";
+
+            RectTransform boxRect = Util.NormalizeRectWithTopLeft(box, 20f, 20f, windowTrans);
+
+            RectTransform btnRect = box.transform.Find("Main Button")?.transform as RectTransform;
+            if (btnRect != null)
+            {
+                btnRect.pivot = new Vector2(1f, 0f);
+                btnRect.anchorMax = Vector2.zero;
+                btnRect.anchorMin = Vector2.zero;
+                btnRect.anchoredPosition = new Vector2(boxRect.sizeDelta.x, 0f);
+                btnRect.sizeDelta = new Vector2(20, boxRect.sizeDelta.y);
+
+                Button btn = btnRect.GetComponent<Button>();
+                btnRect.Find("Text")?.gameObject.SetActive(false);
+                btnRect.gameObject.SetActive(false);
+            }
+
+            box.onItemIndexChange.AddListener(OnMenuBoxItemIndexChange);
+            menuComboBox = box;
+
+            //Dropdown List ScrollBox
+            RectTransform vsRect = menuComboBox.m_Scrollbar.transform as RectTransform;
+            vsRect.sizeDelta = new Vector2(0, vsRect.sizeDelta.y);
+
+            RefreshMenuBox(null);
+        }
     }
 }
