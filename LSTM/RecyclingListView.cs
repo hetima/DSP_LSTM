@@ -29,7 +29,7 @@ namespace LSTMMod
         [Tooltip("The amount of vertical padding to add between items")]
         public float RowPadding = 4f;
         [Tooltip("Minimum height to pre-allocate list items for. Use to prevent allocations on resizing.")]
-        public float PreAllocHeight = 320;
+        public float PreAllocHeight = 100;
 
 
         /// <summary>
@@ -87,7 +87,9 @@ namespace LSTMMod
 
         protected bool ignoreScrollChange = false;
         protected float previousBuildHeight = 0;
-        protected const int rowsAboveBelow = 6; //これを多めに取っておかないと上部が描画されない
+
+        //これを多めに取っておかないと上部が描画されなかったがReorganiseContent()を修正して対処した
+        protected const int rowsAboveBelow = 1;
 
         /// <summary>
         /// Trigger the refreshing of the list content (e.g. if you've changed some values).
@@ -276,6 +278,9 @@ namespace LSTMMod
 
             // Figure out which is the first virtual slot visible
             float ymin = scrollRect.content.localPosition.y;
+            //使っているscrollRectではyminが0を想定している時heightの半分くらいの値になっている
+            //しかし今度は下部が描画されなくなった
+            ymin -= ((scrollRect.transform as RectTransform).rect.height / 2.0f);
 
             // round down to find first visible
             int firstVisibleIndex = (int)(ymin / RowHeight());
@@ -349,12 +354,12 @@ namespace LSTMMod
         private float ViewportHeight()
         {
             //return 28.0f*10f;
-            if (scrollRect.viewport != null)
-            {
-                return scrollRect.viewport.rect.height;
-            }
-            RectTransform rectTransform = this.scrollRect.transform as RectTransform;
-            return rectTransform.rect.height;
+            //if (scrollRect.viewport != null)
+            //{
+            //    return scrollRect.viewport.rect.height;
+            //}
+            //正確な値では下部が描画されないので大きめに
+            return (scrollRect.transform as RectTransform).rect.height * 1.5f;
         }
 
         protected virtual void UpdateChild(MonoBehaviour child, int rowIdx)
