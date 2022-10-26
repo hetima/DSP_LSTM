@@ -264,11 +264,11 @@ namespace LSTMMod
                 rect = Util.NormalizeRectC(go);
                 rect.SetParent(windowTrans, false);
                 rect.sizeDelta = new Vector2(240f, rect.sizeDelta.y);
-                rect.anchoredPosition = new Vector2(0f, 156f); //planetText
+                rect.anchoredPosition = new Vector2(-4f, 156f); //planetText
                 go.SetActive(true);
 
                 go = GameObject.Instantiate(go, windowTrans);
-                rect.anchoredPosition = new Vector2(0f, 126f); //stationText
+                rect.anchoredPosition = new Vector2(-4f, 126f); //stationText
                 go.name = "planet-name";
                 planetText = go.GetComponent<Text>();
                 //ContentSizeFitter?
