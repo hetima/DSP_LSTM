@@ -29,6 +29,7 @@ namespace LSTMMod
         public static StationSignRenderer stationSignRenderer;
 
         public static ConfigEntry<KeyboardShortcut> mainWindowHotkey;
+        public static ConfigEntry<KeyboardShortcut> logWindowHotkey;
         public static ConfigEntry<KeyboardShortcut> switchDisplayModeHotkey;
 
         public static ConfigEntry<bool> dropSorterKeyEracesNavi;
@@ -80,6 +81,8 @@ namespace LSTMMod
 
             mainWindowHotkey = Config.Bind("Keyboard Shortcuts", "mainWindowHotkey", KeyboardShortcut.Deserialize("T + LeftControl"),
                 "Hotkey to open/close LSTM window");
+            logWindowHotkey = Config.Bind("Keyboard Shortcuts", "logWindowHotkey", KeyboardShortcut.Deserialize(""),
+                "Hotkey to open/close Traffic Log window");
             switchDisplayModeHotkey = Config.Bind("Keyboard Shortcuts", "switchDisplayModeHotkey", KeyboardShortcut.Deserialize("Tab"),
                 "Hotkey to switch display mode of LSTM window");
             showButtonInStationWindow = Config.Bind("Interface", "showButtonInStationWindow", true,
@@ -302,6 +305,17 @@ namespace LSTMMod
                 _win.OpenWithoutSetting();
             }
         }
+        public static void ToggleLogWindow()
+        {
+            if (_logWindow.active)
+            {
+                _logWindow._Close();
+            }
+            else
+            {
+                _logWindow.OpenWithoutSetting();
+            }
+        }
 
         //UIItemTip依存にすると楽だがチップが出るまでのタイムラグがあるので操作感が悪い
         public static int ItemIdHintUnderMouse()
@@ -382,6 +396,10 @@ namespace LSTMMod
             if (mainWindowHotkey.Value.IsDown())
             {
                 ToggleBalanceWindow();
+            }
+            else if (logWindowHotkey.Value.IsDown())
+            {
+                ToggleLogWindow();
             }
             else if (reactClosePanelKeyE.Value && VFInput._closePanelE)
             {
