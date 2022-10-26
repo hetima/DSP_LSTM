@@ -246,13 +246,13 @@ namespace LSTMMod
 
         protected virtual void OnEnable()
         {
-            scrollRect.onValueChanged.AddListener(OnScrollChanged);
+            scrollRect?.onValueChanged.AddListener(OnScrollChanged);
             ignoreScrollChange = false;
         }
 
         protected virtual void OnDisable()
         {
-            scrollRect.onValueChanged.RemoveListener(OnScrollChanged);
+            scrollRect?.onValueChanged.RemoveListener(OnScrollChanged);
         }
 
         protected virtual void OnScrollChanged(Vector2 normalisedPos)
