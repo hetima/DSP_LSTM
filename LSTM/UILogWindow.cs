@@ -422,6 +422,12 @@ namespace LSTMMod
 
         }
 
+        public void OpenWithoutSetting()
+        {
+            SetUpData();
+            MyWindowCtl.OpenWindow(this);
+        }
+
         public void TryClose()
         {
             base._Close();
@@ -749,7 +755,7 @@ namespace LSTMMod
 
         public void CreateMenuBox() {
             UIItemTip uiitemTip = GameObject.Instantiate<UIItemTip>(Configs.builtin.uiItemTipPrefab, windowTrans);
-            (uiitemTip.transform as RectTransform).sizeDelta = new Vector2(568f, 98f);
+            (uiitemTip.transform as RectTransform).sizeDelta = new Vector2(568f, 90f);
             popupMenuBase = uiitemTip.gameObject;
             foreach (Transform child in uiitemTip.transform)
             {
@@ -783,17 +789,17 @@ namespace LSTMMod
 
 
             //LocateDemand btn
-            UIButton btn = Util.MakeSmallTextButton("Locate", 44f, 2f);
+            UIButton btn = Util.MakeSmallTextButton("Locate", 44f, 20f);
             btn.gameObject.name = "locate-d-btn";
-            Util.NormalizeRectWithTopLeft(btn, 202f, 60f, popupMenuBase.transform);
+            Util.NormalizeRectWithTopLeft(btn, 202f, 8f, popupMenuBase.transform);
             btn.onClick += OnMenuSelect;
             btn.data = (int)MenuCommand.LocateDemand;
             btn.gameObject.SetActive(true);
 
             //LocateSupply btn
-            btn = Util.MakeSmallTextButton("Locate", 44f, 2f);
+            btn = Util.MakeSmallTextButton("Locate", 44f, 20f);
             btn.gameObject.name = "locate-s-btn";
-            Util.NormalizeRectWithTopLeft(btn, 326f, 60f, popupMenuBase.transform);
+            Util.NormalizeRectWithTopLeft(btn, 326f, 8f, popupMenuBase.transform);
             btn.onClick += OnMenuSelect;
             btn.data = (int)MenuCommand.LocateSupply;
             btn.gameObject.SetActive(true);
