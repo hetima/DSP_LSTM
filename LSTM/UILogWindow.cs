@@ -3,12 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
-using Steamworks;
-using static UnityEngine.EventSystems.EventTrigger;
-using System.Security.Policy;
-using static System.Collections.Specialized.BitVector32;
-using Compressions;
 
 
 namespace LSTMMod
@@ -365,6 +359,7 @@ namespace LSTMMod
         }
         protected override void _OnClose()
         {
+            popupMenuBase.SetActive(false);
             isPointEnter = false;
         }
         protected override void _OnUpdate()
@@ -376,9 +371,9 @@ namespace LSTMMod
                 {
                     LSTM._configWin._Close();
                 }
-                else if (menuComboBox.isDroppedDown)
+                else if (popupMenuBase.activeSelf)
                 {
-                    menuComboBox.isDroppedDown = false;
+                    popupMenuBase.SetActive(false);
                 }
                 else
                 {
@@ -416,12 +411,15 @@ namespace LSTMMod
             {
                 SetUpData();
             }
+            if (popupMenuBase.activeSelf && (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.Mouse2)))
+            {
+                Camera worldCamera = UIRoot.instance.overlayCanvas.worldCamera;
+                if (!RectTransformUtility.RectangleContainsScreenPoint(popupMenuBase.transform as RectTransform, Input.mousePosition, worldCamera))
+                {
+                    popupMenuBase.SetActive(false);
+                }
+            }
 
-            //if (!menuComboBox.isDroppedDown && menuTarget != null)
-            //{
-            //    menuTarget.UnlockAppearance();
-            //    menuTarget = null;
-            //}
         }
 
         public void TryClose()
@@ -502,6 +500,8 @@ namespace LSTMMod
         public void SetUpData()
         {
             _eventLock = true;
+            popupMenuBase.SetActive(false);
+
             //targetItemId = itemSelection.lastSelectedItemId;
 
             SetUpItemList();
@@ -731,157 +731,218 @@ namespace LSTMMod
         }
 
         //menu
-        public UIComboBox menuComboBox;
-        UILogListItem menuTarget;
-        public enum EMenuCommand
+        enum MenuCommand
         {
-            LocateDemand = 0,
+            Close = 0,
+            LocateDemand,
             LocateSupply,
+            FilterItem,
+            FilterDemandStation,
+            FilterSupplyStation,
         }
 
-        public void ShowMenu(UILogListItem item)
-        {
-            if (menuComboBox.isDroppedDown)
+        public GameObject popupMenuBase;
+        public UILogListItem popupMenuListItem;
+        UILogListItem menuTarget;
+
+        public const float popupMenuTopMargin = 30f;
+
+        public void CreateMenuBox() {
+            UIItemTip uiitemTip = GameObject.Instantiate<UIItemTip>(Configs.builtin.uiItemTipPrefab, windowTrans);
+            (uiitemTip.transform as RectTransform).sizeDelta = new Vector2(568f, 98f);
+            popupMenuBase = uiitemTip.gameObject;
+            foreach (Transform child in uiitemTip.transform)
             {
-                menuComboBox.isDroppedDown = false;
-                return;
-            }
-
-            RectTransform rect = menuComboBox.m_DropDownList;
-
-            UIRoot.ScreenPointIntoRect(Input.mousePosition, rect.parent as RectTransform, out Vector2 pos);
-            pos.x = pos.x + 20f;
-            pos.y = pos.y + 30f;
-            menuComboBox.m_DropDownList.anchoredPosition = pos;
-
-            menuTarget = item;
-            //menuTarget.LockAppearance();
-            RefreshMenuBox(item);
-            if (menuComboBox.DropDownCount > 0)
-            {
-                menuComboBox.OnPopButtonClick();
-            }
-        }
-
-        internal void RefreshMenuBox(UILogListItem item)
-        {
-            List<string> items = menuComboBox.Items;
-            List<int> itemsData = menuComboBox.ItemsData;
-            items.Clear();
-            itemsData.Clear();
-            int itemCount = 0;
-            if (item == null)
-            {
-                menuComboBox.DropDownCount = 0;
-                return;
-            }
-
-            {
-                items.Add("Locate Demand Station");
-                itemsData.Add((int)EMenuCommand.LocateDemand);
-                itemCount++;
-                items.Add("Locate Supply Station");
-                itemsData.Add((int)EMenuCommand.LocateSupply);
-                itemCount++;
-            }
-
-
-            //if ()
-            //{
-            //    items.Add("label");
-            //    itemsData.Add((int)EMenuCommand.);
-            //    itemCount++;
-            //}
-
-            menuComboBox.DropDownCount = itemCount;
-
-        }
-
-
-        public void OnMenuBoxItemIndexChange()
-        {
-            if (_eventLock)
-            {
-                return;
-            }
-            int num = menuComboBox.itemIndex;
-            if (num < 0) //recursion
-            {
-                return;
-            }
-            if (menuTarget != null)
-            {
-                EMenuCommand itemData = (EMenuCommand)menuComboBox.ItemsData[num];
-                switch (itemData)
+                if (child.name == "bg" || child.name == "border" || child.name == "shadow")
                 {
-                    case EMenuCommand.LocateDemand:
+                    continue;
+                }
+
+                GameObject.Destroy(child.gameObject);
+            }
+            foreach (Component child in uiitemTip.transform.GetComponents<Component>())
+            {
+                if (child.GetType() == typeof(RectTransform))
+                {
+                    continue;
+                }
+                GameObject.Destroy(child);
+            }
+
+
+            Sprite s = itemResetButton.transform.Find("x")?.GetComponent<Image>()?.sprite;
+            UIButton closeBtn = Util.MakeIconButtonB(s, 18);
+            if (closeBtn != null)
+            {
+                closeBtn.gameObject.name = "close-btn";
+                RectTransform rect = Util.NormalizeRectWithTopLeft(closeBtn, 540f, 8f, popupMenuBase.transform);
+                closeBtn.onClick += OnMenuSelect;
+                closeBtn.data = (int)MenuCommand.Close;
+                closeBtn.gameObject.SetActive(true);
+            }
+
+
+            //LocateDemand btn
+            UIButton btn = Util.MakeSmallTextButton("Locate", 44f, 2f);
+            btn.gameObject.name = "locate-d-btn";
+            Util.NormalizeRectWithTopLeft(btn, 202f, 60f, popupMenuBase.transform);
+            btn.onClick += OnMenuSelect;
+            btn.data = (int)MenuCommand.LocateDemand;
+            btn.gameObject.SetActive(true);
+
+            //LocateSupply btn
+            btn = Util.MakeSmallTextButton("Locate", 44f, 2f);
+            btn.gameObject.name = "locate-s-btn";
+            Util.NormalizeRectWithTopLeft(btn, 326f, 60f, popupMenuBase.transform);
+            btn.onClick += OnMenuSelect;
+            btn.data = (int)MenuCommand.LocateSupply;
+            btn.gameObject.SetActive(true);
+
+            //FilterDemand btn
+            btn = Util.MakeSmallTextButton("Filter Slot", 62f, 20f);
+            btn.gameObject.name = "filter-d-btn";
+            Util.NormalizeRectWithTopLeft(btn, 180f, 60f, popupMenuBase.transform);
+            btn.onClick += OnMenuSelect;
+            btn.data = (int)MenuCommand.FilterDemandStation;
+            btn.gameObject.SetActive(true);
+
+            //FilterSupply btn
+            btn = Util.MakeSmallTextButton("Filter Slot", 62f, 20f);
+            btn.gameObject.name = "filter-s-btn";
+            Util.NormalizeRectWithTopLeft(btn, 326f, 60f, popupMenuBase.transform);
+            btn.onClick += OnMenuSelect;
+            btn.data = (int)MenuCommand.FilterSupplyStation;
+            btn.gameObject.SetActive(true);
+
+            //FilterItem
+            btn = Util.MakeSmallTextButton("Filter Item", 60f, 20f);
+            btn.gameObject.name = "filter-item-btn";
+            Util.NormalizeRectWithTopLeft(btn, 4f, 60f, popupMenuBase.transform);
+            btn.onClick += OnMenuSelect;
+            btn.data = (int)MenuCommand.FilterItem;
+            btn.gameObject.SetActive(true);
+
+
+            UILogListItem baseItem = UILogListItem.CreateListViewPrefab();
+            (baseItem.transform as RectTransform).sizeDelta = new Vector2(566f, 24f);
+            (baseItem.baseObj.transform as RectTransform).sizeDelta = new Vector2(566f, 24f);
+            popupMenuListItem = baseItem;
+            Util.NormalizeRectWithTopLeft(popupMenuListItem, 1f, popupMenuTopMargin, popupMenuBase.transform);
+            popupMenuBase.SetActive(false);
+        }
+
+        public void OnMenuSelect(int obj)
+        {
+            popupMenuBase.SetActive(false);
+            if (_eventLock || menuTarget == null)
+            {
+                return;
+            }
+
+            switch ((MenuCommand)obj)
+            {
+                case MenuCommand.Close:
+                    break;
+                case MenuCommand.LocateDemand:
+                    {
+                        StationComponent sc = menuTarget.DemandStation();
+                        if (sc != null)
                         {
-                            StationComponent sc = menuTarget.DemandStation();
+                            LSTM.LocateStation(sc, sc.planetId);
+                        }
+                    }
+                    break;
+                case MenuCommand.LocateSupply:
+                    {
+                        StationComponent sc = menuTarget.SupplyStation();
+                        {
                             if (sc != null)
                             {
                                 LSTM.LocateStation(sc, sc.planetId);
                             }
                         }
-                        break;
-                    case EMenuCommand.LocateSupply:
-                        {
-                            StationComponent sc = menuTarget.SupplyStation();
-                            if (true)
-                            {
-                                if (sc != null)
-                                {
-                                    LSTM.LocateStation(sc, sc.planetId);
-                                }
-                            }
-                        }
-                        break;
-                    default:
-                        break;
-                }
-
-                //menuTarget.UnlockAppearance();
-                menuTarget = null;
+                    }
+                    break;
+                case MenuCommand.FilterItem:
+                        targetItemId = menuTarget.logData.itemId;
+                        targetStationGid = 0;
+                        SetUpData();
+                    break;
+                case MenuCommand.FilterDemandStation:
+                    targetStationGid = menuTarget.logData.fromStationGid;
+                    targetItemId = menuTarget.logData.itemId;
+                    SetUpData();
+                    break;
+                case MenuCommand.FilterSupplyStation:
+                    targetStationGid = menuTarget.logData.toStationGid;
+                    targetItemId = menuTarget.logData.itemId;
+                    SetUpData();
+                    break;
+                default:
+                    break;
             }
-
-            menuComboBox.itemIndex = -1; //recursion
+            menuTarget = null;
         }
 
-        internal void CreateMenuBox()
+        public void ShowMenu(UILogListItem item)
         {
-            // Main Button : Image,Button
-            // -Pop sign : Image
-            // -Text : Text
-            // Dropdown List ScrollBox : ScrollRect
-
-            UIStatisticsWindow statisticsWindow = UIRoot.instance.uiGame.statWindow;
-            UIComboBox src = statisticsWindow.productAstroBox;
-            UIComboBox box = GameObject.Instantiate<UIComboBox>(src, windowTrans);
-            box.gameObject.name = "menu-box";
-
-            RectTransform boxRect = Util.NormalizeRectWithTopLeft(box, 20f, 20f, windowTrans);
-
-            RectTransform btnRect = box.transform.Find("Main Button")?.transform as RectTransform;
-            if (btnRect != null)
+            if (popupMenuBase.activeSelf)
             {
-                btnRect.pivot = new Vector2(1f, 0f);
-                btnRect.anchorMax = Vector2.zero;
-                btnRect.anchorMin = Vector2.zero;
-                btnRect.anchoredPosition = new Vector2(boxRect.sizeDelta.x, 0f);
-                btnRect.sizeDelta = new Vector2(20, boxRect.sizeDelta.y);
-
-                Button btn = btnRect.GetComponent<Button>();
-                btnRect.Find("Text")?.gameObject.SetActive(false);
-                btnRect.gameObject.SetActive(false);
+                popupMenuBase.SetActive(false);
+                return;
             }
 
-            box.onItemIndexChange.AddListener(OnMenuBoxItemIndexChange);
-            menuComboBox = box;
+            //RectTransform rect = menuComboBox.m_DropDownList;
 
-            //Dropdown List ScrollBox
-            RectTransform vsRect = menuComboBox.m_Scrollbar.transform as RectTransform;
-            vsRect.sizeDelta = new Vector2(0, vsRect.sizeDelta.y);
+            //UIRoot.ScreenPointIntoRect(Input.mousePosition, rect.parent as RectTransform, out Vector2 pos);
+            //pos.x = pos.x + 20f;
+            //pos.y = pos.y + 30f;
+            //menuComboBox.m_DropDownList.anchoredPosition = pos;
 
-            RefreshMenuBox(null);
+            menuTarget = item;
+            ////menuTarget.LockAppearance();
+            RefreshMenuBox(item);
+
+            popupMenuListItem.Init(menuTarget.logData, null);
+            Vector3 pos = menuTarget.transform.position;
+
+            float dur = Time.realtimeSinceStartup - menuTarget.logData.realtimeSinceStartup;
+            DateTime dt = DateTime.Now.AddSeconds(-dur);
+            popupMenuListItem.timeText.text = dt.Hour.ToString("D2") + ":" + dt.Minute.ToString("D2");
+            //Input.mousePosition
+            //if (UIRoot.ScreenPointIntoRect(pos, popupMenuBase.transform as RectTransform, out Vector2 popupPos))
+            //{
+            //    //
+            //    popupPos.y -= popupMenuTopMargin;
+            //    (popupMenuBase.transform as RectTransform).localPosition = popupPos;
+
+            //}
+            //RectTransformUtility.
+            popupMenuBase.transform.position = pos;
+            Vector2 localPos = (popupMenuBase.transform as RectTransform).localPosition;
+            localPos.x -= 1f;
+            localPos.y += popupMenuTopMargin;
+            (popupMenuBase.transform as RectTransform).localPosition = localPos;
+            popupMenuBase.SetActive(true);
+
         }
+
+        internal void RefreshMenuBox(UILogListItem item)
+        {
+            //{
+            //    items.Add("Locate Demand Station");
+            //    itemsData.Add((int)EMenuCommand.LocateDemand);
+            //    itemCount++;
+            //    items.Add("Locate Supply Station");
+            //    itemsData.Add((int)EMenuCommand.LocateSupply);
+            //    itemCount++;
+            //}
+        }
+
+
+
+
+
+
     }
 }

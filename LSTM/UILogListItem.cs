@@ -89,10 +89,11 @@ namespace LSTMMod
             rect = Util.NormalizeRectWithTopLeft(item.distText, 236f + leftPadding, 2f);
             rect.sizeDelta = new Vector2(50f, 22f);
 
+            //time
             item.timeText = GameObject.Instantiate<Text>(item.supplyText, item.supplyText.transform.parent);
             item.timeText.gameObject.name = "timeText";
-            item.timeText.alignment = TextAnchor.MiddleCenter;
-            rect = Util.NormalizeRectWithTopLeft(item.timeText, 495f + leftPadding, 2f);
+            item.timeText.alignment = TextAnchor.MiddleRight;
+            rect = Util.NormalizeRectWithTopLeft(item.timeText, 488f + leftPadding, 2f);
             rect.sizeDelta = new Vector2(42f, 22f);
 
             //labelIcon
@@ -210,7 +211,7 @@ namespace LSTMMod
         {
             if (eventData.button == PointerEventData.InputButton.Right)
             {
-                window.ShowMenu(this);
+                window?.ShowMenu(this);
             }
         }
 
