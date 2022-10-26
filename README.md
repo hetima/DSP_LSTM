@@ -4,6 +4,9 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 
 ## Recent Changes
 
+### v0.8
+- Added Traffic Log Window 
+
 ### v0.7.2
 - Added option "Suppress Open Inventory Window (when opening station window)" to config window (default is off)
 
@@ -62,9 +65,10 @@ When One-time Demand is executed, transportation is performed from the nearest s
 ## Traffic Log
 Displays transport logs from game startup (up to 10,000 entries). To use it, you must turn it on in the config window and restart the game.
 
-The log window can be opened from the "LOG" button in the main window or from the menu that appears by right-clicking. Shortcuts can also be set, but they are not present in the settings window and must be edited directly in the config file.
-Right-clicking on a log brings up a panel where you can refine filters and view them in the starmap.
+The log window can be opened from the "LOG" button in the main window or from the menu that appears by right-clicking. Shortcuts can also be set, but they are not present in the settings window and must be edited directly in the config file.  
+Right-clicking on a row brings up a panel where you can refine filters and view them in the starmap.
 
+![screenshot7](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen7.jpg)
 
 ## TrafficLogic
 Change transport behavior. Can be turned on and off individually. Default is all off. It must be turned on in the configuration to be used.  
