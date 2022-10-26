@@ -26,6 +26,7 @@ Lists the supply and demand balance of the Logistics Station by item and by plan
 - Display navigation of the target station location
 - Open station window directly (right-click locate button)(only current local planet)
 - Display station contents and empty slot count as icon
+- Display traffic logs
 
 How to open a window
 - from keyboard shortcut (default is LCtrl+T)
@@ -181,6 +182,7 @@ The following settings cannot be edited from config window. You need to edit the
 - 対象のステーションの場所をナビ表示
 - ステーションウィンドウを開く(ナビボタンを右クリック)(現在の惑星のみ対象)
 - ステーションの内容をアイコンサインで表示
+- 輸送ログの表示
 
 ウィンドウの開き方
 - キーボードショートカット(デフォルトは LCtrl+T)
@@ -254,7 +256,7 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 ## Release Notes
 
-### v0.8
+### v0.8.0
 - Added Traffic Log Window (default is off)
 
 ### v0.7.2
