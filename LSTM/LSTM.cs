@@ -399,7 +399,10 @@ namespace LSTMMod
             }
             else if (logWindowHotkey.Value.IsDown())
             {
-                ToggleLogWindow();
+                if (enableTrafficLogInThisSession)
+                {
+                    ToggleLogWindow();
+                }
             }
             else if (reactClosePanelKeyE.Value && VFInput._closePanelE)
             {
