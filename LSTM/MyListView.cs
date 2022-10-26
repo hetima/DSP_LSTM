@@ -11,7 +11,6 @@ namespace LSTMMod
 
         public static MyListView CreateListView(MonoBehaviour preFab, RecyclingListView.ItemDelegate dlgt, string goName = "", Transform parent = null, float vsWidth = 16f)
         {
-            LSTM.Log("preFab height" + preFab.GetComponent<RectTransform>().rect.height);
             MyListView result;
             UIListView uiListView;
             UIListView src = UIRoot.instance.uiGame.tutorialWindow.entryList;
