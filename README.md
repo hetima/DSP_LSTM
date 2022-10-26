@@ -59,6 +59,12 @@ When One-time Demand is executed, transportation is performed from the nearest s
 
 ![screenshot6](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen6.jpg)
 
+## Traffic Log
+Displays transport logs from game startup (up to 10,000 entries). To use it, you must turn it on in the config window and restart the game.
+
+The log window can be opened from the "LOG" button in the main window or from the menu that appears by right-clicking. Shortcuts can also be set, but they are not present in the settings window and must be edited directly in the config file.
+Right-clicking on a log brings up a panel where you can refine filters and view them in the starmap.
+
 
 ## TrafficLogic
 Change transport behavior. Can be turned on and off individually. Default is all off. It must be turned on in the configuration to be used.  
@@ -131,6 +137,7 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 |enableOneTimeDemand|bool|false|enable One-Time Demand|
 |oneTimeDemandIgnoreSupplyRange|bool|false|One-Time Demand ignores supply range|
 |suppressOpenInventory|bool|false|Suppress open inventory when opening station window|
+|enableTrafficLog|bool|false|Enable traffic log window (needs restart game)|
 
 TrafficLogic settings
 
@@ -154,7 +161,8 @@ The following settings cannot be edited from config window. You need to edit the
 |---|---|---|---|
 |switchDisplayModeHotkey|shortcut|Tab|Hotkey to switch between planet name and station name on LSTM window|
 |dropSorterKeyEracesNavi|bool|false|clear navi line when "Remove Copied Sorter Previews" shortcut is pressed|
-
+|logWindowHotkey|shortcut|none|Hotkey to open/close Traffic Log window|
+|trafficLogDisplayMax|int|2000|Maximum rows that can be displayed in Traffic Log window. min=100 max=9999|
 
 ## 説明
 
@@ -190,6 +198,11 @@ One-time Demandを実行するといちばん近い供給可能なステーシ�
 
 ![screenshot6](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen6.jpg)
 
+## Traffic Log
+ゲーム起動時からの輸送ログを表示します（最大1万件）。設定ウィンドウでオンにしてゲームを再起動する必要があります。
+
+メインウィンドウの「LOG」ボタンや右クリックして出てくるメニューからログウィンドウを開くことができます。ショートカットも設定できますが、設定ウィンドウには存在しないので直接ファイルを編集してください。
+ログを右クリックするとフィルタを絞り込んだり惑星ビューで表示したりできるパネルが表示されます。
 
 ## TrafficLogic
 輸送の挙動を変更します。個別に設定でオンオフできます。デフォルトはすべてオフです。使用するには設定ウィンドウでオンにする必要があります。  
@@ -236,6 +249,9 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 
 ## Release Notes
+
+### v0.8
+- Added Traffic Log Window (default is off)
 
 ### v0.7.2
 - Added option "Suppress Open Inventory Window (when opening station window)" to config window (default is off)
