@@ -4,14 +4,9 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 
 ## Recent Changes
 
-### v0.8
-- Added Traffic Log Window 
+### v0.8.1
+- Changed the way station info looks and added config `stationInfoIconSize`
 
-### v0.7.2
-- Added option "Suppress Open Inventory Window (when opening station window)" to config window (default is off)
-
-### v0.7.0
-- Added One-time Demand
 
 ## About
 
@@ -168,6 +163,9 @@ The following settings cannot be edited from config window. You need to edit the
 |dropSorterKeyEracesNavi|bool|false|clear navi line when "Remove Copied Sorter Previews" shortcut is pressed|
 |logWindowHotkey|shortcut|none|Hotkey to open/close Traffic Log window|
 |trafficLogDisplayMax|int|2000|Maximum rows that can be displayed in Traffic Log window. min=100 max=9999|
+|stationInfoIconSize|float|10.0|Station Info icon size. min=5.0 max=15.0. default is 10.0f|
+
+
 
 ## 説明
 
@@ -255,6 +253,9 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 
 ## Release Notes
+
+### v0.8.1
+- Changed the way station info looks and added config `stationInfoIconSize`
 
 ### v0.8.0
 - Added Traffic Log Window (default is off)
