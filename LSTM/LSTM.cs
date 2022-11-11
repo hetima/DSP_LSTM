@@ -45,6 +45,7 @@ namespace LSTMMod
         public static ConfigEntry<bool> setConstructionPointToGround;
         public static ConfigEntry<bool> showStationInfo;
         public static ConfigEntry<bool> showStationInfoOnlyInPlanetView;
+        public static ConfigEntry<float> stationInfoIconSize;
         public static ConfigEntry<bool> enableNaviToEverywhere;
 
         public static ConfigEntry<bool> enableTLRemoteCluster;
@@ -110,6 +111,8 @@ namespace LSTMMod
                 "Show station contents and empty slot count as icon. Also affected by in-game building icon display setting");
             showStationInfoOnlyInPlanetView = Config.Bind("Interface", "showStationInfoOnlyInPlanetView", false,
                 "showStationInfo is only displayed in planet view");
+            stationInfoIconSize = Config.Bind("Interface", "stationInfoIconSize", 10f,
+                new ConfigDescription("station Info icon size. min=5.0 max=15.0. default is 10.0f", new AcceptableValueRange<float>(5.0f, 15.0f)));
             enableNaviToEverywhere = Config.Bind("Other", "enableNaviToEverywhere", false,
                 "double-click on Planet View to display navigation to anywhere");
 

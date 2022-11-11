@@ -107,7 +107,6 @@ namespace LSTMMod
                 return;
             }
             int entityCursor = 1;
-            //int itemsPerStep = 5;
 
             if (showStationInfo || itemId > 0)
             {
@@ -171,12 +170,11 @@ namespace LSTMMod
                             slotNum -= (emptyCount - 1);
                         }
                         Quaternion shipDiskRot = Quaternion.Euler(0f, 360f / (float)storageLength * slotNum, 0f); //角度
-                        Vector3 shipDiskPos = shipDiskRot * new Vector3(0f, 0f, cmp.isStellar ? 11.5f * distFactor : 5f * distFactor); //中心からの距離
+                        Vector3 shipDiskPos = shipDiskRot * new Vector3(0f, 0f, cmp.isStellar ? 10f : 4.5f); //中心からの距離
                         shipDiskPos = factory.entityPool[cmp.entityId].pos + cmp.shipDockRot * shipDiskPos;
-                        float height = cmp.isStellar ? 26f + (10 * zoom) : 16.5f + (10 * zoom);
-                        float size = cmp.isStellar ? 10f * zoom : 6f * zoom;
-                        //int step = j / itemsPerStep;
-                        //height += ((size / 1.5f) * (float)step);
+                        float iconSize = LSTM.stationInfoIconSize.Value;
+                        float height = cmp.isStellar ? 36f : 27.5f;
+                        float size = cmp.isStellar ? iconSize * distFactor : iconSize * 0.68f * distFactor;
                         entitySignPool[entityCursor].Reset(shipDiskPos, height, size);
                         
                         entitySignPool[entityCursor].iconId0 = (uint)cmp.storage[j].itemId;
