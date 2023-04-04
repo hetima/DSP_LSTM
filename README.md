@@ -4,8 +4,8 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 
 ## Recent Changes
 
-### v0.8.1
-- Changed the way station info looks and added config `stationInfoIconSize`
+### v0.8.2
+- Added option "Hide Storaged Slot" (default is on)
 
 
 ## About
@@ -138,6 +138,7 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 |oneTimeDemandIgnoreSupplyRange|bool|false|One-Time Demand ignores supply range|
 |suppressOpenInventory|bool|false|Suppress open inventory when opening station window|
 |enableTrafficLog|bool|false|Enable traffic log window (needs restart game)|
+|hideStoragedSlot|bool|true|hide storaged slot in list view|
 
 TrafficLogic settings
 
@@ -253,6 +254,9 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 
 ## Release Notes
+
+### v0.8.2
+- Added option "Hide Storaged Slot" (default is on)
 
 ### v0.8.1
 - Changed the way station info looks and added config `stationInfoIconSize`
