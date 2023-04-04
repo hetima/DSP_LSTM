@@ -678,6 +678,10 @@ namespace LSTMMod
                     switch (ltype)
                     {
                         case ELogisticStorage.None:
+                            if (LSTM.hideStoragedSlot.Value)
+                            {
+                                return;
+                            }
                             list = _storageList;
                             break;
                         case ELogisticStorage.Supply:
@@ -687,6 +691,10 @@ namespace LSTMMod
                             list = _demandList;
                             break;
                         default:
+                            if (LSTM.hideStoragedSlot.Value)
+                            {
+                                return;
+                            }
                             list = _storageList;
                             break;
                     }

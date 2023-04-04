@@ -161,6 +161,9 @@ namespace LSTMMod
             
             rect = MyCheckBox.CreateCheckBox(LSTM.enableTrafficLog, "Enable Traffic Log (needs restart game)");
             AddElement(rect, 26f);
+            rect = MyCheckBox.CreateCheckBox(LSTM.hideStoragedSlot, "Hide Storaged Slot");
+            AddElement(rect, 26f);
+            
 
             //Traffic Logic tab
             tab2 = AddTab("Traffic Logic", out tabBtn2);

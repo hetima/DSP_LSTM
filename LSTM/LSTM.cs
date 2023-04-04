@@ -47,6 +47,7 @@ namespace LSTMMod
         public static ConfigEntry<bool> showStationInfoOnlyInPlanetView;
         public static ConfigEntry<float> stationInfoIconSize;
         public static ConfigEntry<bool> enableNaviToEverywhere;
+        public static ConfigEntry<bool> hideStoragedSlot;
 
         public static ConfigEntry<bool> enableTLRemoteCluster;
         public static ConfigEntry<bool> enableTLLocalCluster;
@@ -115,6 +116,8 @@ namespace LSTMMod
                 new ConfigDescription("station Info icon size. min=5.0 max=15.0. default is 10.0f", new AcceptableValueRange<float>(5.0f, 15.0f)));
             enableNaviToEverywhere = Config.Bind("Other", "enableNaviToEverywhere", false,
                 "double-click on Planet View to display navigation to anywhere");
+            hideStoragedSlot = Config.Bind("Interface", "hideStoragedSlot", true,
+            "hide storaged slot in list view"); 
 
             enableTLRemoteCluster = Config.Bind("TrafficLogic", "TLRemoteCluster", false,
                 "enable TrafficLogic:Remote Cluster");
