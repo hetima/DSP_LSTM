@@ -4,8 +4,9 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 
 ## Recent Changes
 
-### v0.8.2
-- Added option "Hide Storaged Slot" (default is on)
+### v0.8.3
+- Changed Remote Demand Delay from 98% to 96%
+- Changed Local Demand Delay from 99% to 98%
 
 
 ## About
@@ -255,6 +256,7 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 ## Release Notes
 
+### v0.8.3
 - Changed Remote Demand Delay from 98% to 96%
 - Changed Local Demand Delay from 99% to 98%
 
