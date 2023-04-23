@@ -107,12 +107,12 @@ When the value is set to 1, the distance does not change. There is no setting to
 ### Remote Demand Delay `TLRemoteDemandDelay`
 Delays the triggering of remote demand.
 This applies to slots with a maximum storage capacity is **5,000** or more.
-Remote demand will not be executed until the total stock (actual stock + the amount in transit) falls below **98%**.
+Remote demand will not be executed until the total stock (actual stock + the amount in transit) falls below **96%**.
 This subtle deviation solves a situation where there is no room for a local demand to occur.
 
 ### Local Demand Delay `TLLocalDemandDelay`
 Delays the triggering of local demand.
-Same as `TLRemoteDemandDelay` but threshold is **2,500** / **99%**.
+Same as `TLRemoteDemandDelay` but threshold is **2,500** / **98%**.
 
 
 ## Configuration
@@ -247,13 +247,16 @@ Remote Cluster と Local Cluster は同時に設定できます。
 値を1にすると距離は変化しません。demand の距離を縮める設定はありません。最大貯蔵量が2,000未満のストレージには影響しません。
 
 ### Remote Demand Delay `TLRemoteDemandDelay`
-リモート輸入の発動を遅らせます。最大貯蔵量 **5,000** 以上のスロットが対象で、総在庫(実在庫+輸送中の数)が **98%** を下回るまでリモート輸入を実行しません。これによりローカル側の demand やベルト搬入が発生する隙がない状態を回避できます。
+リモート輸入の発動を遅らせます。最大貯蔵量 **5,000** 以上のスロットが対象で、総在庫(実在庫+輸送中の数)が **96%** を下回るまでリモート輸入を実行しません。これによりローカル側の demand やベルト搬入が発生する隙がない状態を回避できます。
 
 ### Local Demand Delay `TLLocalDemandDelay`
-ローカル輸入の発動を遅らせます。`TLRemoteDemandDelay` と同じような機能ですが、発動条件は最大貯蔵量 **2,500** 以上 / 貯蔵率 **99%** です
+ローカル輸入の発動を遅らせます。`TLRemoteDemandDelay` と同じような機能ですが、発動条件は最大貯蔵量 **2,500** 以上 / 貯蔵率 **98%** です
 
 
 ## Release Notes
+
+- Changed Remote Demand Delay from 98% to 96%
+- Changed Local Demand Delay from 99% to 98%
 
 ### v0.8.2
 - Added option "Hide Storaged Slot" (default is on)

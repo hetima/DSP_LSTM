@@ -50,7 +50,7 @@ namespace LSTMMod
             {
                 float total = demandCmp.storage[supplyDemandPair.demandIndex].totalSupplyCount;
                 float max = demandCmp.storage[supplyDemandPair.demandIndex].max;
-                if (max >= 5000 && total / max >= 0.98f)
+                if (max >= 5000 && total / max >= 0.96f)
                 {
                     return 0;
                 }
@@ -148,7 +148,7 @@ namespace LSTMMod
             {
                 float total = demandCmp.storage[supplyDemandPair.demandIndex].totalSupplyCount;
                 float max = demandCmp.storage[supplyDemandPair.demandIndex].max;
-                if (max >= 2500 && total / max >= 0.99f)
+                if (max >= 2500 && total / max >= 0.98f)
                 {
                     return 2.0f;
                 }
