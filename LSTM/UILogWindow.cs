@@ -103,7 +103,7 @@ namespace LSTMMod
             child.Init(_logList[rowIndex], this);
         }
 
-        protected override void _OnCreate()
+        public override void _OnCreate()
         {
             _eventLock = true;
 
@@ -310,12 +310,12 @@ namespace LSTMMod
                 listView.m_ScrollRect.verticalScrollbar.size = 0.001f;
             }
         }
-        protected override void _OnDestroy()
+        public override void _OnDestroy()
         {
 
         }
 
-        protected override bool _OnInit()
+        public override bool _OnInit()
         {
             windowTrans.anchoredPosition = new Vector2(370f, -446f + (windowTrans.sizeDelta.y / 2)); // pivot=0.5 なので /2
             //PLFN.mainWindowSize.SettingChanged += (sender, args) => {
@@ -325,12 +325,12 @@ namespace LSTMMod
             return true;
         }
 
-        protected override void _OnFree()
+        public override void _OnFree()
         {
 
         }
 
-        protected override void _OnRegEvent()
+        public override void _OnRegEvent()
         {
             itemButton.onClick += OnSelectItemButtonClick;
             itemResetButton.onClick += OnItemResetButtonClick;
@@ -343,7 +343,7 @@ namespace LSTMMod
 
 
 
-        protected override void _OnUnregEvent()
+        public override void _OnUnregEvent()
         {
             itemButton.onClick -= OnSelectItemButtonClick;
             itemResetButton.onClick -= OnItemResetButtonClick;
@@ -353,16 +353,16 @@ namespace LSTMMod
             listView.m_ScrollRect.onValueChanged.RemoveListener(OnScrollRectChanged);
         }
 
-        protected override void _OnOpen()
+        public override void _OnOpen()
         {
 
         }
-        protected override void _OnClose()
+        public override void _OnClose()
         {
             popupMenuBase.SetActive(false);
             isPointEnter = false;
         }
-        protected override void _OnUpdate()
+        public override void _OnUpdate()
         {
             if (VFInput.escape && !UIRoot.instance.uiGame.starmap.active && !VFInput.inputing)
             {
