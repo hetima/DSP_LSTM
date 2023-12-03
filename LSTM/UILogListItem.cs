@@ -52,7 +52,7 @@ namespace LSTMMod
             UIResAmountEntry src = GameObject.Instantiate<UIResAmountEntry>(UIRoot.instance.uiGame.planetDetail.entryPrafab, baseTrans);
             src.gameObject.SetActive(true);
 
-            float rightPadding = 0f;
+            // not used: float rightPadding = 0f;
             float leftPadding = 22f;
 
 

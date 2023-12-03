@@ -37,7 +37,7 @@ namespace LSTMMod
             MyWindowCtl.OpenWindow(this);
         }
 
-        protected override void _OnCreate()
+        public override void _OnCreate()
         {
             windowTrans = MyWindowCtl.GetRectTransform(this);
             windowTrans.sizeDelta = new Vector2(640f, 428f);
@@ -219,43 +219,43 @@ namespace LSTMMod
             OnTabButtonClick(1);
         }
 
-        protected override void _OnDestroy()
+        public override void _OnDestroy()
         {
         }
 
-        protected override bool _OnInit()
+        public override bool _OnInit()
         {
             windowTrans.anchoredPosition = new Vector2(0, 0);
             return true;
         }
 
-        protected override void _OnFree()
+        public override void _OnFree()
         {
         }
 
-        protected override void _OnRegEvent()
+        public override void _OnRegEvent()
         {
             tabBtn1.onClick += OnTabButtonClick;
             tabBtn2.onClick += OnTabButtonClick;
         }
 
-        protected override void _OnUnregEvent()
+        public override void _OnUnregEvent()
         {
             tabBtn1.onClick -= OnTabButtonClick;
             tabBtn2.onClick -= OnTabButtonClick;
         }
 
-        protected override void _OnOpen()
+        public override void _OnOpen()
         {
 
         }
 
-        protected override void _OnClose()
+        public override void _OnClose()
         {
 
         }
 
-        protected override void _OnUpdate()
+        public override void _OnUpdate()
         {
             if (VFInput.escape && !VFInput.inputing)
             {
