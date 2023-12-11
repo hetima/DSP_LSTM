@@ -59,7 +59,7 @@ namespace LSTMMod
             //Remote Cluster
             if (LSTM.enableTLRemoteCluster.Value)
             {
-                //空間歪曲器と増幅剤は除外
+                //空間歪曲器と増産剤は除外
                 if (itemId != 1210 && itemId != 1141 && itemId != 1142 && itemId != 1143)
                 {
                     if (!TLCluster.IsSameRemoteCluster(supplyCmp, demandCmp))
@@ -122,7 +122,7 @@ namespace LSTMMod
             //Consider Opposite Range
             if (LSTM.enableTLConsiderOppositeRange.Value)
             {
-                //空間歪曲器と増幅剤は除外、 demand 1000未満も除外
+                //空間歪曲器と増産剤は除外、 demand 1000未満も除外
                 if (itemId != 1210 && itemId != 1141 && itemId != 1142 && itemId != 1143 && demandCmp.storage[supplyDemandPair.demandIndex].max >= 1000)
                 {
                     result = demandRange >= supplyRange ? supplyRange : demandRange;
@@ -157,7 +157,7 @@ namespace LSTMMod
             //Local Cluster
             if (LSTM.enableTLLocalCluster.Value)
             {
-                //空間歪曲器と増幅剤は除外
+                //空間歪曲器と増産剤は除外
                 if (itemId != 1210 && itemId != 1141 && itemId != 1142 && itemId != 1143)
                 {
                     if (!TLCluster.IsSameLocalCluster(supplyCmp, demandCmp))
@@ -170,7 +170,7 @@ namespace LSTMMod
             //Consider Opposite Range
             if (LSTM.enableTLConsiderOppositeRange.Value) 
             {
-                //空間歪曲器と増幅剤は除外
+                //空間歪曲器と増産剤は除外
                 if (itemId != 1210 && itemId != 1141 && itemId != 1142 && itemId != 1143)
                 {
                     result = demandCmp.tripRangeDrones <= supplyCmp.tripRangeDrones ? supplyCmp.tripRangeDrones : demandCmp.tripRangeDrones;
