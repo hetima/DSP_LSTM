@@ -4,9 +4,8 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 
 ## Recent Changes
 
-### v0.8.3
-- Changed Remote Demand Delay from 98% to 96%
-- Changed Local Demand Delay from 99% to 98%
+### v0.8.4
+- Proliferators ignore Cluster and Opposite Range
 
 
 ## About
@@ -78,14 +77,14 @@ This is a rough implementation, so it may not work as expected. If this is enabl
 
 ### Consider Opposite Range `TLConsiderOppositeRange`
 The partner's maximum transport distance will now be calculated too, and the transport will not be executed unless both maximum transport distances are exceeded. Applies to all transport, local and remote.  
-As an exception, remote transports with a maximum demand capacity of less than 1,000 and the __Space Warper__ will be transported ignoring this settings.  
+As an exception, remote transports with a maximum demand capacity of less than 1,000 and the __Space Warper__ and __Proliferators__ will be transported ignoring this settings.  
 
 ### Remote Cluster `TLRemoteCluster`
 Groups stations together and separates them from other groups or unconfigured stations.  
 You can include the string `[C:name]` in the station name to belong to the `name` cluster, where __C: is UPPER CASE__.  
 Once a cluster has been established, stations can only be transported by stations that belong to the same cluster.  
 The cluster name `any` has a special meaning. A cluster with this name can interact with all other clusters and unconfigured stations. Demanding from `any` cluster is likely to upset the balance of other clusters, so it is better to keep it supply only.  
-As an exception, the __Space Warper__ will be transported ignoring the cluster settings.  
+As an exception, the __Space Warper__ and __Proliferators__ will be transported ignoring the cluster settings.  
 
 For now, the only way to set it up is to edit the name directly (You can edit the name in the station window by clicking on it. This is a default game feature). Please wait for additional features such as a settings UI.
 
@@ -221,14 +220,14 @@ One-time Demandを実行するといちばん近い供給可能なステーシ�
 
 ### Consider Opposite Range `TLConsiderOppositeRange`
 相手の最大輸送距離も考慮されるようになり、双方の最大輸送距離を越えていないと輸送が実行されなくなります。ローカル/リモートすべてのステーションに適用されます。  
-例外としてリモート demand の最大貯蔵量が1,000未満の場合と、 __空間歪曲器__ はこの設定を無視して輸送されます。  
+例外としてリモート demand の最大貯蔵量が1,000未満の場合と、 __空間歪曲器__ と __増産剤__ はこの設定を無視して輸送されます。  
 
 ### Remote Cluster `TLRemoteCluster`
 ステーションをグループ化し、他のグループや未設定のステーションと切り離します。   
 ステーション名に `[C:name]` という文字列を含めることで `name` のクラスターに属します。 __C:は大文字__ です。  
 クラスターが設定されたステーションは同じクラスターに属するステーションとしか輸送できなくなります。  
 `any` というクラスター名は特別な意味を持ちます。この名前のクラスターは他のすべてのクラスター、および未設定のステーションとやりとりできます。 `any` クラスターで要求を実行すると他クラスターのバランスが崩れる可能性が高いので、供給専用にした方が良いでしょう。  
-例外として __空間歪曲器__ はクラスター設定を無視して輸送されます。  
+例外として __空間歪曲器__ と __増産剤__ はクラスター設定を無視して輸送されます。  
 
 今のところ直接名前を編集するしか設定方法がありません（ステーションウィンドウの名前をクリックすることで編集できます。これはデフォルトの機能です）。設定UIなどの機能追加をする予定なのでお待ち下さい。
 
@@ -255,6 +254,9 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 
 ## Release Notes
+
+### v0.8.4
+- Proliferators ignore Cluster and Opposite Range
 
 ### v0.8.3
 - Changed Remote Demand Delay from 98% to 96%
