@@ -181,9 +181,9 @@ namespace LSTMMod
             AddElement(rect, 26f);
             rect = MyCheckBox.CreateCheckBox(LSTM.enableTLConsiderOppositeRange, "Consider Opposite Range");
             AddElement(rect, 26f);
-            rect = MyCheckBox.CreateCheckBox(LSTM.enableTLRemoteDemandDelay, "Remote Demand Delay (98%)");
+            rect = MyCheckBox.CreateCheckBox(LSTM.enableTLRemoteDemandDelay, "Remote Demand Delay (96%)");
             AddElement(rect, 26f);
-            rect = MyCheckBox.CreateCheckBox(LSTM.enableTLLocalDemandDelay, "Local Demand Delay (99%)");
+            rect = MyCheckBox.CreateCheckBox(LSTM.enableTLLocalDemandDelay, "Local Demand Delay (98%)");
             AddElement(rect, 26f);
             rect = MyCheckBox.CreateCheckBox(LSTM.enableTLRemoteCluster, "Remote Cluster [C:]");
             AddElement(rect, 26f);
