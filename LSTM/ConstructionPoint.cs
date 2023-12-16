@@ -27,7 +27,7 @@ namespace LSTMMod
                 return result;
             }
 
-            [HarmonyTranspiler, HarmonyPatch(typeof(MechaDroneLogic), "_obj_hpos")]
+            [HarmonyTranspiler, HarmonyPatch(typeof(ConstructionSystem), "_obj_hpos", [typeof(int)])]
             public static IEnumerable<CodeInstruction> MechaDroneLogic__obj_hpos_Transpiler(IEnumerable<CodeInstruction> instructions)
             {
                 List<CodeInstruction> ins = instructions.ToList();

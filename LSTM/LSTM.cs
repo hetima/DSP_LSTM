@@ -15,7 +15,7 @@ using System.Reflection;
 namespace LSTMMod
 {
 
-    [BepInPlugin(__GUID__, __NAME__, "0.8.3")]
+    [BepInPlugin(__GUID__, __NAME__, "0.8.5")]
     public class LSTM : BaseUnityPlugin
     {
         public const string __NAME__ = "LSTM";
@@ -96,7 +96,7 @@ namespace LSTMMod
             showStatInStatisticsWindow = Config.Bind("Interface", "showStatInStatisticsWindow", true,
                 "Add station stat to Statistics Window");
             setConstructionPointToGround = Config.Bind("Other", "setConstructionPointToGround", false,
-                "set the construction point to ground instead of top of the tower");
+                "set the construction point to ground instead of top of the tower (currently disabled)");
 
             actAsStandardPanel = Config.Bind("Interface", "actAsStandardPanel", true,
                 "true: close with other panels by esc key. false: one more esc needed");
@@ -160,7 +160,7 @@ namespace LSTMMod
             harmony.PatchAll(typeof(MyWindowCtl.Patch));
             harmony.PatchAll(typeof(TrafficLogic.Patch));
             harmony.PatchAll(typeof(UIStatisticsWindowAgent.Patch));
-            harmony.PatchAll(typeof(ConstructionPoint.Patch));
+            //harmony.PatchAll(typeof(ConstructionPoint.Patch));
             harmony.PatchAll(typeof(UIStationStorageAgent.Patch));
 
             if (enableTrafficLogInThisSession)
@@ -481,13 +481,14 @@ namespace LSTMMod
             {
                 UIPlanetDetail planetDetail = UIRoot.instance.uiGame.planetDetail;
                 Transform parent = planetDetail?.transform;
+                parent = parent?.Find("detail_group");
                 if (parent != null)
                 {
                     UIButton btn = Util.MakeSmallTextButton("LSTM", 38f, 20f);
                     btn.gameObject.name = "lstm-show-btn";
                     RectTransform rect = Util.NormalizeRectD(btn.gameObject);
                     rect.SetParent(parent, false);
-                    rect.anchoredPosition3D = new Vector3(-2f, -36f, 0f);
+                    rect.anchoredPosition3D = new Vector3(0f, -64f, 0f);
                     rect.localScale = Vector3.one;
                     btn.onClick += OnStarmapButtonClick;
                     starmapBtnGO = btn.gameObject;

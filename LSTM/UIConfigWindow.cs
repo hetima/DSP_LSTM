@@ -148,8 +148,8 @@ namespace LSTMMod
             rect = MyCheckBox.CreateCheckBox(LSTM.showButtonInStarmap, "Starmap Detail Panel");
             AddElement(rect, 36f);
             x_ -= 16;
-            rect = MyCheckBox.CreateCheckBox(LSTM.setConstructionPointToGround, "Set Construction Point To Ground");
-            AddElement(rect, 26f);
+            //rect = MyCheckBox.CreateCheckBox(LSTM.setConstructionPointToGround, "Set Construction Point To Ground");
+            //AddElement(rect, 26f);
             rect = MyCheckBox.CreateCheckBox(LSTM.enableNaviToEverywhere, "Double-Click To Navi Everywhere");
             AddElement(rect, 22f);
             x_ += 32;

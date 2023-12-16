@@ -246,7 +246,7 @@ namespace LSTMMod
             {
                 Shader.SetGlobalFloat("_Global_ShowEntitySign", EntitySignRenderer.showSign ? 1f : 0f);
                 Shader.SetGlobalFloat("_Global_ShowEntityIcon", 1f);
-                Shader.SetGlobalInt("_EntitySignMask", EntitySignRenderer.buildingWarnMask);
+                Shader.SetGlobalInt("_EntitySignMask", EntitySignRenderer.buildingWarningMask);
                 entitySignMat.SetBuffer("_SignBuffer", entitySignBuffer);
                 entitySignMat.SetPass(0);
                 Graphics.DrawProcedural(MeshTopology.Quads, 8 * entitySignBufferLen, 1);

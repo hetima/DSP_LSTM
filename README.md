@@ -4,8 +4,10 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 
 ## Recent Changes
 
-### v0.8.4
-- Proliferators ignore Cluster and Opposite Range
+### v0.8.5
+- Support Dark Fog Update(0.10.28.20779)
+- `setConstructionPointToGround` is disabled
+- Possibility of Cluster system does not function properly
 
 
 ## About
@@ -132,7 +134,7 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 |showButtonInStationWindow|bool|true|Add open LSTM button to Station Window|
 |showButtonInStatisticsWindow|bool|false|Add open LSTM button to statistics panel|
 |showButtonInStarmap|bool|true|Add open LSTM button to detail panel on starmap|
-|setConstructionPointToGround|bool|false|true: set the construction point of stations to ground level instead of top of the tower|
+|~~setConstructionPointToGround~~|bool|false|true: set the construction point of stations to ground level instead of top of the tower (currently disabled)|
 |enableNaviToEverywhere|bool|false|double-click (left and/or right click) on Planet View to display navigation to anywhere|
 |enableOneTimeDemand|bool|false|enable One-Time Demand|
 |oneTimeDemandIgnoreSupplyRange|bool|false|One-Time Demand ignores supply range|
@@ -254,6 +256,11 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 
 ## Release Notes
+
+### v0.8.5
+- Support Dark Fog Update(0.10.28.20779)
+- `setConstructionPointToGround` is disabled
+- Possibility of Cluster system does not function properly
 
 ### v0.8.4
 - Proliferators ignore Cluster and Opposite Range

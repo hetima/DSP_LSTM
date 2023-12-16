@@ -1,6 +1,7 @@
 ﻿using System;
 //using System.Text;
 using System.Collections.Generic;
+using static System.Collections.Specialized.BitVector32;
 
 namespace LSTMMod
 {
@@ -19,8 +20,8 @@ namespace LSTMMod
         public static bool IsSameCluster(StationComponent s1, StationComponent s2, string cmd)
         {
             //GetCommandValue は null チェック不要
-            string c1 = Util.GetCommandValue(s1.name, cmd).ToLower();
-            string c2 = Util.GetCommandValue(s2.name, cmd).ToLower();
+            string c1 = Util.GetCommandValue(Util.GetStationName(s1), cmd).ToLower();
+            string c2 = Util.GetCommandValue(Util.GetStationName(s2), cmd).ToLower();
 
             if (c1 == "any" || c2 == "any")
             {
