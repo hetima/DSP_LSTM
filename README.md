@@ -262,6 +262,9 @@ Remote Cluster と Local Cluster は同時に設定できます。
 - `setConstructionPointToGround` is disabled
 - Possibility of Cluster system does not function properly
 
+<details>
+<summary>Previous Changelog</summary>
+
 ### v0.8.4
 - Proliferators ignore Cluster and Opposite Range
 
@@ -385,4 +388,6 @@ Remote Cluster と Local Cluster は同時に設定できます。
 ### v0.1.0
 
 - Initial Release for 0.8.21.8562
+
+</details>
 
