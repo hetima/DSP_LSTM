@@ -8,6 +8,7 @@ using HarmonyLib;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 
 namespace LSTMMod
@@ -27,7 +28,8 @@ namespace LSTMMod
                 return result;
             }
 
-            [HarmonyTranspiler, HarmonyPatch(typeof(ConstructionSystem), "_obj_hpos", [typeof(int)])]
+            // attn Hetima, build failed if I had , [typeof(int)] as the last argument - I'm not sure if this is a great fix though
+            [HarmonyTranspiler, HarmonyPatch(typeof(ConstructionSystem), "_obj_hpos", new Type[] { typeof(int) })]
             public static IEnumerable<CodeInstruction> MechaDroneLogic__obj_hpos_Transpiler(IEnumerable<CodeInstruction> instructions)
             {
                 List<CodeInstruction> ins = instructions.ToList();
