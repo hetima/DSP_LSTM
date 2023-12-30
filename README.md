@@ -4,11 +4,8 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 
 ## Recent Changes
 
-### v0.8.5
-- Support Dark Fog Update(0.10.28.20779)
-- `setConstructionPointToGround` is disabled
-- Possibility of Cluster system does not function properly
-
+### v0.8.6
+- Fix for game version 0.10.28.21150
 
 ## About
 
@@ -257,13 +254,17 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 ## Release Notes
 
+### v0.8.6
+- Fix for game version 0.10.28.21150
+
+<details>
+<summary>Previous Changelog</summary>
+
 ### v0.8.5
 - Support Dark Fog Update(0.10.28.20779)
 - `setConstructionPointToGround` is disabled
 - Possibility of Cluster system does not function properly
 
-<details>
-<summary>Previous Changelog</summary>
 
 ### v0.8.4
 - Proliferators ignore Cluster and Opposite Range
