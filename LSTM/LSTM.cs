@@ -597,7 +597,7 @@ namespace LSTMMod
             [HarmonyPostfix, HarmonyPatch(typeof(EntitySignRenderer), "Draw")]
             public static void Mod_entitySignPool_Postfix(EntitySignRenderer __instance)
             {
-                if (GameMain.localPlanet != null)
+                if (GameMain.localPlanet != null && __instance != null)
                 {
                     stationSignRenderer.Draw(__instance.factory);
                 }
