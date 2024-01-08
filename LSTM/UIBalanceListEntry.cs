@@ -19,7 +19,7 @@ namespace LSTMMod
         {
             get
             {
-                string text = Util.GetStationName(station);
+                string text = Util.GetStationName(station, planetId);
                 if (string.IsNullOrEmpty(text))
                 {
                     text = station.isStellar ? ("星际站点号".Translate() + station.gid.ToString()) : ("本地站点号".Translate() + station.id.ToString());
