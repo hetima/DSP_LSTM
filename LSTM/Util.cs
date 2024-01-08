@@ -11,9 +11,12 @@ namespace LSTMMod
 {
     public static class Util
     {
-        public static string GetStationName(StationComponent station)
+        public static string GetStationName(StationComponent station, int planetId = 0)
         {
-            PlanetFactory pf = GameMain.galaxy.PlanetById(station.planetId)?.factory;
+            if(planetId == 0)
+                planetId = station.planetId;
+
+            PlanetFactory pf = GameMain.galaxy.PlanetById(planetId)?.factory;
             if (pf == null)
             {
                 return null;
