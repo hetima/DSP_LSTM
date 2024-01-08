@@ -155,17 +155,17 @@ namespace LSTMMod
             }
 
             //Local Cluster
-            if (LSTM.enableTLLocalCluster.Value)
-            {
-                //空間歪曲器と増産剤は除外
-                if (itemId != 1210 && itemId != 1141 && itemId != 1142 && itemId != 1143)
-                {
-                    if (!TLCluster.IsSameLocalCluster(supplyCmp, demandCmp))
-                    {
-                        return 2.0f;
-                    }
-                }
-            }
+            //if (LSTM.enableTLLocalCluster.Value)
+            //{
+            //    //空間歪曲器と増産剤は除外
+            //    if (itemId != 1210 && itemId != 1141 && itemId != 1142 && itemId != 1143)
+            //    {
+            //        if (!TLCluster.IsSameLocalCluster(supplyCmp, demandCmp))
+            //        {
+            //            return 2.0f;
+            //        }
+            //    }
+            //}
 
             //Consider Opposite Range
             if (LSTM.enableTLConsiderOppositeRange.Value) 

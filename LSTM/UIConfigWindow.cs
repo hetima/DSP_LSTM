@@ -187,8 +187,8 @@ namespace LSTMMod
             AddElement(rect, 26f);
             rect = MyCheckBox.CreateCheckBox(LSTM.enableTLRemoteCluster, "Remote Cluster [C:]");
             AddElement(rect, 26f);
-            rect = MyCheckBox.CreateCheckBox(LSTM.enableTLLocalCluster, "Local Cluster [c:]");
-            AddElement(rect, 26f);
+            //rect = MyCheckBox.CreateCheckBox(LSTM.enableTLLocalCluster, "Local Cluster [c:]");
+            //AddElement(rect, 26f);
 
             x_ = 290f;
             y_ = 0f;
