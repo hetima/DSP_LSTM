@@ -4,8 +4,9 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 
 ## Recent Changes
 
-### v0.8.6
-- Fix for game version 0.10.28.21150
+### v0.8.7
+- PLS can show custom names on the Local list
+- Local Cluster that was not functioning was explicitly disabled
 
 ## About
 
@@ -87,8 +88,8 @@ As an exception, the __Space Warper__ and __Proliferators__ will be transported 
 
 For now, the only way to set it up is to edit the name directly (You can edit the name in the station window by clicking on it. This is a default game feature). Please wait for additional features such as a settings UI.
 
-### Local Cluster `TLLocalCluster`
-This is the same function as Remote Cluster. Applies to local transport. The configuration is almost the same as Remote Cluster, with `[c:name]` in the station name, where __c: is lower case__.
+### ~~Local Cluster `TLLocalCluster`~~
+~~This is the same function as Remote Cluster. Applies to local transport. The configuration is almost the same as Remote Cluster, with `[c:name]` in the station name, where __c: is lower case__.~~
 
 Remote Cluster and Local Cluster can be configured simultaneously.  
 Example: [C:r01][c:l01]station#1
@@ -146,7 +147,7 @@ TrafficLogic settings
 |TLSmartTransport|bool|false|enable TrafficLogic:Smart Transport|
 |TLConsiderOppositeRange|bool|false|enable TrafficLogic:Consider Opposite Range|
 |TLRemoteCluster|bool|false|enable TrafficLogic:Remote Cluster|
-|TLLocalCluster|bool|false|enable TrafficLogic:Local Cluster|
+|~~TLLocalCluster~~|bool|false|enable TrafficLogic:Local Cluster|
 |TLDCBalance|bool|false|enable TrafficLogic:Remote Distance/Capacity Balance|
 |TLDCSupplyMultiplier|float|1.0|Multiplier for Remote Supply Distance/Capacity Balance (1-100)|
 |TLDCDemandMultiplier|float|1.0|Multiplier for Remote Demand Distance/Capacity Balance (1-100)|
@@ -230,8 +231,8 @@ One-time Demandを実行するといちばん近い供給可能なステーシ�
 
 今のところ直接名前を編集するしか設定方法がありません（ステーションウィンドウの名前をクリックすることで編集できます。これはデフォルトの機能です）。設定UIなどの機能追加をする予定なのでお待ち下さい。
 
-### Local Cluster `TLLocalCluster`
-Remote Cluster と同じ機能です。ローカル輸送に適用されます。設定方法は Remote Cluster とほぼ同じで、ステーション名に `[c:name]` と記述します。 __c:は小文字__ です。
+### ~~Local Cluster `TLLocalCluster`~~
+~~Remote Cluster と同じ機能です。ローカル輸送に適用されます。設定方法は Remote Cluster とほぼ同じで、ステーション名に `[c:name]` と記述します。 __c:は小文字__ です。~~
 
 Remote Cluster と Local Cluster は同時に設定できます。  
 例：[C:r01][c:l01]station#1
@@ -254,11 +255,16 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 ## Release Notes
 
-### v0.8.6
-- Fix for game version 0.10.28.21150
+### v0.8.7
+- PLS can show custom names on the Local list
+- Local Cluster that was not functioning was explicitly disabled
 
 <details>
 <summary>Previous Changelog</summary>
+
+### v0.8.6
+- Fix for game version 0.10.28.21150
+
 
 ### v0.8.5
 - Support Dark Fog Update(0.10.28.20779)
