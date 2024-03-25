@@ -465,42 +465,48 @@ namespace LSTMMod
             txt = Util.MakeGameObject<Text>(go.transform, productEntry.consumeText.gameObject,  2, 0, 72, 40, false, true);
             txt.alignment = TextAnchor.MiddleRight;
             txt.resizeTextForBestFit = true;
-            txt.resizeTextMaxSize = 34;
+            txt.resizeTextMaxSize = 28;
+            txt.fontSize = 28;
             txt.supportRichText = true;
             prefab.demandRatioText = txt;
 
             txt = Util.MakeGameObject<Text>(go.transform, productEntry.productText.gameObject,  2, 60, 72, 40, false, true);
             txt.alignment = TextAnchor.MiddleRight;
             txt.resizeTextForBestFit = true;
-            txt.resizeTextMaxSize = 34;
+            txt.resizeTextMaxSize = 28;
+            txt.fontSize = 28;
             txt.supportRichText = true;
             prefab.supplyRatioText = txt;
 
             txt = Util.MakeGameObject<Text>(go.transform, productEntry.consumeText.gameObject, 75, 4, 44, 20, false, true);
             txt.alignment = TextAnchor.MiddleCenter;
             txt.resizeTextForBestFit = true;
-            txt.resizeTextMaxSize = 18;
+            txt.resizeTextMaxSize = 16;
+            txt.fontSize = 16;
             txt.supportRichText = true;
             prefab.demandMaxText = txt;
 
             txt = Util.MakeGameObject<Text>(go.transform, productEntry.consumeText.gameObject, 75, 25, 44, 20, false, true);
             txt.alignment = TextAnchor.MiddleCenter;
             txt.resizeTextForBestFit = true;
-            txt.resizeTextMaxSize = 18;
+            txt.resizeTextMaxSize = 16;
+            txt.fontSize = 16;
             txt.supportRichText = true;
             prefab.demandCountText = txt;
 
             txt = Util.MakeGameObject<Text>(go.transform, productEntry.productText.gameObject, 75, 60, 44, 20, false, true);
             txt.alignment = TextAnchor.MiddleCenter;
             txt.resizeTextForBestFit = true;
-            txt.resizeTextMaxSize = 18;
+            txt.resizeTextMaxSize = 16;
+            txt.fontSize = 16;
             txt.supportRichText = true;
             prefab.supplyMaxText = txt;
 
             txt = Util.MakeGameObject<Text>(go.transform, productEntry.productText.gameObject, 75, 81, 44, 20, false, true);
             txt.alignment = TextAnchor.MiddleCenter;
             txt.resizeTextForBestFit = true;
-            txt.resizeTextMaxSize = 18;
+            txt.resizeTextMaxSize = 16;
+            txt.fontSize = 16;
             txt.supportRichText = true;
             prefab.supplyCountText = txt;
 
