@@ -4,9 +4,9 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 
 ## Recent Changes
 
-### v0.8.7
-- PLS can show custom names on the Local list
-- Local Cluster that was not functioning was explicitly disabled
+### v0.8.8
+- Fix font size for game version 0.10.29.22015
+
 
 ## About
 
@@ -255,12 +255,17 @@ Remote Cluster と Local Cluster は同時に設定できます。
 
 ## Release Notes
 
+### v0.8.8
+- Fix font size for game version 0.10.29.22015
+
+
+<details>
+<summary>Previous Changelog</summary>
+
 ### v0.8.7
 - PLS can show custom names on the Local list
 - Local Cluster that was not functioning was explicitly disabled
 
-<details>
-<summary>Previous Changelog</summary>
 
 ### v0.8.6
 - Fix for game version 0.10.28.21150
