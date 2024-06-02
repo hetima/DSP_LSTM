@@ -481,14 +481,15 @@ namespace LSTMMod
             {
                 UIPlanetDetail planetDetail = UIRoot.instance.uiGame.planetDetail;
                 Transform parent = planetDetail?.transform;
-                parent = parent?.Find("detail_group");
+                //parent = parent?.Find("base-info-group");
                 if (parent != null)
                 {
                     UIButton btn = Util.MakeSmallTextButton("LSTM", 38f, 20f);
                     btn.gameObject.name = "lstm-show-btn";
                     RectTransform rect = Util.NormalizeRectD(btn.gameObject);
                     rect.SetParent(parent, false);
-                    rect.anchoredPosition3D = new Vector3(0f, -64f, 0f);
+                    rect.anchoredPosition3D = new Vector3(-2f, -36f, 0f);
+                    //rect.anchoredPosition3D = new Vector3(0f, -64f, 0f);
                     rect.localScale = Vector3.one;
                     btn.onClick += OnStarmapButtonClick;
                     starmapBtnGO = btn.gameObject;
