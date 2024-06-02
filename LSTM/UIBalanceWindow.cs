@@ -1401,15 +1401,15 @@ namespace LSTMMod
                 itemCount++;
             }
 
-            if (!item.station.isCollector)
-            {
-                if (LSTM.enableOneTimeDemand.Value && menuTarget.station.storage[menuTarget.index].remoteDemandCount > 0)
-                {
-                    items.Add("One-time Demand");
-                    itemsData.Add((int)EMenuCommand.OneTimeDemand);
-                    itemCount++;
-                }
-            }
+            //if (!item.station.isCollector)
+            //{
+            //    if (LSTM.enableOneTimeDemand.Value && menuTarget.station.storage[menuTarget.index].remoteDemandCount > 0)
+            //    {
+            //        items.Add("One-time Demand");
+            //        itemsData.Add((int)EMenuCommand.OneTimeDemand);
+            //        itemCount++;
+            //    }
+            //}
             //if ()
             //{
             //    items.Add("label");
@@ -1438,12 +1438,6 @@ namespace LSTMMod
                 EMenuCommand itemData = (EMenuCommand)menuComboBox.ItemsData[num];
                 switch (itemData)
                 {
-                    case EMenuCommand.OneTimeDemand:
-                        if (!OneTimeDemand.AddOneTimeDemand(menuTarget.station, menuTarget.index))
-                        {
-                            UIRealtimeTip.Popup("Supplier not found", false, 0);
-                        }
-                        break;
                     case EMenuCommand.StationSlotLog:
                         LSTM._logWindow.SetUpAndOpenStationSlot(menuTarget.itemId, menuTarget.station.gid);
                         break;

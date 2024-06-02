@@ -14,7 +14,6 @@ namespace LSTMMod
     {
         public static List<UIStationStorageAgent> agents = new List<UIStationStorageAgent>();
         public UIStationStorage uiStorage;
-        public Button oneTimeBtn = null;
 
 
         [SerializeField]
@@ -82,86 +81,6 @@ namespace LSTMMod
         }
 
 
-        private void OneTimeBtnClick()
-        {
-            uiStorage.popupBoxRect.gameObject.SetActive(false);
-            if(!OneTimeDemand.AddOneTimeDemand(uiStorage.station, uiStorage.index))
-            {
-                UIRealtimeTip.Popup("Supplier not found", false, 0);
-            }
-
-        }
-
-        private void MakeOneTimeBtn()
-        {
-            oneTimeBtn = GameObject.Instantiate<Button>(uiStorage.optionButton0, uiStorage.optionButton0.transform.parent);
-            RectTransform rect = oneTimeBtn.gameObject.transform as RectTransform;
-            rect.localPosition = new Vector2(rect.localPosition.x, rect.localPosition.y - 18);
-            rect.Find("button-text").GetComponent<Text>().text = "1-time Dmd";
-            rect.GetComponent<Image>().color = new Color(0.8f, 0.3f, 0f, 1f);
-            oneTimeBtn.onClick.RemoveAllListeners();
-            oneTimeBtn.onClick.AddListener(new UnityAction(this.OneTimeBtnClick));
-            oneTimeBtn.gameObject.SetActive(false);
-        }
-
-        private void ShowOneTimeBtn()
-        {
-            if (!LSTM.enableOneTimeDemand.Value)
-            {
-                if (oneTimeBtn != null && oneTimeBtn.gameObject.activeSelf)
-                {
-                    HideOneTimeBtn();
-                }
-                return;
-            }
-            if (oneTimeBtn == null)
-            {
-                MakeOneTimeBtn();
-            }
-            if (!oneTimeBtn.gameObject.activeSelf)
-            {
-                RectTransform rectTransform = uiStorage.popupBoxRect;
-                rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, rectTransform.sizeDelta.y + 30f);
-                oneTimeBtn.gameObject.SetActive(true);
-
-                RectTransform rect = (uiStorage.optionButton0.gameObject.transform as RectTransform);
-                rect.localPosition = new Vector2(rect.localPosition.x, rect.localPosition.y + 20);
-                rect = (uiStorage.optionButton1.gameObject.transform as RectTransform);
-                rect.localPosition = new Vector2(rect.localPosition.x, rect.localPosition.y + 20);
-            }
-
-        }
-        private void HideOneTimeBtn()
-        {
-            if (oneTimeBtn != null && oneTimeBtn.gameObject.activeSelf)
-            {
-                RectTransform rectTransform = uiStorage.popupBoxRect;
-                rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, rectTransform.sizeDelta.y - 30f);
-                oneTimeBtn.gameObject.SetActive(false);
-
-                RectTransform rect = (uiStorage.optionButton0.gameObject.transform as RectTransform);
-                rect.localPosition = new Vector2(rect.localPosition.x, rect.localPosition.y - 20);
-                rect = (uiStorage.optionButton1.gameObject.transform as RectTransform);
-                rect.localPosition = new Vector2(rect.localPosition.x, rect.localPosition.y - 20);
-            }
-
-        }
-        public void OnRemoteSdButtonClick()
-        {
-            StationComponent cmp = uiStorage.station;
-            if (cmp.storage[uiStorage.index].remoteDemandCount > 0)
-            {
-                ShowOneTimeBtn();
-            }
-            else
-            {
-                HideOneTimeBtn();
-            }
-        }
-        public void OnLocalSdButtonClick()
-        {
-            HideOneTimeBtn();
-        }
 
         public static UIStationStorageAgent MakeUIStationStorageAgent(UIStationStorage stationStorage)
         {
@@ -208,17 +127,7 @@ namespace LSTMMod
                 }
             }
 
-            [HarmonyPostfix, HarmonyPatch(typeof(UIStationStorage), "OnRemoteSdButtonClick")]
-            public static void UIStationStorage_OnRemoteSdButtonClick_Postfix(UIStationStorage __instance)
-            {
-                __instance.GetComponent<UIStationStorageAgent>()?.OnRemoteSdButtonClick();
 
-            }
-            [HarmonyPostfix, HarmonyPatch(typeof(UIStationStorage), "OnLocalSdButtonClick")]
-            public static void UIStationStorage_OnLocalSdButtonClick_Postfix(UIStationStorage __instance)
-            {
-                __instance.GetComponent<UIStationStorageAgent>()?.OnLocalSdButtonClick();
-            }
         }
     }
 }

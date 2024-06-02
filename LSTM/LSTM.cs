@@ -49,19 +49,19 @@ namespace LSTMMod
         public static ConfigEntry<bool> enableNaviToEverywhere;
         public static ConfigEntry<bool> hideStoragedSlot;
 
-        public static ConfigEntry<bool> enableTLRemoteCluster;
-        public static ConfigEntry<bool> enableTLLocalCluster;
-        public static ConfigEntry<bool> enableTLConsiderOppositeRange;
-        public static ConfigEntry<bool> enableTLDCBalance;
-        public static ConfigEntry<float> TLDCSupplyMultiplier;
-        public static ConfigEntry<float> TLDCDemandMultiplier;
-        public static ConfigEntry<float> TLDCSupplyDenominator;
-        public static ConfigEntry<bool> enableTLRemoteDemandDelay;
-        public static ConfigEntry<bool> enableTLLocalDemandDelay;
+        //public static ConfigEntry<bool> enableTLRemoteCluster;
+        //public static ConfigEntry<bool> enableTLLocalCluster;
+        //public static ConfigEntry<bool> enableTLConsiderOppositeRange;
+        //public static ConfigEntry<bool> enableTLDCBalance;
+        //public static ConfigEntry<float> TLDCSupplyMultiplier;
+        //public static ConfigEntry<float> TLDCDemandMultiplier;
+        //public static ConfigEntry<float> TLDCSupplyDenominator;
+        //public static ConfigEntry<bool> enableTLRemoteDemandDelay;
+        //public static ConfigEntry<bool> enableTLLocalDemandDelay;
         
-        public static ConfigEntry<bool> enableTLSmartTransport;
-        public static ConfigEntry<bool> enableOneTimeDemand;
-        public static ConfigEntry<bool> oneTimeDemandIgnoreSupplyRange;
+        //public static ConfigEntry<bool> enableTLSmartTransport;
+        //public static ConfigEntry<bool> enableOneTimeDemand;
+        //public static ConfigEntry<bool> oneTimeDemandIgnoreSupplyRange;
         public static ConfigEntry<bool> suppressOpenInventory;
         public static ConfigEntry<bool> enableTrafficLog;
         public static bool enableTrafficLogInThisSession;
@@ -119,30 +119,30 @@ namespace LSTMMod
             hideStoragedSlot = Config.Bind("Interface", "hideStoragedSlot", true,
             "hide storaged slot in list view"); 
 
-            enableTLRemoteCluster = Config.Bind("TrafficLogic", "TLRemoteCluster", false,
-                "enable TrafficLogic:Remote Cluster");
-            enableTLLocalCluster = Config.Bind("TrafficLogic", "TLLocalCluster", false,
-               "enable TrafficLogic:Local Cluster");
-            enableTLConsiderOppositeRange = Config.Bind("TrafficLogic", "TLConsiderOppositeRange", false,
-                "enable TrafficLogic:Consider Opposite Range");
-            enableTLDCBalance = Config.Bind("TrafficLogic", "TLDCBalance", false,
-                "enable TrafficLogic:Remote Distance/Capacity Balance");
-            TLDCSupplyMultiplier = Config.Bind("TrafficLogic", "TLDCSupplyMultiplier", 1f,
-                "enable TrafficLogic:Multiplier for Remote Supply Distance/Capacity Balance (1-100)");
-            TLDCDemandMultiplier = Config.Bind("TrafficLogic", "TLDCDemandMultiplier", 1f,
-                "enable TrafficLogic:Multiplier for Remote Demand Distance/Capacity Balance (1-100)");
-            TLDCSupplyDenominator = Config.Bind("TrafficLogic", "TLDCSupplyDenominator", 1f,
-                "enable TrafficLogic:Denominator for Remote Supply Distance/Capacity Balance (1-100)");
-            enableTLRemoteDemandDelay = Config.Bind("TrafficLogic", "TLRemoteDemandDelay", false,
-                "enable TrafficLogic:Remote Demand Delay");
-            enableTLLocalDemandDelay = Config.Bind("TrafficLogic", "TLLocalDemandDelay", false,
-                "enable TrafficLogic:Local Demand Delay");
-            enableTLSmartTransport = Config.Bind("TrafficLogic", "TLSmartTransport", false,
-                "enable TrafficLogic:Smart Transport");
-            enableOneTimeDemand = Config.Bind("TrafficLogic", "enableOneTimeDemand", false,
-                "enable One-Time Demand");
-            oneTimeDemandIgnoreSupplyRange = Config.Bind("TrafficLogic", "oneTimeDemandIgnoreSupplyRange", false,
-                "One-Time Demand ignores supply range");
+            //enableTLRemoteCluster = Config.Bind("TrafficLogic", "TLRemoteCluster", false,
+            //    "enable TrafficLogic:Remote Cluster");
+            //enableTLLocalCluster = Config.Bind("TrafficLogic", "TLLocalCluster", false,
+            //   "enable TrafficLogic:Local Cluster");
+            //enableTLConsiderOppositeRange = Config.Bind("TrafficLogic", "TLConsiderOppositeRange", false,
+            //    "enable TrafficLogic:Consider Opposite Range");
+            //enableTLDCBalance = Config.Bind("TrafficLogic", "TLDCBalance", false,
+            //    "enable TrafficLogic:Remote Distance/Capacity Balance");
+            //TLDCSupplyMultiplier = Config.Bind("TrafficLogic", "TLDCSupplyMultiplier", 1f,
+            //    "enable TrafficLogic:Multiplier for Remote Supply Distance/Capacity Balance (1-100)");
+            //TLDCDemandMultiplier = Config.Bind("TrafficLogic", "TLDCDemandMultiplier", 1f,
+            //    "enable TrafficLogic:Multiplier for Remote Demand Distance/Capacity Balance (1-100)");
+            //TLDCSupplyDenominator = Config.Bind("TrafficLogic", "TLDCSupplyDenominator", 1f,
+            //    "enable TrafficLogic:Denominator for Remote Supply Distance/Capacity Balance (1-100)");
+            //enableTLRemoteDemandDelay = Config.Bind("TrafficLogic", "TLRemoteDemandDelay", false,
+            //    "enable TrafficLogic:Remote Demand Delay");
+            //enableTLLocalDemandDelay = Config.Bind("TrafficLogic", "TLLocalDemandDelay", false,
+            //    "enable TrafficLogic:Local Demand Delay");
+            //enableTLSmartTransport = Config.Bind("TrafficLogic", "TLSmartTransport", false,
+            //    "enable TrafficLogic:Smart Transport");
+            //enableOneTimeDemand = Config.Bind("TrafficLogic", "enableOneTimeDemand", false,
+            //    "enable One-Time Demand");
+            //oneTimeDemandIgnoreSupplyRange = Config.Bind("TrafficLogic", "oneTimeDemandIgnoreSupplyRange", false,
+            //    "One-Time Demand ignores supply range");
             _showStatInStatisticsWindow = Config.Bind("Z", "_showStatInStatisticsWindow", true,
                 "Internal setting. Do not change directly");
             suppressOpenInventory = Config.Bind("Other", "suppressOpenInventory", false,
@@ -158,7 +158,7 @@ namespace LSTMMod
             harmony.PatchAll(typeof(Patch));
             harmony.PatchAll(typeof(LSTMStarDistance.Patch));
             harmony.PatchAll(typeof(MyWindowCtl.Patch));
-            harmony.PatchAll(typeof(TrafficLogic.Patch));
+            //harmony.PatchAll(typeof(TrafficLogic.Patch));
             harmony.PatchAll(typeof(UIStatisticsWindowAgent.Patch));
             //harmony.PatchAll(typeof(ConstructionPoint.Patch));
             harmony.PatchAll(typeof(UIStationStorageAgent.Patch));
@@ -530,7 +530,7 @@ namespace LSTMMod
             public static void GameMain_Begin_Prefix()
             {
                 //reset
-                OneTimeDemand.ResetOneTimeDemandState();
+                //OneTimeDemand.ResetOneTimeDemandState();
             }
 
             //[HarmonyPrefix, HarmonyPatch(typeof(GameMain), "End")]

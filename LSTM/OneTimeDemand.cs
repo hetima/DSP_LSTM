@@ -1,4 +1,5 @@
 ﻿
+/*
 
 namespace LSTMMod
 {
@@ -138,3 +139,4 @@ namespace LSTMMod
         }
     }
 }
+*/

@@ -11,9 +11,9 @@ namespace LSTMMod
     {
         public RectTransform windowTrans;
         public RectTransform tab1;
-        public RectTransform tab2; 
+        //public RectTransform tab2; 
         public UIButton tabBtn1;
-        public UIButton tabBtn2;
+        //public UIButton tabBtn2;
 
         public static UIConfigWindow CreateInstance()
         {
@@ -166,55 +166,55 @@ namespace LSTMMod
             
 
             //Traffic Logic tab
-            tab2 = AddTab("Traffic Logic", out tabBtn2);
-            base_ = tab2;
-            y_ = 0f;
-            x_ = 0f;
-            rect = MyCheckBox.CreateCheckBox(LSTM.enableOneTimeDemand, "One-time demand");
-            AddElement(rect, 26f);
-            x_ += 16;
-            rect = MyCheckBox.CreateCheckBox(LSTM.oneTimeDemandIgnoreSupplyRange, "Ignore Supply Range");
-            AddElement(rect, 36f);
-            x_ -= 16;
+            //tab2 = AddTab("Traffic Logic", out tabBtn2);
+            //base_ = tab2;
+            //y_ = 0f;
+            //x_ = 0f;
+            //rect = MyCheckBox.CreateCheckBox(LSTM.enableOneTimeDemand, "One-time demand");
+            //AddElement(rect, 26f);
+            //x_ += 16;
+            //rect = MyCheckBox.CreateCheckBox(LSTM.oneTimeDemandIgnoreSupplyRange, "Ignore Supply Range");
+            //AddElement(rect, 36f);
+            //x_ -= 16;
 
-            rect = MyCheckBox.CreateCheckBox(LSTM.enableTLSmartTransport, "Smart Transport");
-            AddElement(rect, 26f);
-            rect = MyCheckBox.CreateCheckBox(LSTM.enableTLConsiderOppositeRange, "Consider Opposite Range");
-            AddElement(rect, 26f);
-            rect = MyCheckBox.CreateCheckBox(LSTM.enableTLRemoteDemandDelay, "Remote Demand Delay (96%)");
-            AddElement(rect, 26f);
-            rect = MyCheckBox.CreateCheckBox(LSTM.enableTLLocalDemandDelay, "Local Demand Delay (98%)");
-            AddElement(rect, 26f);
-            rect = MyCheckBox.CreateCheckBox(LSTM.enableTLRemoteCluster, "Remote Cluster [C:]");
-            AddElement(rect, 26f);
-            //rect = MyCheckBox.CreateCheckBox(LSTM.enableTLLocalCluster, "Local Cluster [c:]");
+            //rect = MyCheckBox.CreateCheckBox(LSTM.enableTLSmartTransport, "Smart Transport");
+            //AddElement(rect, 26f);
+            //rect = MyCheckBox.CreateCheckBox(LSTM.enableTLConsiderOppositeRange, "Consider Opposite Range");
+            //AddElement(rect, 26f);
+            //rect = MyCheckBox.CreateCheckBox(LSTM.enableTLRemoteDemandDelay, "Remote Demand Delay (96%)");
+            //AddElement(rect, 26f);
+            //rect = MyCheckBox.CreateCheckBox(LSTM.enableTLLocalDemandDelay, "Local Demand Delay (98%)");
+            //AddElement(rect, 26f);
+            //rect = MyCheckBox.CreateCheckBox(LSTM.enableTLRemoteCluster, "Remote Cluster [C:]");
+            //AddElement(rect, 26f);
+            ////rect = MyCheckBox.CreateCheckBox(LSTM.enableTLLocalCluster, "Local Cluster [c:]");
+            ////AddElement(rect, 26f);
+
+            //x_ = 290f;
+            //y_ = 0f;
+            //rect = MyCheckBox.CreateCheckBox(LSTM.enableTLDCBalance, "Remote Distance/Capacity Balance *");
+            //AddElement(rect, 26f);
+            //x_ += 32f;
+            //txt = CreateText("Supply 70%-100% Multiplier");
+            //AddElement(txt.transform as RectTransform, 32f);
+            //rect = MySlider.CreateSlider(LSTM.TLDCSupplyMultiplier, 1f, 20f, "'x'0", 200f);
+            //AddElement(rect, 26f);
+            //txt = CreateText("Demand 0%-30% Multiplier");
+            //AddElement(txt.transform as RectTransform, 32f);
+            //rect = MySlider.CreateSlider(LSTM.TLDCDemandMultiplier, 1f, 20f, "'x'0", 200f);
+            //AddElement(rect, 26f);
+            //txt = CreateText("Supply 0%-30% Denominator");
+            //AddElement(txt.transform as RectTransform, 32f);
+            //rect = MySlider.CreateSlider(LSTM.TLDCSupplyDenominator, 1f, 20f, "'1/'0", 200f);
             //AddElement(rect, 26f);
 
-            x_ = 290f;
-            y_ = 0f;
-            rect = MyCheckBox.CreateCheckBox(LSTM.enableTLDCBalance, "Remote Distance/Capacity Balance *");
-            AddElement(rect, 26f);
-            x_ += 32f;
-            txt = CreateText("Supply 70%-100% Multiplier");
-            AddElement(txt.transform as RectTransform, 32f);
-            rect = MySlider.CreateSlider(LSTM.TLDCSupplyMultiplier, 1f, 20f, "'x'0", 200f);
-            AddElement(rect, 26f);
-            txt = CreateText("Demand 0%-30% Multiplier");
-            AddElement(txt.transform as RectTransform, 32f);
-            rect = MySlider.CreateSlider(LSTM.TLDCDemandMultiplier, 1f, 20f, "'x'0", 200f);
-            AddElement(rect, 26f);
-            txt = CreateText("Supply 0%-30% Denominator");
-            AddElement(txt.transform as RectTransform, 32f);
-            rect = MySlider.CreateSlider(LSTM.TLDCSupplyDenominator, 1f, 20f, "'1/'0", 200f);
-            AddElement(rect, 26f);
+            //x_ -= 32f;
 
-            x_ -= 32f;
-
-            x_ = 0f;
-            y_ = 292f;
-            txt = CreateText("* Distance/Capacity Balance will be forced off when Smart Transport is on");
-            txt.fontSize = 15;
-            AddElement(txt.transform as RectTransform, 26f);
+            //x_ = 0f;
+            //y_ = 292f;
+            //txt = CreateText("* Distance/Capacity Balance will be forced off when Smart Transport is on");
+            //txt.fontSize = 15;
+            //AddElement(txt.transform as RectTransform, 26f);
 
             OnTabButtonClick(1);
         }
@@ -236,13 +236,13 @@ namespace LSTMMod
         public override void _OnRegEvent()
         {
             tabBtn1.onClick += OnTabButtonClick;
-            tabBtn2.onClick += OnTabButtonClick;
+            //tabBtn2.onClick += OnTabButtonClick;
         }
 
         public override void _OnUnregEvent()
         {
             tabBtn1.onClick -= OnTabButtonClick;
-            tabBtn2.onClick -= OnTabButtonClick;
+            //tabBtn2.onClick -= OnTabButtonClick;
         }
 
         public override void _OnOpen()
@@ -268,19 +268,19 @@ namespace LSTMMod
         {
             if (obj == 1)
             {
-                tabBtn2.highlighted = false;
-                tab2.gameObject.SetActive(false);
+                //tabBtn2.highlighted = false;
+                //tab2.gameObject.SetActive(false);
 
                 tabBtn1.highlighted = true;
                 tab1.gameObject.SetActive(true);
             }
             else
             {
-                tabBtn1.highlighted = false;
-                tab1.gameObject.SetActive(false);
+                //tabBtn1.highlighted = false;
+                //tab1.gameObject.SetActive(false);
 
-                tabBtn2.highlighted = true;
-                tab2.gameObject.SetActive(true);
+                //tabBtn2.highlighted = true;
+                //tab2.gameObject.SetActive(true);
             }
         }
     }

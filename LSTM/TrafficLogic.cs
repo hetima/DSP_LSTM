@@ -14,6 +14,7 @@ using HarmonyLib;
  
  */
 
+/*
 
 namespace LSTMMod
 {
@@ -433,3 +434,4 @@ namespace LSTMMod
         }
     }
 }
+*/
