@@ -155,6 +155,8 @@ namespace LSTMMod
             result.CullOutsideItems = false;
             result.ColumnSpacing = 0;
             result.RowSpacing = 4;
+            result.m_ScrollRect.vertical = true;
+            result.m_ScrollRect.horizontal = false;
 
             Image barBg = result.m_ScrollRect.verticalScrollbar.GetComponent<Image>();
             if (barBg != null)

@@ -41,6 +41,8 @@ namespace LSTMMod
 
             result.recyclingListView.scrollRect.horizontalScrollbar.gameObject.SetActive(false);
             result.recyclingListView.scrollRect.verticalScrollbar.gameObject.SetActive(true);
+            result.recyclingListView.scrollRect.vertical = true;
+            result.recyclingListView.scrollRect.horizontal = false;
             result.recyclingListView.RowPadding = 4f;
             Image barBg = result.recyclingListView.scrollRect.verticalScrollbar.GetComponent<Image>();
             if (barBg != null)
