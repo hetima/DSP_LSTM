@@ -4,6 +4,9 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 
 ## Recent Changes
 
+### v0.9.1
+- Fix scrollbar on log window
+
 ### v0.9.0
 - Remove `TrafficLogic` and `One-time Demand` for 0.10.30.22292
 - Fix button on starmap
@@ -117,12 +120,15 @@ The following settings cannot be edited from config window. You need to edit the
 
 ## Release Notes
 
-### v0.9.0
-- Remove `TrafficLogic` and `One-time Demand` for 0.10.30.22292
-- Fix button on starmap
+### v0.9.1
+- Fix scrollbar on log window
 
 <details>
 <summary>Previous Changelog</summary>
+
+### v0.9.0
+- Remove `TrafficLogic` and `One-time Demand` for 0.10.30.22292
+- Fix button on starmap
 
 ### v0.8.8
 - Fix font size for game version 0.10.29.22015
