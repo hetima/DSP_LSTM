@@ -175,7 +175,7 @@ namespace LSTMMod
                         float iconSize = LSTM.stationInfoIconSize.Value;
                         float height = cmp.isStellar ? 36f : 27.5f;
                         float size = cmp.isStellar ? iconSize * distFactor : iconSize * 0.68f * distFactor;
-                        entitySignPool[entityCursor].Reset(shipDiskPos, height, size);
+                        entitySignPool[entityCursor].Reset(shipDiskPos, cmp.shipDockRot, height, size);
                         
                         entitySignPool[entityCursor].iconId0 = (uint)cmp.storage[j].itemId;
                         entitySignPool[entityCursor].iconType = 1U;
