@@ -4,6 +4,9 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 
 ## Recent Changes
 
+### v0.9.2
+- Fix for game version 0.10.30.23430
+
 ### v0.9.1
 - Fix scrollbar on log window
 
@@ -120,11 +123,14 @@ The following settings cannot be edited from config window. You need to edit the
 
 ## Release Notes
 
-### v0.9.1
-- Fix scrollbar on log window
+### v0.9.2
+- Fix for game version 0.10.30.23430
 
 <details>
 <summary>Previous Changelog</summary>
+
+### v0.9.1
+- Fix scrollbar on log window
 
 ### v0.9.0
 - Remove `TrafficLogic` and `One-time Demand` for 0.10.30.22292
