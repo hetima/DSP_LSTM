@@ -48,7 +48,8 @@ namespace LSTMMod
         {
             if (LSTM.showStatInStatisticsWindow.Value)
             {
-                balanceBtn.gameObject.SetActive(true);
+                //0.10.31.24632
+                balanceBtn.gameObject.SetActive(false);
             }
             else
             {
@@ -59,6 +60,10 @@ namespace LSTMMod
 
         public void ShowBalance()
         {
+            //0.10.31.24632
+            HideBalance();
+            return;
+
             for (int i = 0; i < entriesLen; i++)
             {
                 entries[i].ShowBalance();
@@ -182,6 +187,9 @@ namespace LSTMMod
 
         public void OnPostUpdate()
         {
+            //0.10.31.24632
+            return;
+
             if (!balanceBtn.highlighted)
             {
                 return;
@@ -237,14 +245,15 @@ namespace LSTMMod
 
         public static class Patch
         {
-            [HarmonyPostfix, HarmonyPatch(typeof(UIStatisticsWindow), "_OnUpdate")]
-            public static void UIStatisticsWindow__OnUpdate_Postfix()
-            {
-                if (instance != null && instance.window.isProductionTab)
-                {
-                    instance.OnPostUpdate();
-                }
-            }
+            //0.10.31.24632
+            //[HarmonyPostfix, HarmonyPatch(typeof(UIStatisticsWindow), "_OnUpdate")]
+            //public static void UIStatisticsWindow__OnUpdate_Postfix()
+            //{
+            //    if (instance != null && instance.window.isProductionTab)
+            //    {
+            //        instance.OnPostUpdate();
+            //    }
+            //}
         }
     }
 

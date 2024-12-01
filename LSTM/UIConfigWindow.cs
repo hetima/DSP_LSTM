@@ -133,8 +133,9 @@ namespace LSTMMod
             rect = MyCheckBox.CreateCheckBox(LSTM.showStationInfoOnlyInPlanetView, "Only In Planet View");
             AddElement(rect, 26f);
             x_ -= 16;
-            rect = MyCheckBox.CreateCheckBox(LSTM.showStatInStatisticsWindow, "Show Stat On Statistics Window");
-            AddElement(rect, 26f);
+            //0.10.31.24632
+            //rect = MyCheckBox.CreateCheckBox(LSTM.showStatInStatisticsWindow, "Show Stat On Statistics Window");
+            //AddElement(rect, 26f);
 
             x_ = 290f;
             y_ = 0f;
