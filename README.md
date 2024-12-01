@@ -4,15 +4,8 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 
 ## Recent Changes
 
-### v0.9.2
-- Fix for game version 0.10.30.23430
-
-### v0.9.1
-- Fix scrollbar on log window
-
-### v0.9.0
-- Remove `TrafficLogic` and `One-time Demand` for 0.10.30.22292
-- Fix button on starmap
+### v0.9.3
+- Remove Show Stat On Statistics Window for 0.10.31.24632
 
 
 ## About
@@ -21,7 +14,6 @@ Lists the supply and demand balance of the Logistics Station by item and by plan
 
 - Show overall status for each item
 - Show the status of all stations on specific planet
-- Show station storage ratio and total actual amounts information in the statistics panel
 
 - Display the target planet in the starmap (Universe Exploration lv4 is required)
 - Display navigation of the target station location
@@ -41,10 +33,6 @@ When opening with the keyboard shortcut, if the item information is found under 
 Main Window
 
 ![screen shot](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen.jpg)
-
-Statistics Panel
-
-![screen shot2](https://raw.githubusercontent.com/hetima/DSP_LSTM/main/screen2.jpg)
 
 Icon Info
 
@@ -73,7 +61,7 @@ LSTM has some settings depend on BepInEx (file name is `com.hetima.dsp.LSTM.cfg`
 |actAsStandardPanel|bool|true|true: close with other panels by esc key. false: one more esc needed|
 |showStationInfo|bool|false|Show station contents and empty slot count as icon. Also affected by in-game building icon display *setting|
 |showStationInfoOnlyInPlanetView|bool|false|showStationInfo is only displayed in planet view|
-|showStatInStatisticsWindow|bool|true|Add station stat to statistics panel|
+|~~showStatInStatisticsWindow~~|bool|true|~~Add station stat to statistics panel~~|
 |showButtonInStationWindow|bool|true|Add open LSTM button to Station Window|
 |showButtonInStatisticsWindow|bool|false|Add open LSTM button to statistics panel|
 |showButtonInStarmap|bool|true|Add open LSTM button to detail panel on starmap|
@@ -103,7 +91,6 @@ The following settings cannot be edited from config window. You need to edit the
 
 - アイテムごとに全体の状況を表示
 - 惑星内の全ステーションの状況を表示
-- ステーションの貯蔵率と実数を統計パネルに表示
 
 - 対象の惑星を星間ビューで表示(宇宙探査レベル4が必要)
 - 対象のステーションの場所をナビ表示
@@ -123,11 +110,14 @@ The following settings cannot be edited from config window. You need to edit the
 
 ## Release Notes
 
-### v0.9.2
-- Fix for game version 0.10.30.23430
+### v0.9.3
+- Remove Show Stat On Statistics Window for 0.10.31.24632
 
 <details>
 <summary>Previous Changelog</summary>
+
+### v0.9.2
+- Fix for game version 0.10.30.23430
 
 ### v0.9.1
 - Fix scrollbar on log window
