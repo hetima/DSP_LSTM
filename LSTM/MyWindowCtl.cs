@@ -24,12 +24,12 @@ namespace LSTMMod
 
         public static T CreateWindow<T>(string name, string title = "") where T : Component
         {
-            var srcWin = UIRoot.instance.uiGame.tankWindow;
+            var srcWin = UIRoot.instance.uiGame.inserterWindow;
             GameObject src = srcWin.gameObject;
             GameObject go = GameObject.Instantiate(src, srcWin.transform.parent);
             go.name = name;
             go.SetActive(false);
-            GameObject.Destroy(go.GetComponent<UITankWindow>());
+            GameObject.Destroy(go.GetComponent<UIInserterWindow>());
             ManualBehaviour win = go.AddComponent<T>() as ManualBehaviour;
             //shadow 
             for (int i = 0; i < go.transform.childCount; i++)
