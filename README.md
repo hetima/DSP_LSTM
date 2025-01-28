@@ -4,8 +4,8 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 
 ## Recent Changes
 
-### v0.9.3
-- Remove Show Stat On Statistics Window for 0.10.31.24632
+### v0.9.4
+- Fix UI for game version 0.10.32
 
 
 ## About
@@ -110,11 +110,14 @@ The following settings cannot be edited from config window. You need to edit the
 
 ## Release Notes
 
-### v0.9.3
-- Remove Show Stat On Statistics Window for 0.10.31.24632
+### v0.9.4
+- Fix UI for game version 0.10.32
 
 <details>
 <summary>Previous Changelog</summary>
+
+### v0.9.3
+- Remove Show Stat On Statistics Window for 0.10.31.24632
 
 ### v0.9.2
 - Fix for game version 0.10.30.23430

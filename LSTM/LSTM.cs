@@ -15,7 +15,7 @@ using System.Reflection;
 namespace LSTMMod
 {
 
-    [BepInPlugin(__GUID__, __NAME__, "0.9.3")]
+    [BepInPlugin(__GUID__, __NAME__, "0.9.4")]
     public class LSTM : BaseUnityPlugin
     {
         public const string __NAME__ = "LSTM";
