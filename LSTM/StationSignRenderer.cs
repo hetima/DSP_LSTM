@@ -249,7 +249,7 @@ namespace LSTMMod
                 Shader.SetGlobalInt("_EntitySignMask", EntitySignRenderer.buildingWarningMask);
                 entitySignMat.SetBuffer("_SignBuffer", entitySignBuffer);
                 entitySignMat.SetPass(0);
-                Graphics.DrawProcedural(MeshTopology.Quads, 8 * entitySignBufferLen, 1);
+                Graphics.DrawProceduralNow(MeshTopology.Quads, 8 * entitySignBufferLen, 1);
             }
         }
 
