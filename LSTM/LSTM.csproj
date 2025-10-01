@@ -4,7 +4,7 @@
     <ProjectGuid>{87E23036-ABD9-49EE-8782-A6BED450FEB4}</ProjectGuid>
     <RootNamespace>LSTM</RootNamespace>
     <AssemblyName>LSTM</AssemblyName>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo> <!-- Needed to prevent conflicts with AssemblyInfo.cs on newer dotnet compilers -->
