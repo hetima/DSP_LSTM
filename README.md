@@ -6,7 +6,7 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 
 ### v0.9.5
 - Suppress error on 0.10.33
-- Kown isssue: The layout is broken
+- Known isssue: The layout is broken
 
 
 ## About
@@ -113,7 +113,7 @@ The following settings cannot be edited from config window. You need to edit the
 
 ### v0.9.5
 - Suppress error on 0.10.33
-- Kown isssue: The layout is broken
+- Known isssue: The layout is broken
 
 ### v0.9.4
 - Fix UI for game version 0.10.32
