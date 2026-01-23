@@ -187,7 +187,7 @@ namespace LSTMMod
                 btn.gameObject.name = "lstm-locate-btn";
                 rect = Util.NormalizeRectD(btn.gameObject);
                 rect.SetParent(go.transform, false);
-                rect.anchoredPosition = new Vector2(240f, -6f);
+                rect.anchoredPosition = new Vector2(200f, -6f);
                 //btn.onClick +=
                 btn.tips.tipTitle = "Locate Station".Translate();
                 btn.tips.tipText = "Show the star to which the station belongs or navigation to this station".Translate();
