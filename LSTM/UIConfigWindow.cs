@@ -35,6 +35,10 @@ namespace LSTMMod
         public void OpenWindow()
         {
             MyWindowCtl.OpenWindow(this);
+            if (windowTrans != null)
+            {
+                windowTrans.sizeDelta = new Vector2(640f, 428f);
+            }
         }
 
         public override void _OnCreate()

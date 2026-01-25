@@ -76,6 +76,10 @@ namespace LSTMMod
             SetUpData();
             //UIRoot.instance.uiGame.ShutPlayerInventory();
             MyWindowCtl.OpenWindow(this);
+            if (windowTrans != null)
+            {
+                windowTrans.sizeDelta = WindowSize();
+            }
         }
 
         public bool isFunctionWindow()
@@ -426,6 +430,10 @@ namespace LSTMMod
         {
             SetUpData();
             MyWindowCtl.OpenWindow(this);
+            if (windowTrans != null)
+            {
+                windowTrans.sizeDelta = WindowSize();
+            }
         }
 
         public void TryClose()

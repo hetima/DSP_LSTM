@@ -123,6 +123,10 @@ namespace LSTMMod
 
             UIRoot.instance.uiGame.ShutPlayerInventory();
             MyWindowCtl.OpenWindow(this);
+            if (windowTrans != null)
+            {
+                windowTrans.sizeDelta = new Vector2(700, 640);
+            }
         }
 
         public void OpenWithoutSetting()
@@ -131,6 +135,10 @@ namespace LSTMMod
 
             UIRoot.instance.uiGame.ShutPlayerInventory();
             MyWindowCtl.OpenWindow(this);
+            if (windowTrans != null)
+            {
+                windowTrans.sizeDelta = new Vector2(700, 640);
+            }
         }
 
         public override void _OnCreate()
