@@ -85,6 +85,36 @@ namespace LSTMMod
             return win.GetComponent<RectTransform>();
         }
 
+        public static void SetWindowSize(ManualBehaviour win, Vector2 size)
+        {
+            RectTransform rectTransform = win.GetComponent<RectTransform>();
+            if (rectTransform == null)
+            {
+                return;
+            }
+
+            rectTransform.sizeDelta = size;
+            StretchChildToWindow(win, "panel-bg");
+            StretchChildToWindow(win, "shadow");
+        }
+
+        private static void StretchChildToWindow(ManualBehaviour win, string childName)
+        {
+            RectTransform rect = win.gameObject.transform.Find(childName) as RectTransform;
+            if (rect == null)
+            {
+                return;
+            }
+
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.anchoredPosition3D = Vector3.zero;
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+            rect.localScale = Vector3.one;
+        }
+
 
         public static void SetRect(ManualBehaviour win, RectTransform rect)
         {

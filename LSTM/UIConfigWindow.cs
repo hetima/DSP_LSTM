@@ -37,14 +37,14 @@ namespace LSTMMod
             MyWindowCtl.OpenWindow(this);
             if (windowTrans != null)
             {
-                windowTrans.sizeDelta = new Vector2(640f, 428f);
+                MyWindowCtl.SetWindowSize(this, new Vector2(640f, 428f));
             }
         }
 
         public override void _OnCreate()
         {
             windowTrans = MyWindowCtl.GetRectTransform(this);
-            windowTrans.sizeDelta = new Vector2(640f, 428f);
+            MyWindowCtl.SetWindowSize(this, new Vector2(640f, 428f));
 
             CreateUI();
         }
