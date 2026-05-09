@@ -125,7 +125,7 @@ namespace LSTMMod
             MyWindowCtl.OpenWindow(this);
             if (windowTrans != null)
             {
-                windowTrans.sizeDelta = new Vector2(700, 640);
+                MyWindowCtl.SetWindowSize(this, new Vector2(700, 640));
             }
         }
 
@@ -137,7 +137,7 @@ namespace LSTMMod
             MyWindowCtl.OpenWindow(this);
             if (windowTrans != null)
             {
-                windowTrans.sizeDelta = new Vector2(700, 640);
+                MyWindowCtl.SetWindowSize(this, new Vector2(700, 640));
             }
         }
 
@@ -145,7 +145,7 @@ namespace LSTMMod
         {
             _eventLock = true;
             windowTrans = MyWindowCtl.GetRectTransform(this);
-            windowTrans.sizeDelta = new Vector2(700, 640);
+            MyWindowCtl.SetWindowSize(this, new Vector2(700, 640));
             balanceData = new BalanceData(0, 0, false, 0);
             displayModes = new DisplayMode[2];
             displayModes[0].useStationName = false;

@@ -78,7 +78,7 @@ namespace LSTMMod
             MyWindowCtl.OpenWindow(this);
             if (windowTrans != null)
             {
-                windowTrans.sizeDelta = WindowSize();
+                MyWindowCtl.SetWindowSize(this, WindowSize());
             }
         }
 
@@ -112,7 +112,7 @@ namespace LSTMMod
             _eventLock = true;
 
             windowTrans = MyWindowCtl.GetRectTransform(this);
-            windowTrans.sizeDelta = WindowSize();
+            MyWindowCtl.SetWindowSize(this, WindowSize());
 
             GameObject go = new GameObject("content");
             contentTrans = go.AddComponent<RectTransform>();
@@ -432,7 +432,7 @@ namespace LSTMMod
             MyWindowCtl.OpenWindow(this);
             if (windowTrans != null)
             {
-                windowTrans.sizeDelta = WindowSize();
+                MyWindowCtl.SetWindowSize(this, WindowSize());
             }
         }
 
