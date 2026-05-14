@@ -56,8 +56,14 @@ namespace LSTMMod
             //あんまり上手くはないけどとりあえず変わる
             RectTransform vsRect = result.recyclingListView.scrollRect.verticalScrollbar.transform as RectTransform;
             vsRect.sizeDelta = new Vector2(vsWidth, vsRect.sizeDelta.y);
+
+            vsRect!.anchorMin = new Vector2(1, 0);
+            vsRect.anchorMax = new Vector2(1, 1);
+            vsRect.sizeDelta = new Vector2(16, 0);
             Destroy(uiListView.m_ContentPanel);
             Destroy(uiListView);
+            var contentRect = result.m_ScrollRect.content;
+            contentRect.sizeDelta = new Vector2(600f, 0);
 
             return result;
         }

@@ -131,6 +131,7 @@ namespace LSTMMod
             //listView.recyclingListView.PreAllocHeight = 280f*1.55f;
 
             //ここでサイズ調整…
+            listView.m_ScrollRect.scrollSensitivity = 28f;
 
             //(logListView.m_ItemRes.com_data.transform as RectTransform).sizeDelta = new Vector2(600f, 24f);
 

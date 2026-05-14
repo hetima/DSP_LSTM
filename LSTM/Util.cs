@@ -182,7 +182,7 @@ namespace LSTMMod
             rect.anchorMax = new Vector2(0f, 1f);
             rect.anchorMin = new Vector2(0f, 1f);
             rect.pivot = new Vector2(0f, 1f);
-            rect.anchoredPosition3D = new Vector3(left, -top, 0f);
+            rect.anchoredPosition = new Vector2(left, -top);
             return rect;
         }
 
@@ -193,27 +193,26 @@ namespace LSTMMod
             {
                 rect.SetParent(parent, false);
             }
-            rect.anchorMax = new Vector2(0f, 0f);
-            rect.anchorMin = new Vector2(0f, 0f);
-            rect.pivot = new Vector2(0f, 0f);
-            rect.anchoredPosition3D = new Vector3(left, bottom, 0f);
+            rect.anchorMax = Vector2.zero;
+            rect.anchorMin = Vector2.zero;
+            rect.pivot = Vector2.zero;
+            rect.anchoredPosition = new Vector2(left, bottom);
             return rect;
         }
 
         public static RectTransform NormalizeRectWithMargin(Component cmp, float top, float left, float bottom, float right, Transform parent = null)
         {
             RectTransform rect = cmp.transform as RectTransform;
-            if (parent != null)
+            if (parent)
             {
                 rect.SetParent(parent, false);
             }
-            rect.anchoredPosition3D = Vector3.zero;
+            rect.anchoredPosition = new Vector2((left - right) / 2, (bottom - top) / 2);
             rect.localScale = Vector3.one;
             rect.anchorMax = Vector2.one;
             rect.anchorMin = Vector2.zero;
             rect.pivot = new Vector2(0.5f, 0.5f);
-            rect.offsetMax = new Vector2(-right, -top);
-            rect.offsetMin = new Vector2(left, bottom);
+            rect.sizeDelta = new Vector2(-left - right, -top - bottom);
             return rect;
         }
 
