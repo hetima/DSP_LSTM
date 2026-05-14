@@ -97,21 +97,21 @@ namespace LSTMMod
             rect.sizeDelta = new Vector2(42f, 22f);
 
             //labelIcon
-            item.labelIcon = src.iconImage;
-            if (item.labelIcon != null)
-            {
-                item.labelIcon.gameObject.name = "labelIcon";
-                item.labelIcon.enabled = true;
-                rect = Util.NormalizeRectWithTopLeft(item.labelIcon, 10f, 12f);
-                rect.pivot = new Vector2(0.5f, 0.5f);
-                rect.sizeDelta = new Vector2(24f, 24f);
-                rect.localScale = new Vector3(0.3f, 0.3f, 1f);
+            GameObject.Destroy(src.iconImage);
 
-                item.labelIcon.material = null; //これのせいでめっちゃ光る
-                UIStationWindow stationWindow = UIRoot.instance.uiGame.stationWindow;
-                circleSprite = stationWindow.storageUIPrefab.transform.Find("storage-icon-empty/white")?.GetComponent<Image>()?.sprite;
-                item.labelIcon.sprite = circleSprite;
-            }
+            item.labelIcon = Util.CreateGameObject<Image>("veinIcon", 24f, 24f);
+            item.labelIcon.transform.SetParent(item.demandText.transform.parent, false);
+            item.labelIcon.material = null;
+            rect = Util.NormalizeRectWithTopLeft(item.labelIcon, 10f, 12f);
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            item.labelIcon.gameObject.name = "labelIcon";
+            item.labelIcon.enabled = true;
+            item.labelIcon.material = null;
+
+            UIStationWindow stationWindow = UIRoot.instance.uiGame.stationWindow;
+            circleSprite = stationWindow.storageUIPrefab.transform.Find("storage-icon-empty/white")?.GetComponent<Image>()?.sprite;
+            item.labelIcon.sprite = circleSprite;
+
 
             item.demandText.color = Util.DSPOrange;
             item.supplyText.color = Util.DSPBlue;
