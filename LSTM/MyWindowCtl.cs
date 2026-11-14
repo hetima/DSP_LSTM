@@ -30,6 +30,7 @@ namespace LSTMMod
             go.name = name;
             go.SetActive(false);
             GameObject.Destroy(go.GetComponent<UIInserterWindow>());
+            Util.RemoveLocalizerLayout(go);
             ManualBehaviour win = go.AddComponent<T>() as ManualBehaviour;
             //shadow 
             for (int i = 0; i < go.transform.childCount; i++)

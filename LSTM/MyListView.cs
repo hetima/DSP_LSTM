@@ -24,6 +24,7 @@ namespace LSTMMod
                 go.name = goName;
             }
 
+            Util.RemoveLocalizerLayout(go);
             uiListView = go.GetComponent<UIListView>();
             GameObject contentGo = uiListView.m_ContentPanel.gameObject;
 
@@ -31,7 +32,7 @@ namespace LSTMMod
             result = go.AddComponent<MyListView>();
             result.recyclingListView = contentGo.AddComponent<RecyclingListView>();
             // Make a prefab out of this child panel
-            Destroy(contentGo.transform.GetChild(0));
+            Destroy(contentGo.transform.GetChild(0).gameObject);
             contentGo.transform.DetachChildren();
             result.recyclingListView.ChildPrefab = preFab;
             result.recyclingListView.ItemCallback = dlgt;

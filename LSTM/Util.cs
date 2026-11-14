@@ -120,6 +120,7 @@ namespace LSTMMod
                 go.name = goName;
             }
 
+            RemoveLocalizerLayout(go);
             result = go.GetComponent<UIListView>();
             if (dataFunc != null)
             {
@@ -214,6 +215,26 @@ namespace LSTMMod
             rect.pivot = new Vector2(0.5f, 0.5f);
             rect.sizeDelta = new Vector2(-left - right, -top - bottom);
             return rect;
+        }
+
+        // Game objects cloned from the game's own UI can carry a Localizer that puts back the size and position
+        // meant for the original (per-language layout values) every time the object is enabled.
+        // Call this on a clone whose rect is laid out by this mod.
+        public static void RemoveLocalizerLayout(GameObject go)
+        {
+            Localizer localizer = go.GetComponent<Localizer>();
+            if (localizer == null)
+            {
+                return;
+            }
+            // Destroy takes effect at the end of the frame; clear the keys so it does nothing until then
+            localizer.xParamKey = "";
+            localizer.yParamKey = "";
+            localizer.wParamKey = "";
+            localizer.hParamKey = "";
+            localizer.wAutoFit = false;
+            localizer.hAutoFit = false;
+            UnityEngine.Object.Destroy(localizer);
         }
 
         //俺たちは雰囲気でUnity座標系をやっている
