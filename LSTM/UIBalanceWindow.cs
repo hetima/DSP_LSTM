@@ -897,6 +897,7 @@ namespace LSTMMod
             UIListView src = UIRoot.instance.uiGame.tutorialWindow.entryList;
             GameObject go = GameObject.Instantiate(src.gameObject);
             go.name = "list-view-left";
+            Util.RemoveLocalizerLayout(go);
 
             RectTransform rect = Util.NormalizeRectC(go, 310, 444);
             rect.SetParent(windowTrans, false);
@@ -924,6 +925,7 @@ namespace LSTMMod
 
             GameObject go2 = GameObject.Instantiate(go);
             go2.name = "list-view-right";
+            Util.RemoveLocalizerLayout(go2);
             RectTransform rect2 = (RectTransform)go2.transform;
             rect2.SetParent(windowTrans, false);
             rect2.anchoredPosition = new Vector2(152, -68);
@@ -943,6 +945,8 @@ namespace LSTMMod
             listView.CullOutsideItems = false;
             listView.ColumnSpacing = 0;
             listView.RowSpacing = 4;
+            // the cloned list keeps the column width of the tutorial list it comes from
+            listView.ColumnWidth = (int)(listView.transform as RectTransform).sizeDelta.x - listView.Padding.left - listView.Padding.right;
             listView.m_ItemRes.com_data.gameObject.SetActive(true);
 
             Transform parent = listView.m_ItemRes.gameObject.transform;
