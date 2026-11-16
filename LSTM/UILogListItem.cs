@@ -98,6 +98,9 @@ namespace LSTMMod
 
             //labelIcon
             GameObject.Destroy(src.iconImage);
+            //highlightButton
+            src.highlightButton.transform.parent.transform.SetParent(null);
+
 
             item.labelIcon = Util.CreateGameObject<Image>("veinIcon", 24f, 24f);
             item.labelIcon.transform.SetParent(item.demandText.transform.parent, false);
