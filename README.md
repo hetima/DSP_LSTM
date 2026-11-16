@@ -4,9 +4,8 @@ Mod for Dyson Sphere Program. Needs BepInEx.
 
 ## Recent Changes
 
-### v0.9.5
-- Suppress error on 0.10.33
-- Known isssue: The layout is broken
+### v0.9.6
+- Fix layout (by luojiesi)
 
 
 ## About
@@ -111,15 +110,17 @@ The following settings cannot be edited from config window. You need to edit the
 
 ## Release Notes
 
-### v0.9.5
-- Suppress error on 0.10.33
-- Known isssue: The layout is broken
-
-### v0.9.4
-- Fix UI for game version 0.10.32
+### v0.9.6
+- Fix layout (by luojiesi)
 
 <details>
 <summary>Previous Changelog</summary>
+
+### v0.9.5
+- Suppress error on 0.10.33
+
+### v0.9.4
+- Fix UI for game version 0.10.32
 
 ### v0.9.3
 - Remove Show Stat On Statistics Window for 0.10.31.24632
